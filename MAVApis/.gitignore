@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/G02Apis/bin
+/G02Apis/obj/Debug
+/.vs/G02Apis
