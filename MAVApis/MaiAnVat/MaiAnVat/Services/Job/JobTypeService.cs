@@ -1,5 +1,5 @@
 ﻿using MaiAnVat.Models;
-using MaiAnVat.ServiceFramework.Job;
+using MaiAnVat.ServiceFramework.JobAndJobType;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace MaiAnVat.Services.Job
+namespace MaiAnVat.Services.JobAndJobType
 {
     public class JobTypeService : IJobTypeService
     {

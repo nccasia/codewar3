@@ -1,14 +1,14 @@
 using MaiAnVat.Common;
-using MaiAnVat.ServiceFramework.Job;
-using MaiAnVat.Services.Job;
+using MaiAnVat.ServiceFramework;
+using MaiAnVat.ServiceFramework.JobAndJobType;
+using MaiAnVat.Services;
+using MaiAnVat.Services.JobAndJobType;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using System.Text;
@@ -27,7 +27,7 @@ namespace MaiAnVat
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Add(new ServiceDescriptor(typeof(IJobTypeService), typeof(JobTypeService), ServiceLifetime.Transient)); // Transient
+            RegisterServices(services);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>
            {
@@ -70,6 +70,14 @@ namespace MaiAnVat
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
+        }
+
+        private void RegisterServices(IServiceCollection services)
+        {
+            services.Add(new ServiceDescriptor(typeof(IJobService), typeof(JobService), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IWorkFlowStatusService), typeof(WorkFlowStatusService), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IListCategoryService), typeof(ListCategoryService), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IJobTypeService), typeof(JobTypeService), ServiceLifetime.Transient));
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Linq;
 using MaiAnVat.Models;
 
-namespace MaiAnVat.ServiceFramework.Job
+namespace MaiAnVat.ServiceFramework.JobAndJobType
 {
     public interface IJobTypeService : IService<JobType, Guid>
     {

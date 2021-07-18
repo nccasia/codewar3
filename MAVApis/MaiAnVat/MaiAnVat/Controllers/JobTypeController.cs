@@ -1,6 +1,6 @@
 ﻿using MaiAnVat.Models;
 using MaiAnVat.Models.CustomModels;
-using MaiAnVat.ServiceFramework.Job;
+using MaiAnVat.ServiceFramework.JobAndJobType;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
