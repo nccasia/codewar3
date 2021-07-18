@@ -39,7 +39,6 @@ export default Vue.extend({
       this.loggingIn = true
       auth.login(this.credentials, 'home').then((response: any) => {
         this.loggingIn = false
-        console.log(response);
         if (!this.$store.state.user.AccessToken.IsAuthenticated) {
           // this.$notify.error('Sai tên đăng nhập hoặc mật khẩu.')
         }

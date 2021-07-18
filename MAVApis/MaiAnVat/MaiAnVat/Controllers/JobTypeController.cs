@@ -37,9 +37,9 @@ namespace MaiAnVat.Controllers
         }
 
         [HttpGet("jobtypes")]
-        public async Task<IActionResult> Getjobtypes([FromQuery] Pagination pagination, [FromQuery] string q = null)
+        public async Task<IActionResult> Getjobtypes([FromQuery] Pagination pagination, [FromQuery] string searchTerm = null)
         {
-            var jobtypes = jobTypeService.Find(q);
+            var jobtypes = jobTypeService.Find(searchTerm);
 
             if (pagination == null)
                 pagination = new Pagination();

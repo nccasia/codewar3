@@ -4,7 +4,6 @@ export default {
   },
   UPDATE_USER (state: any, user: any) {
     state.user = user
-    console.log(state.user);
   },
   UPDATE_LEFSIDEBAR (state: any) {
     state.app.drawer = !state.app.drawer

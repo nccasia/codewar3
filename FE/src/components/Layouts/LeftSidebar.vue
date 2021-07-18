@@ -78,22 +78,28 @@ export default Vue.extend({
     menus (): any {
       return [
         {
-          icon: 'account_circle',
-          text: 'Sản phẩm',
+          icon: 'task',
+          text: 'Công việc',
           model: true,
           show: true,
           children: [
             {
               icon: 'list',
               show: true,
-              text: 'Danh sách Sản phẩm',
-              link: '/danh-sach-san-pham'
+              text: 'Danh sách Công việc',
+              link: '/danh-sach-cong-viec'
             },
             {
               icon: 'list',
               show: true,
               text: 'Đơn hàng',
               link: '/danh-sach-don-hang'
+            },
+            {
+              icon: 'list',
+              show: true,
+              text: 'Loại công việc',
+              link: '/danh-sach-loai-cong-viec'
             }
           ]
         },

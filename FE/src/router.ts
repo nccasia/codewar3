@@ -6,7 +6,8 @@ import Home from './components/Home.vue'
 import NotFoundComponent from './components/NotFound.vue'
 import Login from './components/Login/Login.vue'
 import DanhSachDanhMuc from './components/DanhMuc/DanhSachDanhMuc.vue'
-import DanhSachSanPham from './components/SanPham/DanhSachSanPham.vue'
+import DanhSachCongViec from './components/CongViec/DanhSachCongViec.vue'
+import JobTypes from './components/LoaiCongViec/JobTypes.vue'
 import DanhSachNhanVien from './components/NhanVien/DanhSachNhanVien.vue'
 import DanhSachKhachHang from './components/KhachHang/DanhSachKhachHang.vue'
 import DanhSachDonHang from './components/DonHang/DanhSachDonHang.vue'
@@ -39,9 +40,15 @@ export default new Router({
       // beforeEnter: guardRoute
     },
     {
-      path: '/danh-sach-san-pham',
-      name: 'DanhSachDanhMucSanPham',
-      component: DanhSachSanPham
+      path: '/danh-sach-cong-viec',
+      name: 'DanhSachDanhMucCongViec',
+      component: DanhSachCongViec
+      // beforeEnter: guardRoute
+    },
+    {
+      path: '/danh-sach-loai-cong-viec',
+      name: 'JobTypes',
+      component: JobTypes
       // beforeEnter: guardRoute
     },
     {
