@@ -1,11 +1,14 @@
-﻿using MaiAnVat.Models;
+﻿using MaiAnVat.Common;
+using MaiAnVat.Models;
 using MaiVanVat.Security;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
+using System.Security.Claims;
+using System.Text;
 
 namespace MaiAnVat.Controllers
 {
@@ -48,7 +51,7 @@ namespace MaiAnVat.Controllers
                     if (passwordInput.Equals(passwordUser))
                     {
                         TokenProvider tokenProvider = new TokenProvider();
-                        TokenIdentity token = tokenProvider.GenerateToken(user.Id, login.Username,
+                        TokenIdentity token = tokenProvider.GenerateToken(user,
                             Request.Headers["User-Agent"].ToString(),
                             "", Guid.NewGuid().ToString(),
                             DateTime.Now.Ticks);

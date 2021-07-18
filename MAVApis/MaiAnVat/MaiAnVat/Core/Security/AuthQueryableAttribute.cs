@@ -1,8 +1,4 @@
-﻿//using HVIT.Security;
-//using System.Linq;
-//using System.Web;
-//using System.Web.Http;
-//using System.Security.Claims;
+﻿//using System.Linq;
 //using Microsoft.AspNetCore.Authorization;
 //using Microsoft.AspNetCore.Http;
 

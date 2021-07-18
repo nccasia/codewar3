@@ -1,6 +1,8 @@
 ﻿using System;
+using MaiAnVat.Common;
+using MaiAnVat.Common.Auditing;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MaiAnVat.Models
 {
@@ -9,7 +11,6 @@ namespace MaiAnVat.Models
         public MaiAnVatContext()
         {
         }
-
         public MaiAnVatContext(DbContextOptions<MaiAnVatContext> options)
             : base(options)
         {
@@ -56,7 +57,6 @@ namespace MaiAnVat.Models
                 optionsBuilder.UseSqlServer("Server=DESKTOP-3CBIQ5M\\SQLEXPRESS;Database=MaiAnVat;Trusted_Connection=True;");
             }
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AccessTokens>(entity =>

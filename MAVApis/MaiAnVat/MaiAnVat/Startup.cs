@@ -1,9 +1,17 @@
+using MaiAnVat.Common;
+using MaiAnVat.ServiceFramework.Job;
+using MaiAnVat.Services.Job;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using System.Text;
 
 namespace MaiAnVat
 {
@@ -19,18 +27,31 @@ namespace MaiAnVat
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Add(new ServiceDescriptor(typeof(IJobTypeService), typeof(JobTypeService), ServiceLifetime.Transient)); // Transient
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+           .AddJwtBearer(options =>
+           {
+               options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+               {
+                   RequireExpirationTime = true,
+                   ValidIssuer = MAVClaimTypes.kMAVIssuer,
+                   ValidateIssuer = true,
+                   ValidateAudience = false,
+                   ValidateLifetime = true,
+                   ValidateIssuerSigningKey = true,
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(MAVClaimTypes.kMAVSecretKey))
+               };
+           });
+
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:8080").AllowAnyHeader().AllowAnyMethod();
+                    builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
                 });
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            //services.AddDbContext<dbWebBanHangContext>(opt => opt.UseInMemoryDatabase("DanhMuc"));
-            //services.AddDbContext<dbWebBanHangContext>(opt => opt.UseInMemoryDatabase("DanhMucSanPham"));
-            //services.AddDbContext<dbWebBanHangContext>(opt => opt.UseInMemoryDatabase("SanPham"));
             services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
         }
 
@@ -47,6 +68,7 @@ namespace MaiAnVat
             }
             app.UseCors(MyAllowSpecificOrigins);
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

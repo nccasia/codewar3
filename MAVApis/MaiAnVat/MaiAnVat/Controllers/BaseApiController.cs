@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MaiAnVat.Common;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MaiAnVat.Controllers
@@ -36,6 +38,32 @@ namespace MaiAnVat.Controllers
 
     public class BaseApiController : ControllerBase
     {
+        protected int UserK
+        {
+            get
+            {
+                var userK = 0;
+                var idClaim = User.Claims.FirstOrDefault(x => x.Type.Equals(MAVClaimTypes.kMAVClaimTypesUserFK, StringComparison.InvariantCultureIgnoreCase))?.Value;
+                if (int.TryParse(idClaim, out userK))
+                {
+                    return userK;
+                }
+                return 0;
+            }
+        }
+         protected List<string> Roles
+        {
+            get
+            {
+                var roles = new List<string>();
+                var claimTypeRoles = User.Claims.Where(x => x.Type.Equals(ClaimTypes.Role, StringComparison.InvariantCultureIgnoreCase));
+                foreach (var role in claimTypeRoles)
+                {
+                    roles.Add(role.Value);
+                }
+                return roles;
+            }
+        }
         protected async Task<PaginatedResponse<T>> GetPaginatedResponse<T>(IQueryable<T> query, Pagination pagination)
         {
             if (pagination == null) pagination = new Pagination();
