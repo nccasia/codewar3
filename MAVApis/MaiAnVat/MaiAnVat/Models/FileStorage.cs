@@ -5,6 +5,11 @@ namespace MaiAnVat.Models
 {
     public partial class FileStorage
     {
+        public FileStorage()
+        {
+            JobAttachment = new HashSet<JobAttachment>();
+        }
+
         public Guid FileStorageK { get; set; }
         public string FileFolder { get; set; }
         public string FileName { get; set; }
@@ -13,5 +18,7 @@ namespace MaiAnVat.Models
         public DateTime? ModifiedAtUtc { get; set; }
         public int? ModifiedByUserFk { get; set; }
         public bool IsDeleted { get; set; }
+
+        public ICollection<JobAttachment> JobAttachment { get; set; }
     }
 }

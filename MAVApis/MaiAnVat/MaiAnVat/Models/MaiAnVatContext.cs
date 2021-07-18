@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MaiAnVat.Models
 {
@@ -25,6 +26,7 @@ namespace MaiAnVat.Models
         public virtual DbSet<JobAssignedUser> JobAssignedUser { get; set; }
         public virtual DbSet<JobAssignmentList> JobAssignmentList { get; set; }
         public virtual DbSet<JobAssignmentListStatus> JobAssignmentListStatus { get; set; }
+        public virtual DbSet<JobAttachment> JobAttachment { get; set; }
         public virtual DbSet<JobMessage> JobMessage { get; set; }
         public virtual DbSet<JobType> JobType { get; set; }
         public virtual DbSet<JobTypeWorkFlow> JobTypeWorkFlow { get; set; }
@@ -259,6 +261,8 @@ namespace MaiAnVat.Models
 
                 entity.Property(e => e.DeactivatedUtc).HasColumnType("datetime");
 
+                entity.Property(e => e.Description).HasMaxLength(512);
+
                 entity.Property(e => e.Identity).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.JobStatusFk).HasColumnName("JobStatusFK");
@@ -268,6 +272,12 @@ namespace MaiAnVat.Models
                 entity.Property(e => e.ModifiedAtUtc).HasColumnType("datetime");
 
                 entity.Property(e => e.ModifiedByUserFk).HasColumnName("ModifiedByUserFK");
+
+                entity.Property(e => e.Name).HasMaxLength(128);
+
+                entity.Property(e => e.RegistrationDeadline).HasColumnType("datetime");
+
+                entity.Property(e => e.Title).HasMaxLength(64);
 
                 entity.Property(e => e.WorkflowStatusFk).HasColumnName("WorkflowStatusFK");
 
@@ -399,6 +409,44 @@ namespace MaiAnVat.Models
                     .HasForeignKey(d => d.WorkFlowStatusFk)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_JobAssignmentListStatus_ToWorkFlowStatus");
+            });
+
+            modelBuilder.Entity<JobAttachment>(entity =>
+            {
+                entity.HasKey(e => e.JobAttachmentK)
+                    .ForSqlServerIsClustered(false);
+
+                entity.Property(e => e.JobAttachmentK).HasDefaultValueSql("(newsequentialid())");
+
+                entity.Property(e => e.CreatedAtUtc).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedByUserFk).HasColumnName("CreatedByUserFK");
+
+                entity.Property(e => e.FileDescription).HasMaxLength(2024);
+
+                entity.Property(e => e.FileName).HasMaxLength(512);
+
+                entity.Property(e => e.FileStorageFk).HasColumnName("FileStorageFK");
+
+                entity.Property(e => e.Identity).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.ListCategoryFk).HasColumnName("ListCategoryFK");
+
+                entity.Property(e => e.ModifiedAtUtc).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedByUserFk).HasColumnName("ModifiedByUserFK");
+
+                entity.HasOne(d => d.FileStorageFkNavigation)
+                    .WithMany(p => p.JobAttachment)
+                    .HasForeignKey(d => d.FileStorageFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK.JobAttachment_FileStorageFK.FileStorage_FileStorageK");
+
+                entity.HasOne(d => d.ListCategoryFkNavigation)
+                    .WithMany(p => p.JobAttachment)
+                    .HasForeignKey(d => d.ListCategoryFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK.JobAttachment_ListCategoryFK.ListCategory_ListCategoryK");
             });
 
             modelBuilder.Entity<JobMessage>(entity =>

@@ -28,6 +28,10 @@ namespace MaiAnVat.Models
         public int? DeactivatedUserFk { get; set; }
         public Guid WorkflowStatusFk { get; set; }
         public string CustomerOrder { get; set; }
+        public string Title { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public DateTime? RegistrationDeadline { get; set; }
 
         public ListCategory JobStatusFkNavigation { get; set; }
         public JobType JobTypeFkNavigation { get; set; }
