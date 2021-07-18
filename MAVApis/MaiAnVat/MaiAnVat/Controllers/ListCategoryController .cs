@@ -1,4 +1,5 @@
-﻿using MaiAnVat.Models;
+﻿using MaiAnVat.Common;
+using MaiAnVat.Models;
 using MaiAnVat.ServiceFramework;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,9 +13,11 @@ namespace MaiAnVat.Controllers
     public class ListCategoryController : BaseApiController
     {
         private readonly IListCategoryService listCategoryService;
-        public ListCategoryController(IListCategoryService listCategoryService)
+        private readonly ICategoryService categoryService;
+        public ListCategoryController(IListCategoryService listCategoryService, ICategoryService categoryService)
         {
             this.listCategoryService = listCategoryService;
+            this.categoryService = categoryService;
         }
 
         // GET: api/listcategory
@@ -22,8 +25,58 @@ namespace MaiAnVat.Controllers
         public IActionResult GetAllListCategory()
         {
             var listcategories = GetAllListCategories(null);
-            return Ok(listcategories.Select(x => new { Name = x.Name, Description = x.Description, CreatedAtUtc = x.CreatedAtUtc}).OrderByDescending(x => x.CreatedAtUtc).ToList());
+            return Ok(listcategories.Select(x => new { ListCategoryK = x.ListCategoryK,  Name = x.Name, Description = x.Description, CreatedAtUtc = x.CreatedAtUtc}).OrderByDescending(x => x.CreatedAtUtc).ToList());
         }
+
+        // GET: api/listcategory/categories
+        [HttpGet("categories")]
+        public IActionResult GetAllCategory()
+        {
+            var categories = GetAllCategories(null);
+            return Ok(categories.Select(x => new { CategoryK = x.CategoryK, Name = x.Name, Description = x.Description, CreatedAtUtc = x.CreatedAtUtc }).OrderByDescending(x => x.CreatedAtUtc).ToList());
+        }
+
+        // GET: api/listcategory/jobtypes
+        [HttpGet("jobtypes")]
+        public IActionResult GetListCategoryJobTypes()
+        {
+            var listcategories = GetAllListCategoryByCategoryName(Constants.JOB_TYPE);
+            return Ok(listcategories.Select(x => new { ListCategoryK = x.ListCategoryK, Name = x.Name, Description = x.Description, CreatedAtUtc = x.CreatedAtUtc }).OrderByDescending(x => x.CreatedAtUtc).ToList());
+        }
+
+        // GET: api/listcategory/jobstates
+        [HttpGet("jobstates")]
+        public IActionResult GetListCategoryJobStates()
+        {
+            var listcategories = GetAllListCategoryByCategoryName(Constants.JOB_STATUS);
+            return Ok(listcategories.Select(x => new { ListCategoryK = x.ListCategoryK, Name = x.Name, Description = x.Description, CreatedAtUtc = x.CreatedAtUtc }).OrderByDescending(x => x.CreatedAtUtc).ToList());
+        }
+
+        // GET: api/listcategory/actiontypes
+        [HttpGet("actiontypes")]
+        public IActionResult GetListCategoryActionTypes()
+        {
+            var listcategories = GetAllListCategoryByCategoryName(Constants.ACTION_TYPE);
+            return Ok(listcategories.Select(x => new { ListCategoryK = x.ListCategoryK, Name = x.Name, Description = x.Description, CreatedAtUtc = x.CreatedAtUtc }).OrderByDescending(x => x.CreatedAtUtc).ToList());
+        }
+
+        // GET: api/listcategory/satatustypes
+        [HttpGet("satatustypes")]
+        public IActionResult GetListCategoryStatusTypes()
+        {
+            var listcategories = GetAllListCategoryByCategoryName(Constants.STATUS_TYPE);
+            return Ok(listcategories.Select(x => new { ListCategoryK = x.ListCategoryK, Name = x.Name, Description = x.Description, CreatedAtUtc = x.CreatedAtUtc }).OrderByDescending(x => x.CreatedAtUtc).ToList());
+        }
+
+        // GET: api/listcategory/scheduletypes
+        [HttpGet("scheduletypes")]
+        public IActionResult GetListCategoryScheduleTypes()
+        {
+            var listcategories = GetAllListCategoryByCategoryName(Constants.SCHEDULE_TYPE);
+            return Ok(listcategories.Select(x => new { ListCategoryK = x.ListCategoryK, Name = x.Name, Description = x.Description, CreatedAtUtc = x.CreatedAtUtc }).OrderByDescending(x => x.CreatedAtUtc).ToList());
+        }
+
+
 
         [HttpGet("listcategories")]
         public async Task<IActionResult> GetListCategories([FromQuery] Pagination pagination, [FromQuery] string searchTerm = null)
@@ -118,6 +171,17 @@ namespace MaiAnVat.Controllers
         private IQueryable<ListCategory> GetAllListCategories(string searchTerm)
         {
             var qListCategories = listCategoryService.Find(!string.IsNullOrEmpty(searchTerm) ? searchTerm : null);
+            return qListCategories;
+        }
+        private IQueryable<Category> GetAllCategories(string searchTerm)
+        {
+            var qCategories = categoryService.Find(!string.IsNullOrEmpty(searchTerm) ? searchTerm : null);
+            return qCategories;
+        }
+
+        private IQueryable<ListCategory> GetAllListCategoryByCategoryName(string categoryName)
+        {
+            var qListCategories = listCategoryService.GetListCategoryByCategoryName(categoryName);
             return qListCategories;
         }
         #endregion

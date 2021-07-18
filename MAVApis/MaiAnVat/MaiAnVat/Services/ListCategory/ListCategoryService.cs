@@ -59,23 +59,23 @@ namespace MaiAnVat.Services
 
         public IQueryable<ListCategory> Find(Expression<Func<ListCategory, bool>> whereExpression = null)
         {
-            IQueryable<ListCategory> qListCategorys = db.ListCategory.Include(x => x.Job).Where(i => i.IsDeleted == false);
+            IQueryable<ListCategory> qListCategories = db.ListCategory.Include(x => x.Job).Where(i => i.IsDeleted == false);
             if (whereExpression != null)
             {
-                qListCategorys = qListCategorys.Where(whereExpression);
+                qListCategories = qListCategories.Where(whereExpression);
             }
-            return qListCategorys;
+            return qListCategories;
         }
 
         public IQueryable<ListCategory> Find(string searchTerm, Expression<Func<ListCategory, bool>> whereExpression = null)
         {
-            IQueryable<ListCategory> qListCategorys = Find(whereExpression);
+            IQueryable<ListCategory> qListCategories = Find(whereExpression);
 
             if (string.IsNullOrEmpty(searchTerm) == false)
             {
-                qListCategorys = qListCategorys.Where(i => i.Name.Contains(searchTerm) || i.Description.Contains(searchTerm));
+                qListCategories = qListCategories.Where(i => i.Name.Contains(searchTerm) || i.Description.Contains(searchTerm));
             }
-            return qListCategorys;
+            return qListCategories;
         }
 
         public Task<IQueryable<ListCategory>> FindAsync(Expression<Func<ListCategory, bool>> whereExpression = null)
@@ -85,6 +85,20 @@ namespace MaiAnVat.Services
         public Task<IQueryable<ListCategory>> FindAsync(string searchTerm, Expression<Func<ListCategory, bool>> whereExpression = null)
         {
             throw new NotImplementedException();
+        }
+
+        public IQueryable<ListCategory> GetListCategoryByCategoryName(string categoryName)
+        {
+            IQueryable<ListCategory> qListCategories = Find();
+            if (!string.IsNullOrEmpty(categoryName))
+            {
+                var category = db.Category.FirstOrDefault(x => x.Name == categoryName);
+                if (category != null)
+                {
+                    qListCategories = qListCategories.Where(x => x.CategoryFk == category.CategoryK);
+                }
+            }
+            return qListCategories;
         }
 
         public ListCategory Read(Guid id)

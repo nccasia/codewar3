@@ -8,5 +8,6 @@ namespace MaiAnVat.ServiceFramework
 {
     public interface IListCategoryService : IService<ListCategory, Guid>
     {
+        IQueryable<ListCategory> GetListCategoryByCategoryName(string categoryName);
     }
 }

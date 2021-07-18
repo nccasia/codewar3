@@ -9,6 +9,7 @@ namespace MaiAnVat.Models
         {
             Job = new HashSet<Job>();
             JobAssignmentListStatus = new HashSet<JobAssignmentListStatus>();
+            JobType = new HashSet<JobType>();
             JobWorkFlowMoveFromWorkFlowStatusFkNavigation = new HashSet<JobWorkFlowMove>();
             JobWorkFlowMoveToWorkFlowStatusFkNavigation = new HashSet<JobWorkFlowMove>();
             JobWorkFlowStatusFromWorkFlowStatusFkNavigation = new HashSet<JobWorkFlowStatus>();
@@ -29,6 +30,7 @@ namespace MaiAnVat.Models
 
         public ICollection<Job> Job { get; set; }
         public ICollection<JobAssignmentListStatus> JobAssignmentListStatus { get; set; }
+        public ICollection<JobType> JobType { get; set; }
         public ICollection<JobWorkFlowMove> JobWorkFlowMoveFromWorkFlowStatusFkNavigation { get; set; }
         public ICollection<JobWorkFlowMove> JobWorkFlowMoveToWorkFlowStatusFkNavigation { get; set; }
         public ICollection<JobWorkFlowStatus> JobWorkFlowStatusFromWorkFlowStatusFkNavigation { get; set; }

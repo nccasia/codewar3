@@ -11,6 +11,7 @@ namespace MaiAnVat.Models
         public MaiAnVatContext()
         {
         }
+
         public MaiAnVatContext(DbContextOptions<MaiAnVatContext> options)
             : base(options)
         {
@@ -54,9 +55,11 @@ namespace MaiAnVat.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=DESKTOP-3CBIQ5M\\SQLEXPRESS;Database=MaiAnVat;Trusted_Connection=True;");
             }
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AccessTokens>(entity =>
@@ -71,7 +74,7 @@ namespace MaiAnVat.Models
 
                 entity.Property(e => e.Token)
                     .IsRequired()
-                    .HasMaxLength(200)
+                    .HasMaxLength(5000)
                     .IsUnicode(false);
 
                 entity.Property(e => e.UserAgent)
@@ -106,8 +109,7 @@ namespace MaiAnVat.Models
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(512)
-                    .IsUnicode(false);
+                    .HasMaxLength(512);
             });
 
             modelBuilder.Entity<CategoryClassification>(entity =>
@@ -510,6 +512,8 @@ namespace MaiAnVat.Models
 
                 entity.Property(e => e.CreatedByUserFk).HasColumnName("CreatedByUserFK");
 
+                entity.Property(e => e.DefaultWorkFlowFk).HasColumnName("DefaultWorkFlowFK");
+
                 entity.Property(e => e.Description).HasMaxLength(512);
 
                 entity.Property(e => e.Identity).ValueGeneratedOnAdd();
@@ -521,6 +525,11 @@ namespace MaiAnVat.Models
                 entity.Property(e => e.ModifiedByUserFk).HasColumnName("ModifiedByUserFK");
 
                 entity.Property(e => e.Name).HasMaxLength(128);
+
+                entity.HasOne(d => d.DefaultWorkFlowFkNavigation)
+                    .WithMany(p => p.JobType)
+                    .HasForeignKey(d => d.DefaultWorkFlowFk)
+                    .HasConstraintName("FK_JobType_WorkFlowStatus");
             });
 
             modelBuilder.Entity<JobTypeWorkFlow>(entity =>
@@ -655,8 +664,7 @@ namespace MaiAnVat.Models
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(512)
-                    .IsUnicode(false);
+                    .HasMaxLength(512);
 
                 entity.HasOne(d => d.CategoryFkNavigation)
                     .WithMany(p => p.ListCategory)

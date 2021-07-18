@@ -24,7 +24,9 @@ namespace MaiAnVat.Models
         public int DefaultTimeInHours { get; set; }
         public string ColorCode { get; set; }
         public bool? IsException { get; set; }
+        public Guid? DefaultWorkFlowFk { get; set; }
 
+        public WorkFlowStatus DefaultWorkFlowFkNavigation { get; set; }
         public ICollection<Job> Job { get; set; }
         public ICollection<JobAssignmentList> JobAssignmentList { get; set; }
         public ICollection<JobTypeWorkFlow> JobTypeWorkFlow { get; set; }
