@@ -4,6 +4,7 @@ import { help } from "./help";
 import { modHelp } from "./modHelp";
 import { order } from "./order";
 import { ping } from "./ping";
+import { trackLists } from "./tracklists";
 
 /**
  * Construct an array of the commands for the handler
@@ -14,5 +15,6 @@ export const CommandList: CommandInt[] = [
   close,
   modHelp,
   ping,
-  order
+  order,
+  trackLists
 ];

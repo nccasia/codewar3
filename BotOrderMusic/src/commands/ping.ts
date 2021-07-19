@@ -7,7 +7,7 @@ export const ping: CommandInt = {
   description: "Returns a response from the bot with the ping time.",
   parameters: [],
   usage: ["`{prefix} ping` - will return the bot's current response time."],
-  modCommand: false,
+  modCommand: true,
   command: async (_message, room, BOT) => {
     try {
       const start = Date.now();
