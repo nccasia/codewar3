@@ -25,7 +25,8 @@ export const help: CommandInt = {
       if (!query) {
         const response = `Danh sách các lệnh mà bạn có thể dùng để tương tác với bot:\n${commandList
           .sort()
-          .join("\n")}`;
+          .join("\n")}\n
+          Để bình chọn bài hát các bạn hãy thả reaction \`:heart:\` vào các comment đã được bot đánh dấu là hợp lệ nhé.`;
         await driver.sendToRoom(response, room);
         return;
       }

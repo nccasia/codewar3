@@ -15,8 +15,9 @@ export const isModerator = async (
   BOT: BotInt
 ): Promise<boolean> => {
   const userInfo: UserInfoInt = await api.get("users.info", { userId });
-
+  console.log("{user-info: ", userInfo)
   const roles = BOT.modRoles;
+  console.log("roles: ",roles);
 
   for (const role of roles) {
     if (userInfo.user.roles.includes(role)) {

@@ -1,61 +1,49 @@
-import { api, driver } from "@rocket.chat/sdk";
+import { driver } from "@rocket.chat/sdk";
 import { logBotMessage } from "../helpers/botLogging";
 import { isModerator } from "../helpers/isModerator";
-import { sendToLog } from "../helpers/sendToLog";
-import { PrivateChannelDeleteInt } from "../interfaces/apiInt";
 import { CommandInt } from "../interfaces/CommandInt";
 
 export const close: CommandInt = {
   name: "close",
-  description: "Closes a channel created with the private command.",
+  description: "Dừng việc order.",
   parameters: [],
   usage: [
-    "`{prefix} close` - will close the channel this command is called in, as long as the channel name starts with `private-`.",
+    "`{prefix} close` - sẽ dừng việc order nhạc.",
   ],
   modCommand: true,
   command: async (message, room, BOT): Promise<void> => {
     try {
-      /**
-       * While this should not be possible (it is confirmed
-       * in the command handler), return early if the message does
-       * not have a user author to make TypeScript happy.
-       */
+      if (!BOT.canOrder) {
+        return;
+      }
       if (!message.u) {
-        await driver.sendToRoom("Oops I broke it.", room);
         return;
       }
       const modCheck = await isModerator(message.u.username, BOT);
 
       if (!modCheck) {
         await driver.sendToRoom(
-          "Sorry, but this command is locked to moderators.",
+          `@${message.u.username} Bạn không có quyền sử dụng lệnh \`close\``,
           room
         );
         return;
       }
 
-      if (!room.startsWith("private-")) {
-        await driver.sendToRoom(
-          "Sorry, but I can only close channels created with my `private` command.",
-          room
-        );
-        return;
-      }
-
-      const deleteChannel: PrivateChannelDeleteInt = await api.post(
-        "groups.delete",
-        { roomName: room }
+      BOT.canOrder = false;
+      const max = Math.max(...BOT.listOrders.map(({ totalReact }) => totalReact));
+      const topTrack = BOT.listOrders.filter(({ totalReact }) => totalReact === max).map(
+        (track) => `\`${track.userName}\`: ${track.title} , Vote: \`${track.totalReact}\``
       );
-
-      if (!deleteChannel.success) {
-        await driver.sendToRoom("Sorry, but I cannot do that right now.", room);
-        return;
+      let response = '';
+      if (topTrack && topTrack.length > 0) {
+        response = `Đã hết giờ order, sau đây là các bài hát có lượt bình chọn nhiều nhất:\n${topTrack.join("\n")}\n
+          Hẹn gặp lại cả nhà vào lần đến.`;
+      } else {
+        response = `Đã hết giờ order, hôm nay thật buồn vì không có ai order nhạc cho mình cả.
+          Hẹn gặp lại cả nhà vào lần đến.`;
       }
-
-      await sendToLog(
-        `${message.u.username} closed and deleted the ${room} channel.`,
-        BOT
-      );
+      await driver.sendToRoom(response, room);
+      BOT.listOrders = [];
       return;
     } catch (err) {
       await logBotMessage(

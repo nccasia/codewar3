@@ -3,6 +3,7 @@ import { api, driver, settings } from "@rocket.chat/sdk";
 import { CommandHandler } from "./commands/_CommandHandler";
 import { BotInt } from "./interfaces/BotInt";
 import packageData from "../package.json";
+import { job } from "./helpers/job";
 
 dotenv.config();
 
@@ -47,6 +48,8 @@ export const BOT: BotInt = {
   ],
   botRateLimit: parseInt(BOT_RATE_LIMIT || "10"),
   lastCommandCalled: 0,
+  listOrders: [],
+  canOrder: false
 };
 
 /**
@@ -80,17 +83,15 @@ const runBot = async () => {
   await driver.reactToMessages(CommandHandler);
   console.log("connected and waiting for messages");
 
-  //greet
-  // await driver.sendToRoom(
-  //   `\`${BOTNAME}\` is online and running version: \`${BOT.version}\`!`,
-  //   BOT.botLogChannel || ROOMS[0]
-  // );
-
   await driver.sendToRoom(
-    "Đến giờ order nhạc rồi mọi người",
+    "",
     BOT.botLogChannel || ROOMS[0]
   );
+  BOT.canOrder = false;
   console.log("Greeting message sent.");
+
+  //await job(ROOMS);
 };
+
 
 runBot();

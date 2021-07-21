@@ -1,3 +1,5 @@
+import { TrackListsInt } from "./OrderInt";
+
 export interface BotInt {
   botId: string;
   botName: string;
@@ -9,4 +11,6 @@ export interface BotInt {
   modRoles: string[];
   botRateLimit: number;
   lastCommandCalled: number;
+  listOrders: TrackListsInt[];
+  canOrder: boolean;
 }
