@@ -10,6 +10,8 @@ const baseUrl = `http://localhost:${port}`;
 app.use(express.urlencoded());
 app.use(express.json());
 
+app.use(express.static('public'))
+
 const folder = path.join(__dirname, 'musics');
 app.use(express.static(folder))
 
@@ -19,8 +21,23 @@ app.all('*', function (req, res, next) {
     next();
 });
 
+var firebase = require("firebase");
+firebase.initializeApp({
+    apiKey: "AIzaSyDYyNBVskQgLGz5OYcCw7tA74h06B3-n4c",
+    authDomain: "muorder-9dccf.firebaseapp.com",
+    databaseURL: "https://muorder-9dccf-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "muorder-9dccf",
+    storageBucket: "muorder-9dccf.appspot.com",
+    messagingSenderId: "694013760199",
+    appId: "1:694013760199:web:b19f33fa366722a0e1a4e2",
+    measurementId: "G-YTBDV2C4RC"
+});
+
+var db = firebase.firestore();
+var collection = db.collection("playlists");
+
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.sendFile(__dirname + '/index.html')
 })
 
 
@@ -33,10 +50,19 @@ app.post('/save-music', (req, res) => {
             fs.mkdirSync(folder);
         }
 
+        const files = [];
         for (let i = 0; i < links.length; i++) {
-            const fileName = path.join(folder, `${i}.mp4`);
-            ytdl(links[i]).pipe(fs.createWriteStream(fileName));
+            const file = {
+                id: links[i].id,
+                fileName: `${links[i].id}.mp4`,
+                order: i
+            };
+            const filePath = path.join(folder, file.fileName);
+            ytdl(links[i].link).pipe(fs.createWriteStream(filePath));
+            files.push(file);
         }
+
+        collection.doc('gQ4sEDSCBdGjVzzeenyt').set({files});
 
         res.send('Success!')
     } catch (error) {
@@ -55,6 +81,15 @@ app.get('/lists', (req, res) => {
 
         console.log('fileNames', fileNames);
         res.send(fileNames)
+    } catch (error) {
+        console.error(error);
+    }
+})
+
+app.get('/stop', (req, res) => {
+    try {
+        collection.doc('gQ4sEDSCBdGjVzzeenyt').set({files: []});
+        res.send('Success!')
     } catch (error) {
         console.error(error);
     }

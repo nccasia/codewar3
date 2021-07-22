@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>muOrder</title>
+</head>
+
+<body>
+    <audio id="my-audio" type="audio/mp4" controls autoplay="true">
+    </audio>
+
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyDYyNBVskQgLGz5OYcCw7tA74h06B3-n4c",
+            authDomain: "muorder-9dccf.firebaseapp.com",
+            databaseURL: "https://muorder-9dccf-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "muorder-9dccf",
+            storageBucket: "muorder-9dccf.appspot.com",
+            messagingSenderId: "694013760199",
+            appId: "1:694013760199:web:b19f33fa366722a0e1a4e2",
+            measurementId: "G-YTBDV2C4RC"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        var db = firebase.firestore();
+        db.collection("playlists").onSnapshot(snapshot => {
+            var data = snapshot.docChanges().forEach(change => {
+                console.log('change.type', change.type);
+                console.log('change.doc', change.doc);
+                console.log('data', change.doc.data());
+                let data = change.doc.data();
+                console.log("data.files", data.files);
+
+                var myAudio = document.getElementById('my-audio');
+                if (!data || !data.files || !data.files.length) {
+                    console.log("Stop!");
+                    myAudio.pause();
+                }
+                else {
+                    setTimeout(() => {
+                        if (data && data.files && data.files.length > 0) {
+                            console.log("Run!");
+                            var fileNames = data.files.sort(d => d.order).map(d => d.fileName);
+                            console.log("fileNames", fileNames);
+                            var index = 0;
+
+                            myAudio.setAttribute('src', fileNames[index]);
+
+                            myAudio.addEventListener('canplay', function () {
+                                console.log("Play: " + fileNames[index]);
+                                myAudio.play();
+                            });
+
+                            myAudio.addEventListener("ended", function () {
+                                console.log('Ended')
+                                myAudio.removeAttribute('src');
+                                index = index + 1;
+                                myAudio.setAttribute('src', fileNames[index]);
+                                myAudio.load();
+                                myAudio.play();
+                            });
+                        }
+                    }, 3000);
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>
