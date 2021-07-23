@@ -17,7 +17,7 @@ namespace MaiAnVat.Models
         public int Identity { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int Status { get; set; }
+        public bool Status { get; set; }
         public DateTime CreatedAtUtc { get; set; }
         public int CreatedByUserFk { get; set; }
         public DateTime? ModifiedAtUtc { get; set; }

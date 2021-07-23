@@ -138,7 +138,7 @@ namespace MaiAnVat.Services
                 user.MobileNumber = entity.MobileNumber;
                 user.Status = entity.Status;
                 user.DateOfBirth = entity.DateOfBirth;
-                user.CreatedByUserFk = entity.CreatedByUserFk;
+                user.ModifiedByUserFk = entity.ModifiedByUserFk;
                 user.PasswordHash = entity.PasswordHash;
                 user.PasswordSalt = entity.PasswordSalt;
                 await db.SaveChangesAsync();

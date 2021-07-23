@@ -74,7 +74,8 @@
                   </v-text-field>
                 </v-flex>
               </v-layout>
-                <v-flex xs12 sm6>
+              <v-layout>
+                <v-flex xs12 sm12>
                   <v-menu
                     ref="menu1"
                     :close-on-content-click="false"
@@ -107,7 +108,19 @@
                   </v-menu>
                 </v-flex>
               </v-layout>
-               <v-layout>
+              <v-layout>
+                <v-flex xs12>
+                   <v-select
+                      v-model="select"
+                      :items="groups"
+                      attach
+                      chips
+                      label="Nhóm quyền"
+                      multiple
+                    ></v-select>
+                </v-flex>
+              </v-layout>
+              <v-layout>
                 <v-flex xs12>
                   <v-checkbox
                     v-model="data.Status"
@@ -116,10 +129,6 @@
                     rows="4"
                   >
                   </v-checkbox>
-                </v-flex>
-              </v-layout>
-              <v-layout>
-                <v-flex xs12>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -137,6 +146,7 @@
 <script>
 import Vue from 'vue'
 import UserApi from '../../apiResources/UserApi'
+import GroupApi from '../../apiResources/GroupApi'
 
 export default {
   $_veeValidate: {
@@ -145,6 +155,8 @@ export default {
   name: 'ModalInsertOrUpdateUser',
   data () {
     return {
+      select: ['Admin'],
+      groups: [],
       menu1: false,
       saving: false,
       dialog: false,
@@ -159,14 +171,27 @@ export default {
   methods: {
     hide () {
       this.dialog = false
+      this.groups = []
     },
     getData (id) {
       this.loadingModal = true
       UserApi.detail(id)
         .then(res => {
           this.data = res
-          console.log(this.data);
+          this.data.DateOfBirth = this.data.DateOfBirth.replace('T00:00:00', '')
           this.loadingModal = false
+        })
+        .catch(res => {
+          this.$notify({ text: 'Lấy dữ liệu thất bại', color: 'error' })
+        })
+        this.getAllGroup()
+    },
+    getAllGroup () {
+      GroupApi.getAll()
+        .then(res => {
+          res.forEach(element => {
+            this.groups.push(element.Name);   
+          });
         })
         .catch(res => {
           this.$notify({ text: 'Lấy dữ liệu thất bại', color: 'error' })
@@ -191,6 +216,8 @@ export default {
       if (isUpdate) {
         this.getData(id)
       } else {
+        this.select = []
+        this.getAllGroup()
       }
       this.isUpdate = isUpdate
       this.dialog = true

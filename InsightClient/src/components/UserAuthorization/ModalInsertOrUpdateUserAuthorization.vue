@@ -19,50 +19,18 @@
           </v-container>
          <form scope="formEdit" v-else>
             <v-container grid-list-md pa-0>
-               <v-layout wrap>
+              <v-layout wrap>
                 <v-flex xs12>
                   <v-text-field
-                    label="Loại công việc"
+                    label="Tên nhóm quyền"
                     v-model="data.Name"
-                    data-vv-name="Loại công việc"
+                    data-vv-name="Tên nhóm quyền"
                     data-vv-scope="formEdit"
                     v-validate="{required: true}"
-                    :error-messages="errors.collect('Loại công việc')"
+                    :error-messages="errors.collect('Tên nhóm quyền')"
                     required
                   >
                   </v-text-field>
-                </v-flex>
-              </v-layout>
-
-               <v-layout wrap>
-                <v-flex xs12>
-                  <v-text-field
-                  type="number"
-                  label="Thời gian mặc định(giờ)"
-                  v-model="data.DefaultTimeInHours"
-                  data-vv-name="Thời gian mặc định"
-                  data-vv-scope="formEdit"
-                  v-validate="{required: true}"
-                  :error-messages="errors.collect('Thời gian mặc định')"
-                  required
-                  >
-                  </v-text-field>
-                </v-flex>
-              </v-layout>
-              <v-layout>
-                <v-flex xs12>
-                  <v-text-field
-                    readonly
-                    v-model="data.ColorCode"
-                    label="Mã màu"
-                    auto-grow
-                    rows="4"
-                    hide-details
-                  >
-                  </v-text-field>
-                  <input type="color" id="head" name="head"
-                    v-model="data.ColorCode"
-                    value="#fff">
                 </v-flex>
               </v-layout>
               <v-layout>
@@ -73,6 +41,29 @@
                     hide-details
                   >
                   </v-text-field>
+                </v-flex>
+              </v-layout>
+               <v-layout>
+                <v-flex xs12>
+                   <v-select
+                    v-model="select"
+                    :items="permissions"
+                    attach
+                    chips
+                    label="Chức năng"
+                    multiple
+                  ></v-select>
+                </v-flex>
+              </v-layout>
+               <v-layout>
+                <v-flex xs12>
+                  <v-checkbox
+                    v-model="data.Status"
+                    label="Kích hoạt"
+                    auto-grow
+                    rows="4"
+                  >
+                  </v-checkbox>
                 </v-flex>
               </v-layout>
               <v-layout>
@@ -93,8 +84,7 @@
 
 <script>
 import Vue from 'vue'
-import JobTypeApi from '../../apiResources/JobTypeApi'
-import ListCategoryApi from '../../apiResources/ListCategoryApi'
+import GroupApi from '../../apiResources/GroupApi'
 
 export default {
   $_veeValidate: {
@@ -103,13 +93,17 @@ export default {
   name: 'ModalInsertOrUpdateUserAuthorization',
   data () {
     return {
+      select: ["Cho phép người dùng phê duyệt đơn đăng ký công việc",
+      "Cho phép người dùng xem đơn gửi kiểm tra hoàn thành công việc", 
+      "Cho phép người dùng sử dụng toàn bộ chức năng kiểm tra hoàn thành công việc"],
+      permissions: [],
       saving: false,
       dialog: false,
       data: {},
       isUpdate: false,
       loadingModal: false,
-      loadingJobType: false,
-      listCategoryJobTypes: []
+      loadingGroup: false,
+      listCategoryGroups: []
     }
   },
   computed: {
@@ -117,13 +111,26 @@ export default {
   methods: {
     hide () {
       this.dialog = false
+      this.permissions = []
     },
-    getData (JobTypeK) {
+    getData (GroupK) {
       this.loadingModal = true
-      JobTypeApi.detail(JobTypeK)
+      GroupApi.detail(GroupK)
         .then(res => {
           this.data = res
           this.loadingModal = false
+        })
+        .catch(res => {
+          this.$notify({ text: 'Lấy dữ liệu thất bại', color: 'error' })
+        })
+        this.getAllPermission()
+    },
+    getAllPermission () {
+      GroupApi.getPermissions()
+        .then(res => {
+          res.forEach(element => {
+            this.permissions.push(element.Description);   
+          });
         })
         .catch(res => {
           this.$notify({ text: 'Lấy dữ liệu thất bại', color: 'error' })
@@ -143,11 +150,13 @@ export default {
         }
       })
     },
-    show (JobTypeK, isUpdate) {
+    show (GroupK, isUpdate) {
       Object.assign(this.$data, (this.$options).data.apply(this))
       if (isUpdate) {
-        this.getData(JobTypeK)
+        this.getData(GroupK)
       } else {
+        this.select = []
+        this.getAllPermission()
       }
       this.isUpdate = isUpdate
       this.dialog = true

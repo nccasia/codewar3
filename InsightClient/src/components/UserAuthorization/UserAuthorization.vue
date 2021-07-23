@@ -33,20 +33,22 @@
                               {{ props.item.Description }}
                             </td>
                             <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
-                              {{ props.item.DefaultTimeInHours }}
-                            </td>
-                            <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
-                              {{ props.item.ColorCode }}
+                               <span xs12 v-if="props.item.Status" style="color: #00a300">
+                                 Kích hoạt
+                               </span>
+                               <span xs12 v-if="!props.item.Status" style="color: #ff1f1f">
+                                 Chưa kích hoạt
+                               </span>
                             </td>
                             <td class="justify-center px-0 text-md-center" style="width: 8%;white-space: nowrap;"> <!--aaaa -->
                               <v-tooltip bottom>
-                                <v-btn slot="activator" small icon class="mx-0 my-0" @click.stop="showModalInsertOrUpdateUserAuthorization(props.item.JobTypeK, true)">
+                                <v-btn slot="activator" small icon class="mx-0 my-0" @click.stop="showModalInsertOrUpdateUserAuthorization(props.item.GroupK, true)">
                                   <v-icon color="teal" small>edit</v-icon>
                                 </v-btn>
                                 <span>Cập nhật loại công việc</span>
                               </v-tooltip>
                               <v-tooltip bottom>
-                                <v-btn icon slot="activator" small @click="showModalXoa(props.item.JobTypeK)" class="mx-0 my-0">
+                                <v-btn icon slot="activator" small @click="showModalXoa(props.item.GroupK)" class="mx-0 my-0">
                                   <v-icon color="pink" small>delete</v-icon>
                                 </v-btn>
                                 <span>Xoá loại công việc</span>
@@ -66,8 +68,7 @@
     </v-flex>
 </template>
 <script>
-import ListCategoryApi from '../../apiResources/ListCategoryApi'
-import JobTypeApi from '../../apiResources/JobTypeApi'
+import GroupApi from '../../apiResources/GroupApi'
 import ModalXoa from '../Commons/ModalXoa.vue'
 import ModalInsertOrUpdateUserAuthorization from './ModalInsertOrUpdateUserAuthorization.vue'
 import Vue from 'vue'
@@ -85,10 +86,9 @@ import Vue from 'vue'
       return {
         userAuthorizations: [],
         tableHeader: [
-          { text: 'Loại công việc', align: 'center', value: 'Name', sortable: false },
+          { text: 'Nhóm người dùng ', align: 'center', value: 'Name', sortable: false },
           { text: 'Mô tả', align: 'center', value: 'Description', sortable: false },
-          { text: 'Thời gian', align: 'center', value: 'DefaultTimeInHours', sortable: false },
-          { text: 'Màu sắc', align: 'center', value: 'ColorCode', sortable: false },
+          { text: 'Trạng thái', align: 'center', value: 'Status', sortable: false },
           { text: 'Thao tác', align: 'center', value: '', sortable: false }
         ],
         searchParamsUser: { includeEntities: true, rowsPerPage: 10 },
@@ -102,7 +102,7 @@ import Vue from 'vue'
     methods: {
       getDataFromApi (searchParamsUser){
         this.loadingTable = true
-        JobTypeApi.getJobTypes(searchParamsUser).then(res => {
+        GroupApi.getGroups(searchParamsUser).then(res => {
           this.userAuthorizations = res.Data
           this.searchParamsUser.totalItems = res.Pagination.totalItems
           this.loadingTable = false
@@ -114,8 +114,8 @@ import Vue from 'vue'
           })
         })
       },
-      showModalInsertOrUpdateUserAuthorization (JobTypeK, isUpdate) {
-        (this.$refs.modalInsertOrUpdateUserAuthorization).show(JobTypeK, isUpdate)
+      showModalInsertOrUpdateUserAuthorization (GroupK, isUpdate) {
+        (this.$refs.modalInsertOrUpdateUserAuthorization).show(GroupK, isUpdate)
       },
       showModalXoa (id) {
         this.selected = id;
@@ -125,29 +125,29 @@ import Vue from 'vue'
         if (this.selected == null) {
           return
         }
-        JobTypeApi.delete(this.selected)
+        GroupApi.delete(this.selected)
           .then(res => {
             (this.$refs.modalXoa).hide()
             this.getDataFromApi(this.searchParamsUser)
             this.$notify({
-              text: 'Xóa loại công việc thành công',
+              text: 'Xóa nhóm quyền thành công',
               color: 'success'
             })
           })
           .catch(res => {
             this.$notify({
-              text: 'Xóa loại công việc thất bại',
+              text: 'Xóa nhóm quyền thất bại',
               color: 'error'
             })
           })
       },
       save (item, isUpdate) {
         if (isUpdate) {
-          JobTypeApi.update(item.JobTypeK, item)
+          GroupApi.update(item.GroupK, item)
             .then(res => {
               this.getDataFromApi(this.searchParamsUser)
               this.$notify({
-                text: 'Cập nhật loại công việc thành công',
+                text: 'Cập nhật nhóm quyền thành công',
                 color: 'success'
               });
               (this.$refs.modalInsertOrUpdateUserAuthorization).hide();
@@ -155,17 +155,17 @@ import Vue from 'vue'
             })
             .catch(res => {
               this.$notify({
-                text: 'Cập nhật loại công việc thất bại',
+                text: 'Cập nhật nhóm quyền thất bại',
                 color: 'error'
               });
               (this.$refs.modalInsertOrUpdateUserAuthorization).saving = false
             })
         } else {
-          JobTypeApi.insert(item)
+          GroupApi.insert(item)
             .then(res => {
               this.getDataFromApi(this.searchParamsUser)
               this.$notify({
-                text: 'Thêm mới loại công việc thành công',
+                text: 'Thêm mới nhóm quyền thành công',
                 color: 'success'
               });
               (this.$refs.modalInsertOrUpdateUserAuthorization).hide();
@@ -173,7 +173,7 @@ import Vue from 'vue'
             })
             .catch(res => {
               this.$notify({
-                text: 'Thêm mới loại công việc thất bại',
+                text: 'Thêm mới nhóm quyền thất bại',
                 color: 'error'
               });
               (this.$refs.modalInsertOrUpdateUserAuthorization).saving = false
