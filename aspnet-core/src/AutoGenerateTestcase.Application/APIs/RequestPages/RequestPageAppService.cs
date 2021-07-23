@@ -41,9 +41,9 @@ namespace AutoGenerateTestcase.APIs.RequestPages
                 }).ToListAsync();
         }
 
-        public async Task Delete(long requestPageId)
+        public async Task Delete(long Id)
         {
-            await WorkScope.DeleteAsync<RequestPage>(requestPageId);
+            await WorkScope.DeleteAsync<RequestPage>(Id);
         }
 
         [HttpPost]
