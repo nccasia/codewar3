@@ -53,7 +53,9 @@
             items: [
               { title: 'Quản lý công việc', link: 'ql-cong-viec', show: this.user && this.user.User.UserId == 1 },
               { title: 'Danh sách công việc', link: 'ds-cong-viec', show: this.user && this.user.User.UserId == 2 },
-              { title: 'Công việc của tôi', link: 'cong-viec-cua-toi', show: this.user && this.user.User.UserId == 2 }
+              { title: 'Công việc của tôi', link: 'cong-viec-cua-toi', show: this.user && this.user.User.UserId == 2 },
+              { title: 'Phê duyệt công việc', link: 'phe-duyet-cong-viec', show: this.user && this.user.User.UserId == 1 },
+              { title: 'Phê duyệt hoàn thành công việc', link: 'nghiem-thu-cong-viec', show: this.user && this.user.User.UserId == 1 }
             ]
           },
           {

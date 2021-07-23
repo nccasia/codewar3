@@ -95,7 +95,7 @@
                   <v-select
                     v-model="data.JobTypeFk"
                     :items="jobTypes"
-                    item-text="Name"
+                    item-text="Description"
                     item-value="JobTypeK"
                     :loading="jobTypeLoading"
                     required

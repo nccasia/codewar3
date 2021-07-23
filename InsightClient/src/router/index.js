@@ -84,7 +84,21 @@ const router = new Router({
       component: function (resolve) {
         require(['@/components/JobType/JobType.vue'], resolve)
       }
-    }
+    },
+    {
+      path: '/phe-duyet-cong-viec',
+      name: 'ApproveJob',
+      component: function (resolve) {
+        require(['@/components/Job/ApproveJob.vue'], resolve)
+      }
+    },
+    {
+      path: '/nghiem-thu-cong-viec',
+      name: 'AcceptJobFinish',
+      component: function (resolve) {
+        require(['@/components/Job/AcceptJobFinish.vue'], resolve)
+      }
+    },
   ]
 })
 

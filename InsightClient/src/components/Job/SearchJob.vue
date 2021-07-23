@@ -9,23 +9,6 @@
               </v-btn>
               <v-toolbar-title>Danh sách công việc</v-toolbar-title>
               <v-spacer></v-spacer>
-              <!-- <v-select
-                class="mx-3"
-                style="min-width:100px"
-                :items="items"
-                v-model="thangHT"
-                item-text="text"
-                item-value="value"
-                label="Tháng" hide-details single-line
-              ></v-select>
-              <v-select
-                style="min-width:120px"
-                :items="items2"
-                v-model="namHT"
-                item-text="text"
-                item-value="value"
-                label="Năm" hide-details single-line
-              ></v-select> -->
           </v-toolbar>
           <v-flex xs12 sm4>
             <v-text-field

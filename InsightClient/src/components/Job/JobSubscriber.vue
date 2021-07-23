@@ -41,7 +41,7 @@
                       <td class="justify-center px-0 text-md-center" style="width: 8%;white-space: nowrap;">
                       <v-tooltip bottom>
                         <v-btn slot="activator" small icon class="mx-0 my-0">
-                          <v-icon color="teal" small>info</v-icon>
+                          <v-icon color="teal" small>how_to_reg</v-icon>
                         </v-btn>
                         <span>Chi tiết</span>
                       </v-tooltip>
