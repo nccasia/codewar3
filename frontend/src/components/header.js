@@ -16,10 +16,10 @@ export const Header = () => {
             <Linkk to='/opentalk'>opentalk</Linkk>
           </Li>
           <Li>
-            <Linkk to='/'>lucky draw</Linkk>
+            <Linkk to='/eng'>english game</Linkk>
           </Li>
           <Li>
-            <Linkk to="/lib">english</Linkk>
+            <Linkk to="/lib">library</Linkk>
           </Li>
         </Ul>
       </WrapperContent>
