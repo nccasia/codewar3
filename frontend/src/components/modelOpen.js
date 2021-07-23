@@ -37,4 +37,4 @@ export const Modal = ({ gift, handleClose }) => {
 
 const Wrapper = styled.div`
   cursor: pointer;
-      `
+`;

@@ -45,7 +45,11 @@ body .img{
     position: absolute;
   width: 150px;
   height: 150px;
-  background-color: whitesmoke;
+  /* background-color: whitesmoke; */
+  background-image: url('https://png.pngtree.com/element_our/20190531/ourlarge/pngtree-stylish-ribbon-free-map-image_1308991.jpg');
+  /* background: linear-gradient(to right, #30CFD0 0%, #330867 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent; */
   color: black;
   opacity: 1;
   z-index: 1;

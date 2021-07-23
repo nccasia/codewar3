@@ -11,7 +11,7 @@ const listGift = [
   '1 ly nước mía 10k full topping',
   'còn cái nịt',
   '200k luôn nè',
-  '250k mời trà sửa cả công ty',
+  '250k mời trà sữa cả công ty',
   '80k hiuhiu'
 ]
 
