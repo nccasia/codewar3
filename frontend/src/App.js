@@ -8,7 +8,9 @@ import {
 } from "react-router-dom";
 import { Library } from './pages/Library';
 import { LuckyDraw } from './pages/Luckydraw';
+import { EnglishReward } from './pages/EnglishReward';
 import { EnglishGame } from './pages/EnglishGame';
+import {EnglishRewardInstruction} from "./pages/EnglishRewardInstruction";
 
 function App() {
   return (
@@ -23,6 +25,12 @@ function App() {
           </Route>
           <Route path="/opentalk">
             <LuckyDraw />
+          </Route>
+          <Route path="/english-reward-home">
+            <EnglishReward />
+          </Route>
+          <Route path="/english-reward-instruction">
+            <EnglishRewardInstruction />
           </Route>
           <Route path="/eng">
             <EnglishGame />

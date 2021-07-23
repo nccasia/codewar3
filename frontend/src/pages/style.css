@@ -147,3 +147,118 @@ body{
     }
 
 }
+
+/*ENGLISH REWARD PAGE*/
+.english-reward {
+    position: relative;
+    background: rgb(255, 214, 141);
+    max-width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.english-reward .big-title {
+    font-family: Baloo Tammudu;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 60px;
+    line-height: 80px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 90px;
+}
+.english-reward .big-title h1 {
+    color: #FFFFFF;
+    width: fit-content;
+    text-shadow: 2px 2px #070707;
+}
+.english-reward .img-home {
+    height: 100%;
+    max-height: 60vh;
+    margin-right: auto;
+    margin-left: auto;
+    width: auto;
+}
+.english-reward .img-home img {
+    max-height: 100%;
+}
+.english-reward .btn-3d {
+    margin: 60px auto;
+}
+.btn-3d {
+    position: relative;
+    display: inline-block;
+    padding: 0.75em 2em;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: white;
+    border: none;
+    width: fit-content;
+    border-radius: 5px;
+}
+.btn-3d::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border-radius: 4px;
+    transition: box-shadow 0.5s ease, transform 0.2s ease;
+    will-change: transform;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.btn-3d.btn-purple {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+}
+.btn-3d.btn-green {
+    background: #2D635E;
+}
+.btn-3d:hover::before {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+.btn-3d::after {
+    position: relative;
+    display: inline-block;
+    content: attr(data-title);
+    transition: transform 0.2s ease;
+    font-weight: bold;
+    font-size: 24px;
+    letter-spacing: 0.01em;
+    will-change: transform;
+}
+
+/*English Reward Instruction*/
+.english-reward-instruction {
+    position: relative;
+    background: #F6F8FC;
+    max-width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.left-content {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem 0 1rem 5rem;
+}
+.text-instruct {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+.right-content {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

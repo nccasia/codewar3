@@ -32,8 +32,8 @@ export const Home = () => {
     <Div>
       <Wrapper>
         <Box direction="row" container>
-          <Card to='/opentalk' label="Opentalk" />
-          <Card to='/eng' label="English Game" />
+          <Card to='/opentalk' label="Opentalk Lucky Draw" />
+          <Card to='/english-reward-home' label="English Reward" />
           <Card to='/lib' label="Library" />
         </Box>
         <NewFeed>
