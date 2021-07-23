@@ -1,8 +1,6 @@
 import React, { memo, useState, useEffect } from "react";
 import { Text, View, StyleSheet, Platform } from "react-native";
-import CircleSlider from "react-native-circle-slider";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import Slider from "@react-native-community/slider";
+
 
 interface ListItemProps {
     label: any

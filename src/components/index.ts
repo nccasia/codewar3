@@ -5,6 +5,7 @@ import SettingList from './SettingList'
 import ChangeTemp from './ChangeTemp'
 import ChangeMode from './ChangeMode'
 import ChangeTime from './ChangeTime'
+import NoteText from './NoteText'
 
-export { ShortCutItem, GeneralInfo, AutoModeItem, SettingList, ChangeTemp, ChangeMode, ChangeTime}
+export { NoteText, ShortCutItem, GeneralInfo, AutoModeItem, SettingList, ChangeTemp, ChangeMode, ChangeTime}
 

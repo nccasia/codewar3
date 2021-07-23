@@ -1,5 +1,5 @@
 
-  import firebase from 'firebase/app'
+  import * as firebase from 'firebase/app'
 
   // Optionally import the services that you want to use
   //import "firebase/auth";

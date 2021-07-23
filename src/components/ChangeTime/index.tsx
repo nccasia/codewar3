@@ -1,6 +1,6 @@
 import React, { memo, useState, useEffect } from "react";
 import { Text, View, StyleSheet, Platform, FlatList } from "react-native";
-import firebase from "firebase";
+import * as firebase from "firebase";
 import ListItem from './ListItem'
 import { firebaseConfig } from "../../../firebase";
 if (!firebase.apps.length) {
@@ -9,11 +9,18 @@ if (!firebase.apps.length) {
   firebase.app();
 }
 
-interface ChangeTimeProps {}
+interface ChangeTimeProps {
+	hour: number
+	min: number
+}
 
 
 
-const ChangeTime: React.FC<ChangeTimeProps> = memo(({}) => {
+const ChangeTime: React.FC<ChangeTimeProps> = memo(({
+	hour,
+	min
+}) => {
+	console.log('min', min)
   const hourRender = []
   for (let h = 1; h < 25; h++) { 
    hourRender.push({value: h, label: h})
@@ -22,19 +29,40 @@ const ChangeTime: React.FC<ChangeTimeProps> = memo(({}) => {
   for (let m = 1; m < 61; m++) { 
     minutesRender.push({value: m, label: m})
    }
+ 
+
+const onUpdateHour = (value: number) => {
+	firebase
+	.database()
+	.ref(`device/pump`)
+	.update({
+	  hour: value
+	});
+	
+}
+const onUpdateMin = (value: number) => {
+	firebase
+	.database()
+	.ref(`device/pump`)
+	.update({
+	  minute: value
+	});
+
+}
 
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+	 
+     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
     <View>
     <View style={ styles.list } >
 			<FlatList
 			showsVerticalScrollIndicator={false}
 				onMomentumScrollEnd={ ( event ) => {
 					let index = Math.round( event.nativeEvent.contentOffset.y / 80 );
-					// onChange( { index, item: items[ index ] } );
+		onUpdateHour(index + 1)
           console.log(index)
 				} }
-				initialScrollIndex={ 2 }
+				initialScrollIndex={hour-1}
 			
 				data={ hourRender.map( item => ( {
 					key: item.value.toString(),
@@ -53,15 +81,15 @@ const ChangeTime: React.FC<ChangeTimeProps> = memo(({}) => {
     <Text style={{ fontSize: 80, fontWeight: 'bold', paddingHorizontal: 20}}>:</Text>
     <View style={ styles.list } >
 			<FlatList
+			initialScrollIndex={min - 1}
 			showsVerticalScrollIndicator={false}
 				onMomentumScrollEnd={ ( event ) => {
 					let index = Math.round( event.nativeEvent.contentOffset.y / 80 );
-					// onChange( { index, item: items[ index ] } );
-          console.log(index)
+					onUpdateMin(index + 1)
 				} }
-				// initialScrollIndex={ 2 }
+				
 			
-				data={ hourRender.map( item => ( {
+				data={minutesRender.map( item => ( {
 					key: item.value.toString(),
 					...item
 				} ) ) }

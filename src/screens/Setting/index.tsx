@@ -4,8 +4,9 @@ import {
   StyleSheet,
   View,
   SafeAreaView,
+  Text
 } from "react-native";
-import { ChangeMode, ChangeTemp, ChangeTime, SettingList } from "../../components";
+import { ChangeMode, ChangeTemp, ChangeTime, NoteText, SettingList } from "../../components";
 import * as firebase from "firebase";
 
 import { firebaseConfig } from "../../../firebase";
@@ -14,9 +15,90 @@ if (!firebase.apps.length) {
 } else {
   firebase.app(); // if already initialized, use that one
 }
+interface screenDataProps{
+    name: string;
+    path: string;
+    type: string;
+    icon: any;
+    device: string;
+    secondPath?: string
+}
 
 const Setting = () => {
+
     const [screenActive, setScreenActive] = useState('temp.')
+    const [hour, setHour] = useState<number>()
+    const [min, setMin] = useState<number>()
+    const getHour = () => {
+      firebase
+        .database()
+        .ref(`device/pump`)
+        .on("value", (snap) => {
+          setHour(snap.val().hour);
+        });
+    };
+    const getMin = () => {
+      firebase
+        .database()
+        .ref(`device/pump`)
+        .on("value", (snap) => {
+          setMin(snap.val().min);
+        });
+    };
+    React.useEffect(() => {
+      getHour();
+      getMin()
+    }, [])
+    const [screenData, setScreenData] = useState<screenDataProps>({
+      name: "Light",
+      path: "light/setTem",
+      device: "light",
+      type: "°C",
+      icon: "oil-temperature",
+    }); 
+    const setScreenActiveData = (screen: string) => {
+      switch (screen) {
+        case "temp.":
+          setScreenData({
+            name: "Light",
+            path: "light/setTem",
+            device: "light",
+            type: "°C",
+            icon: "oil-temperature",
+          });
+          break;
+        case "humidity":
+          console.log(screen);
+          setScreenData({
+            name: "Pump",
+            path: "pump/mh",
+            type: "%",
+            device: "pump",
+            icon: "waves",
+          });
+          break;
+        case "roof":
+          setScreenData({
+            name: "Roof",
+            path: "servo/mh",
+            type: "%",
+            device: "servo",
+            icon: "home-roof",
+          });
+          break;
+        case "time":
+          setScreenData({
+            name: "Pump",
+            device: "pump",
+            path: "pump/hour",
+            type: "",
+            secondPath: "pump/minute",
+            icon: "timer-sand-empty",
+          });
+          break;
+      }
+    }
+    
     const list = [
         {
             name: 'temp.',
@@ -41,6 +123,7 @@ const Setting = () => {
     ]
     const setClick = (screen: any) => {
       setScreenActive(screen);
+      setScreenActiveData(screen)
     };
     const renderSettingList = () => {
         return list.map(item => {
@@ -56,16 +139,18 @@ const Setting = () => {
     <SafeAreaView style={styles.screen}>
       <View style={styles.container}>
         <View style={styles.listWrap}>{renderSettingList()}</View>
-        {(screenActive == "temp." || screenActive == "humidity") ? (
-          <ChangeTemp
-            type={screenActive == "temp." ? "°C" : "%"}
-            path={screenActive == "temp." ? "light/setTem" : "pump/mh"}
-          />
+        {screenActive == "time" ? (
+           min !=undefined ? <ChangeTime min={min} hour={hour}/> : null
+         
         ) : (
-          <ChangeTime />
+          <ChangeTemp
+        
+            type={screenData.type}
+            path={screenData.path}
+          />
         )}
-
-        <ChangeMode path="light" />
+        <NoteText data={screenData} />
+        <ChangeMode path={screenData.device} />
       </View>
     </SafeAreaView>
   );

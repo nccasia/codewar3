@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import useCachedResources from './src/hooks/useCachedResources';
 import useColorScheme from './src/hooks/useColorScheme';
 import { AuthProvider } from './src/store';
