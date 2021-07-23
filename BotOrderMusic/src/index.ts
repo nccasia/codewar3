@@ -1,9 +1,10 @@
 import dotenv from "dotenv";
 import { api, driver, settings } from "@rocket.chat/sdk";
 import { CommandHandler } from "./commands/_CommandHandler";
-import { BotInt } from "./interfaces/BotInt";
+import { BotInt, ModInt } from "./interfaces/BotInt";
 import packageData from "../package.json";
 import { job } from "./helpers/job";
+import { getModerators } from "./helpers/getModerators";
 
 dotenv.config();
 
@@ -52,6 +53,10 @@ export const BOT: BotInt = {
   canOrder: false
 };
 
+export const MODLIST: ModInt = {
+  users: []
+};
+
 /**
  * The primary driver to run the bot.
  */
@@ -82,15 +87,15 @@ const runBot = async () => {
   // Pass received messages to command handler
   await driver.reactToMessages(CommandHandler);
   console.log("connected and waiting for messages");
-
+  MODLIST.users = await getModerators(BOT, ROOMS[0]);
   await driver.sendToRoom(
-    "",
+    "Hi @all!!",
     BOT.botLogChannel || ROOMS[0]
   );
   BOT.canOrder = false;
   console.log("Greeting message sent.");
 
-  //await job(ROOMS);
+  await job(ROOMS);
 };
 
 

@@ -40,16 +40,16 @@ export const help: CommandInt = {
       }
 
       const response = `*Information on my \`${query}\` command:*
-_Description_
-${targetCommand.description}
+      _Description_
+      ${targetCommand.description}
 
-_Parameters_
-${targetCommand.parameters.length ? targetCommand.parameters.join(" ") : "none"}
+      _Parameters_
+      ${targetCommand.parameters.length ? targetCommand.parameters.join(" ") : "none"}
 
-_Example Uses_
-${targetCommand.usage
-  .map((use) => use.replace(/\{prefix\}/g, BOT.prefix))
-  .join("\n")}`;
+      _Example Uses_
+      ${targetCommand.usage
+        .map((use) => use.replace(/\{prefix\}/g, BOT.prefix))
+        .join("\n")}`;
 
       await driver.sendToRoom(response, room);
     } catch (err) {

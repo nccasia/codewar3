@@ -1,5 +1,7 @@
 import { api, driver } from "@rocket.chat/sdk";
+import { MODLIST } from "..";
 import { logBotMessage } from "../helpers/botLogging";
+import { getModerators } from "../helpers/getModerators";
 import { isModerator } from "../helpers/isModerator";
 import { sendToLog } from "../helpers/sendToLog";
 import { CommandInt } from "../interfaces/CommandInt";
@@ -21,7 +23,8 @@ export const open: CommandInt = {
       if (!_message.u) {
         return;
       }
-      const modCheck = await isModerator(_message.u.username, BOT);
+      MODLIST.users = await getModerators(BOT, room);
+      const modCheck = await isModerator(_message.u.username, MODLIST);
 
       if (!modCheck) {
         await driver.sendToRoom(
@@ -32,7 +35,7 @@ export const open: CommandInt = {
       }
 
       BOT.canOrder = true;
-      await driver.sendToRoom( "Đến giờ order nhạc rồi mọi người", room);
+      await driver.sendToRoom("Đến giờ order nhạc rồi mọi người @all", room);
       
       return;
     } catch (err) {

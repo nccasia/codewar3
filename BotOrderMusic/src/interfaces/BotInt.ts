@@ -14,3 +14,7 @@ export interface BotInt {
   listOrders: TrackListsInt[];
   canOrder: boolean;
 }
+
+export interface ModInt {
+  users: string[];
+}

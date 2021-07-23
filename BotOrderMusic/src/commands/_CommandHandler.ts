@@ -61,11 +61,11 @@ export const CommandHandler = async (
   }
 
   const [prefix, commandName] = message.msg.split(" ");
-  if (prefix.toLowerCase() === BOT.prefix && BOT.canOrder) {
+  if (prefix.toLowerCase() === BOT.prefix) {
     const currentTime = Date.now();
     const timeSinceLastCommand = currentTime - BOT.lastCommandCalled;
 
-    if (commandName === 'order') {
+    if (commandName === 'order' && BOT.canOrder) {
       console.log("Track: ", BOT.listOrders);
       if (BOT.listOrders.some(o => o.msgId.includes(message._id!))) return;
       // let dataFilter = BOT.listOrders.filter(el => el.userName === message.u?.username);

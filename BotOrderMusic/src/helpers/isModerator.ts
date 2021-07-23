@@ -1,6 +1,6 @@
 import { api } from "@rocket.chat/sdk";
 import { UserInfoInt } from "../interfaces/apiInt";
-import { BotInt } from "../interfaces/BotInt";
+import { BotInt, ModInt } from "../interfaces/BotInt";
 
 /**
  * Queries the Rocket.Chat API to determine if a given user
@@ -11,18 +11,11 @@ import { BotInt } from "../interfaces/BotInt";
  * @returns {Promise<boolean>} Boolean value for "does user have moderator role"
  */
 export const isModerator = async (
-  userId: string,
-  BOT: BotInt
+  userName: string,
+  userMod: ModInt
 ): Promise<boolean> => {
-  const userInfo: UserInfoInt = await api.get("users.info", { userId });
-  console.log("{user-info: ", userInfo)
-  const roles = BOT.modRoles;
-  console.log("roles: ",roles);
-
-  for (const role of roles) {
-    if (userInfo.user.roles.includes(role)) {
+    if (userMod.users.includes(userName)) {
       return true;
     }
-  }
   return false;
 };

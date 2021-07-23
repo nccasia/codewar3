@@ -1,5 +1,5 @@
 import { api } from "@rocket.chat/sdk";
-import { RoleListInt } from "../interfaces/apiInt";
+import { RoleListInt, RoomInfoInt } from "../interfaces/apiInt";
 import { BotInt } from "../interfaces/BotInt";
 
 /**
@@ -9,24 +9,34 @@ import { BotInt } from "../interfaces/BotInt";
  * @param {BotInt} BOT The bot's configuration object.
  * @returns {Promise<string[]>} An array of usernames as strings.
  */
-export const getModerators = async (BOT: BotInt): Promise<string[]> => {
+export const getModerators = async (BOT: BotInt, roomName: string): Promise<string[]> => {
   const modUsers: string[] = [];
 
   const roleList = BOT.modRoles;
-  for (const role of roleList) {
-    if (role === "none") {
-      continue;
-    }
 
-    const modList: RoleListInt = await api.get("roles.getUsersInRole", {
-      role,
+  try {
+    const roomInfo: RoomInfoInt = await api.get("rooms.info", {
+      roomName
     });
-
-    for (const mod of modList.users) {
-      if (!modUsers.includes(mod.username)) {
-        modUsers.push(mod.username);
+    const roomId = roomInfo.room._id;
+    for (const role of roleList) {
+      if (role === "none") {
+        continue;
+      }
+  
+      const modList: RoleListInt = await api.get("roles.getUsersInRole", {
+        role,
+        roomId
+      });
+  
+      for (const mod of modList.users) {
+        if (!modUsers.includes(mod.username)) {
+          modUsers.push(mod.username);
+        }
       }
     }
+  } catch (err){
+    console.log(err);
   }
   return modUsers;
 };

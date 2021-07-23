@@ -1,5 +1,10 @@
 export interface OrderInt {
-    links: string[];
+    links:  OrderInfoInt[];
+}
+
+export interface OrderInfoInt {
+    id: string;
+    link: string;
 }
 
 export interface TrackListsInt {
