@@ -11,6 +11,7 @@ namespace MaiAnVat.Common
         public const string SCHEDULE_TYPE = "ScheduleType";
         public const string STATUS_TYPE = "StatusType";
         public const string ACTION_TYPE = "ActionType";
+        public const string JOB_REJECTED_REASON= "JobRejectedReason";
 
         public const string DEFAULTWORKFLOW = "Awaiting";
     }

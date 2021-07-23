@@ -70,6 +70,17 @@ namespace MaiAnVat.Controllers
                 pagination = new Pagination();
 
             return Ok(await GetPaginatedResponse(jobs.OrderByDescending(x => x.CreateTime), pagination));
+        }          
+        
+        [HttpGet("all-candicate")]
+        public async Task<IActionResult> GetAllCandicate([FromQuery] Pagination pagination, [FromQuery] string searchTerm = null)
+        {
+
+            var jobs = GetAllJobCandiCate(searchTerm);
+            if (pagination == null)
+                pagination = new Pagination();
+
+            return Ok(await GetPaginatedResponse(jobs.OrderByDescending(x => x.CreateTime), pagination));
         }        
 
         [HttpGet("jobs")]
@@ -155,7 +166,7 @@ namespace MaiAnVat.Controllers
 
             return Ok();
 
-        }
+        }        
 
         // DELETE: api/job/272169AE-0F52-4544-A6EB-4607DE1D3796
         [HttpDelete("{id}")]
@@ -168,7 +179,6 @@ namespace MaiAnVat.Controllers
 
             try
             {
-
                 await jobService.DeleteAsync(id);
                 return Ok();
             }
@@ -246,6 +256,7 @@ namespace MaiAnVat.Controllers
                         };
             return myJob;
         }
+
         private IQueryable<JobCandicateDto> GetJobCandiCate(Guid JobK, string searchTerm)
         {
 
@@ -262,6 +273,39 @@ namespace MaiAnVat.Controllers
                                  join u in users on rJ.CreatedByUserFk equals u.Id
                                  select new JobCandicateDto
                                  {
+                                     CandiCateId = u.Id,
+                                     Email = u.Email,
+                                     IsAccepted = rJ.IsAccepted,
+                                     UserName = u.UserName,
+                                     CreateTime = rJ.CreatedAtUtc
+                                 };
+                return candicates;
+
+            }
+        }
+
+        private IQueryable<JobCandicateDto> GetAllJobCandiCate(string searchTerm)
+        {
+
+            using (MaiAnVatContext db = new MaiAnVatContext())
+            {
+                var registedJobs = registrationJobService
+                .Find()
+                .GroupBy(x => new { x.JobFk, x.CreatedByUserFk }, (key, g) => g.OrderByDescending(e => e.CreatedAtUtc).First())
+                .Select(x => x);
+                List<User> users = db.User.ToList();
+                if (!string.IsNullOrEmpty(searchTerm))
+                    users = users.Where(x => x.UserName.ToLower().Contains(searchTerm.ToLower())).ToList();
+                var candicates = from rJ in registedJobs
+                                 join u in users on rJ.CreatedByUserFk equals u.Id
+                                 join j in db.Job on rJ.JobFk equals j.JobK
+                                 join jT in db.JobType on j.JobTypeFk equals jT.JobTypeK
+                                 select new JobCandicateDto
+                                 {
+                                     JobName = j.Name,
+                                     JobK = j.JobK,
+                                     JobType = jT.Description,
+                                     JobTypeK = jT.JobTypeK,
                                      CandiCateId = u.Id,
                                      Email = u.Email,
                                      IsAccepted = rJ.IsAccepted,

@@ -68,7 +68,7 @@
                             <span>Từ chối</span>
                           </v-tooltip>
                           <v-tooltip bottom>
-                            <v-btn slot="activator" small icon class="mx-0 my-0" @click.stop="approve">
+                            <v-btn slot="activator" small icon class="mx-0 my-0" @click.stop="showModalAccept(props.item)">
                               <v-icon color="teal" small>how_to_reg</v-icon>
                             </v-btn>
                             <span>Phê duyệt</span>
@@ -92,7 +92,37 @@
               <v-spacer></v-spacer>
               <v-btn class="white--text ma-0" small icon @click="hide"><v-icon>close</v-icon></v-btn>
             </v-card-title>
-            <v-card-text class="py-3">Công việc {{selected.Name}} sẽ bị đánh dấu là chưa hoàn thành!</v-card-text>
+            <v-card-text class="py-3">
+              Công việc <strong>{{selected.Name}}</strong> sẽ bị đánh dấu là chưa hoàn thành!
+              <v-layout wrap>
+                <v-flex xs12>
+                <v-select
+                  v-model="rejectData.ReasonFK"
+                  :items="rejectReasons"
+                  item-text="Description"
+                  item-value="ListCategoryK"
+                  :loading="jobRejectReasonLoading"
+                  required
+                  data-vv-name="Lý do"
+                  data-vv-scope="formReject"
+                  :error-messages="errors.collect('Lý do')"
+                  label="Lý do">
+                </v-select>
+                  <v-text-field
+                  label="Ghi chú"
+                  v-model="rejectData.reason"
+                  data-vv-name="Ghi chú"
+                  data-vv-scope="formReject"
+                  v-validate="{required: true}"
+                  :error-messages="errors.collect('Ghi chú')"
+                  required
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12>
+
+                </v-flex>
+              </v-layout>
+            </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn flat @click.native="hide">Hủy</v-btn>
@@ -100,10 +130,26 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-dialog v-model="dialogAccept" v-if="selected" max-width="350">
+          <v-card>
+            <v-card-title class="primary white--text">
+              <span class="title">Xác nhận</span>
+              <v-spacer></v-spacer>
+              <v-btn class="white--text ma-0" small icon @click="hide"><v-icon>close</v-icon></v-btn>
+            </v-card-title>
+            <v-card-text class="py-3">Công việc <strong>{{selected.Name}}</strong> sẽ được đánh dấu là hoàn thành!</v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn flat @click.native="hide">Hủy</v-btn>
+              <v-btn color="blue darken-1" :loading="declining" :disabled="declining" flat @click.native="approve">Lưu</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
     </v-flex>
 </template>
 <script>
 import JobTypeApi from '../../apiResources/JobTypeApi'
+import ListCategoryApi from '../../apiResources/ListCategoryApi'
 import TheLoaderVue from '../Commons/TheLoader.vue'
 export default {
   name: 'AcceptJobFinish',
@@ -115,15 +161,21 @@ export default {
   mounted(){
     this.getJobTypes()
     this.getDataFromApi(this.searchParamsJob)
+    this.getRejectReason()
   },
   data(){
     return {
+      rejectData: {},
+      loadingReasonStatus: false,
       declining: false,
+      dialogAccept: false,
       dialog: false,
       selected: null,
       jobTypes: [],
       jobs: [],
+      rejectReasons: [],
       jobTypeLoading: false,
+      jobRejectReasonLoading: false,
       jobTypeK: null,
       searchParamsJob: { includeEntities: true, rowsPerPage: 10 },
       loadingTable: false,
@@ -137,10 +189,20 @@ export default {
     }
   },
   methods: {
-    decline(){
-      console.log('TODO')
-      this.dialog = false
-      this.selected = null
+    decline(e){
+      e.preventDefault();
+      this.declining = true
+      this.$validator.validateAll('formReject').then((res) => {
+        if (res) {
+        } else {
+          this.declining = false
+          this.$notify({
+            text: 'Cần điền đủ thông tin',
+            color: 'error'
+          })
+        }
+      });
+
     },
     approve(){
       console.log('TODO')
@@ -149,8 +211,14 @@ export default {
       this.selected = item
       this.dialog = true
     },
+    showModalAccept(item){
+      this.selected = item
+      this.dialogAccept = true
+    },
     hide(){
       this.dialog = false
+      this.dialogAccept = false
+      this.rejectData = {}
       this.selected = null
     },
     getJobTypes () {
@@ -162,6 +230,18 @@ export default {
         })
         .catch(res => {
           this.jobTypeLoading = false
+          this.$notify({ text: 'Lấy dữ liệu thất bại', color: 'error' })
+        })
+    },
+    getRejectReason(){
+      this.jobRejectReasonLoading = true
+      ListCategoryApi.getRejectReason()
+        .then(res => {
+          this.rejectReasons = res
+          this.jobRejectReasonLoading = false
+        })
+        .catch(res => {
+          this.jobRejectReasonLoading = false
           this.$notify({ text: 'Lấy dữ liệu thất bại', color: 'error' })
         })
     },

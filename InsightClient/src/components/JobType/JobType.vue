@@ -36,7 +36,8 @@
                               {{ props.item.DefaultTimeInHours }}
                             </td>
                             <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
-                              {{ props.item.ColorCode }}
+                              {{ props.item.ColorCode }}                              
+                              <input disabled type="color" name="head" :value="props.item.ColorCode">
                             </td>
                             <td class="justify-center px-0 text-md-center" style="width: 8%;white-space: nowrap;"> <!--aaaa -->
                               <v-tooltip bottom>

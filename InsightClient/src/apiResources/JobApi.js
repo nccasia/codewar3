@@ -32,6 +32,18 @@ class JobApi {
       })
     })
   }
+    
+  approve (model) {
+    return new Promise((resolve, reject) => {
+      HTTP.post('job/approveJob',
+        model
+      ).then((response) => {
+        resolve(response.data)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
   getJobCandicate(searchParams) {
     return new Promise((resolve, reject) => {
       HTTP.get('job/candicate', {
@@ -43,9 +55,9 @@ class JobApi {
       })
     })
   }
-  getJobs (searchParams) {
+  getAllJobCandicate(searchParams) {
     return new Promise((resolve, reject) => {
-      HTTP.get('job/jobs', {
+      HTTP.get('job/all-candicate', {
         params: searchParams
       }).then((response) => {
         resolve(response.data)
@@ -54,6 +66,7 @@ class JobApi {
       })
     })
   }
+
   detail (id) {
     return new Promise((resolve, reject) => {
       HTTP.get('job/' + id).then((response) => {

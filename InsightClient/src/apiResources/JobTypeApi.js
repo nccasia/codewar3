@@ -52,6 +52,7 @@ class JobTypeApi{
       })
     })
   }
+
   delete (id) {
     return new Promise((resolve, reject) => {
       HTTP.delete('jobtype/' + id)

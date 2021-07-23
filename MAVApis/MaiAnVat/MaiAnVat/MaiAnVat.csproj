@@ -18,6 +18,7 @@
     <Compile Include="Models\Claim.cs" />
     <Compile Include="Models\CoreDb\MaiAnVat.SaveChanges.cs" />
     <Compile Include="Models\CustomModels\JobCandicateDto.cs" />
+    <Compile Include="Models\CustomModels\ApproveJobDto.cs" />
     <Compile Include="Models\CustomModels\JobDto.cs" />
     <Compile Include="Models\CustomModels\JobTypeDto.cs" />
     <Compile Include="Models\CustomModels\MyJobDto.cs" />

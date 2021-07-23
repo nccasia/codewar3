@@ -20,5 +20,15 @@ class ListCategoryApi {
       })
     })
   }
+  getRejectReason () {
+    return new Promise((resolve, reject) => {
+      HTTP.get('listcategory/jobRejectReasons', {
+      }).then((response) => {
+        resolve(response.data)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
 }
 export default new ListCategoryApi()

@@ -199,6 +199,21 @@ export default {
           })
         })
     },
+    approveJob(){
+      this.jobStatusLoading = true
+      ListCategoryApi.getAllJobStatuses()
+        .then(res => {
+          this.listJobStatuses = res
+          this.jobStatusLoading = false
+        })
+        .catch(res => {
+          this.jobStatusLoading = false
+          this.$notify({
+            text: 'Lấy dữ liệu thất bại thất bại',
+            color: 'error'
+          })
+        })
+    },
     getWFStatuses () {
       this.jobWFStatusLoading = true
       WorkflowStatusApi.getAll()

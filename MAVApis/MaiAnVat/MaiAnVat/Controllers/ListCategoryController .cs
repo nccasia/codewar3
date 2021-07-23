@@ -38,7 +38,7 @@ namespace MaiAnVat.Controllers
 
         // GET: api/listcategory/jobtypes
         [HttpGet("jobtypes")]
-        public IActionResult GetListCategoryJobTypes([FromQuery] Pagination pagination, [FromQuery] string searchTerm = null)
+        public IActionResult GetListCategoryJobTypes()
         {
             var listcategories = GetAllListCategoryByCategoryName(Constants.JOB_TYPE);
             var result = listcategories
@@ -47,6 +47,16 @@ namespace MaiAnVat.Controllers
             return Ok(result);
         }
 
+        // GET: api/listcategory/jobRejectReasons
+        [HttpGet("jobRejectReasons")]
+        public IActionResult GetListCategoryJobRejectReason()
+        {
+            var listcategories = GetAllListCategoryByCategoryName(Constants.JOB_REJECTED_REASON);
+            var result = listcategories
+                .Select(x => new { ListCategoryK = x.ListCategoryK, Name = x.Name, Description = x.Description, CreatedAtUtc = x.CreatedAtUtc })
+                .OrderByDescending(x => x.CreatedAtUtc).ToList();
+            return Ok(result);
+        }
 
         // GET: api/listcategory/actiontypes
         [HttpGet("actiontypes")]
@@ -71,7 +81,6 @@ namespace MaiAnVat.Controllers
             var listcategories = GetAllListCategoryByCategoryName(Constants.SCHEDULE_TYPE);
             return Ok(listcategories.Select(x => new { ListCategoryK = x.ListCategoryK, Name = x.Name, Description = x.Description, CreatedAtUtc = x.CreatedAtUtc }).OrderByDescending(x => x.CreatedAtUtc).ToList());
         }
-
 
 
         [HttpGet("listcategories")]

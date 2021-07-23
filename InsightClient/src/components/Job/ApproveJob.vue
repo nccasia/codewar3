@@ -49,16 +49,13 @@
                               class="table-border table">
                         <template slot="items" slot-scope="props" style="sox-height:100px;">
                           <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
-                            {{ props.item.Name}}
+                            {{ props.item.JobName}}
                           </td>
                           <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
                             {{ props.item.JobType}}
                           </td>
                           <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
-                            {{ props.item.UserRegis}}
-                          </td>
-                            <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
-                            {{ props.item.Description}}
+                            {{ props.item.UserName}}
                           </td>
                           <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
                             {{ props.item.IsAccepted ? "Đã chấp thuận": "Chưa chấp thuận"  }}
@@ -101,6 +98,7 @@
     </v-flex>
 </template>
 <script>
+import JobApi from '../../apiResources/JobApi'
 import JobTypeApi from '../../apiResources/JobTypeApi'
 export default {
   name: 'ApproveJob',
@@ -111,7 +109,6 @@ export default {
   },
   mounted(){
     this.getJobTypes()
-    this.getDataFromApi(this.searchParamsJob)
   },
   data(){
     return {
@@ -125,21 +122,15 @@ export default {
       searchParamsJob: { includeEntities: true, rowsPerPage: 10 },
       loadingTable: false,
       tableHeader: [
-        { text: 'Tên công việc', align: 'center', value: 'Name', sortable: false },
+        { text: 'Tên công việc', align: 'center', value: 'JobName', sortable: false },
         { text: 'Loại công việc', align: 'center', value: 'JobType', sortable: false },
-        { text: 'Người đăng ký', align: 'center', value: 'UserRegis', sortable: false },
-        { text: 'Mô tả', align: 'center', value: 'Description', sortable: false },
+        { text: 'Người đăng ký', align: 'center', value: 'UserName', sortable: false },
         { text: 'Trạng thái', align: 'center', value: 'IsAccepted', sortable: false },
         { text: 'Thao tác', align: 'center', value: '', sortable: false }
       ],
     }
   },
   methods: {
-    approve(){
-      if(!this.selected) return;
-      console.log('TODO')
-      this.dialog = false
-    },
     showModalApprove(item){
       this.selected = item
       this.dialog = true
@@ -147,6 +138,19 @@ export default {
     hide(){
       this.dialog = false
       this.selected = null
+    },
+    approve(){
+      this.loadingTable = true
+      var model = {JobK: this.selected.JobK, UserK: this.selected.CandiCateId};
+      JobApi.approve(model)
+        .then(res => {
+          this.jobTypes = res
+          this.loadingTable = false
+        })
+        .catch(res => {
+          this.loadingTable = false
+          this.$notify({ text: 'Lấy dữ liệu thất bại', color: 'error' })
+        })
     },
     getJobTypes () {
       this.jobTypeLoading = true
@@ -161,10 +165,17 @@ export default {
         })
     },
     getDataFromApi(searchParamsJob){
-      this.jobs = [
-        {Name: "CV1", JobType: "BA", Description: "Mô tả", UserRegis: "User 1", IsAccepted: false},
-        {Name: "CV2", JobType: "FE", Description: "Mô tả", UserRegis: "User 2", IsAccepted: true}
-      ]
+      this.loadingTable = true
+      JobApi.getAllJobCandicate(searchParamsJob)
+        .then(res => {
+          console.log(res)
+          this.jobs = res.Data
+          this.loadingTable = false
+        })
+        .catch(res => {
+          this.loadingTable = false
+          this.$notify({ text: 'Lấy dữ liệu thất bại', color: 'error' })
+        })
     }
   }
 }
