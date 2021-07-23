@@ -33,9 +33,9 @@ export const Home = () => {
     <Div>
       <Wrapper>
         <Box direction="row" container>
-          <Card to='/' label="Opentalk" />
-          <Card to='/lucky' label="Lucky draw" />
-          <Card to='/lib' label="English" />
+          <Card to='/lucky' label="Opentalk" />
+          <Card to='/eng' label="English Game" />
+          <Card to='/lib' label="Library" />
         </Box>
         <NewFeed>
           <Flickity flickityRef={c => (flkty = c)} options={{ initialIndex: carouselIndex }}>

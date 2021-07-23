@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { Library } from './pages/Library';
 import { LuckyDraw } from './pages/Luckydraw';
+import { EnglishGame } from './pages/EnglishGame';
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
           </Route>
           <Route path="/lucky">
             <LuckyDraw />
+          </Route>
+          <Route path="/eng">
+            <EnglishGame />
           </Route>
         </Switch>
       </Router>
