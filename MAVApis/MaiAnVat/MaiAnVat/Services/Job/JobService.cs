@@ -123,6 +123,7 @@ namespace MaiAnVat.Services.JobAndJobType
                 Job.RegistrationDeadline = entity.RegistrationDeadline;
                 Job.RegistrationJob = entity.RegistrationJob;
                 Job.CustomerOrder = entity.CustomerOrder;
+                Job.ModifiedByUserFk = entity.ModifiedByUserFk;
                 db.SaveChanges();
             }
         }
@@ -140,6 +141,7 @@ namespace MaiAnVat.Services.JobAndJobType
                 Job.RegistrationDeadline = entity.RegistrationDeadline;
                 Job.RegistrationJob = entity.RegistrationJob;
                 Job.CustomerOrder = entity.CustomerOrder;
+                Job.ModifiedByUserFk = entity.ModifiedByUserFk;
                 await db.SaveChangesAsync();
             }
         }

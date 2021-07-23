@@ -10,6 +10,19 @@ class JobApi {
       })
     })
   }
+
+  getJobs(searchParams) {
+    return new Promise((resolve, reject) => {
+      HTTP.get('job/jobs', {
+        params: searchParams
+      }).then((response) => {
+        resolve(response.data)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
+
   getUnregistedJob(searchParams) {
     return new Promise((resolve, reject) => {
       HTTP.get('job/unRegistedjobs', {

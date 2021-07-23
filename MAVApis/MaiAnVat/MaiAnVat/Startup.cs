@@ -1,5 +1,6 @@
 using MaiAnVat.Common;
 using MaiAnVat.ServiceFramework;
+using MaiAnVat.ServiceFramework.Framework;
 using MaiAnVat.ServiceFramework.JobAndJobType;
 using MaiAnVat.Services;
 using MaiAnVat.Services.JobAndJobType;
@@ -83,6 +84,7 @@ namespace MaiAnVat
             services.Add(new ServiceDescriptor(typeof(IUserService), typeof(UserService), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IGroupService), typeof(GroupService), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IPermissionService), typeof(PermissionService), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IReviewJobHistoryService), typeof(ReviewJobHistoryService), ServiceLifetime.Transient));
         }
     }
 }
