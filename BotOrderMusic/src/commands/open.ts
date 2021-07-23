@@ -35,7 +35,7 @@ export const open: CommandInt = {
       }
 
       BOT.canOrder = true;
-      await driver.sendToRoom("Đến giờ order nhạc rồi mọi người @all", room);
+      await driver.sendToRoom("Cơ trưởng on air zô zô @all", room);
       
       return;
     } catch (err) {
