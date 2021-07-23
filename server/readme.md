@@ -1,55 +1,62 @@
-[![Build Status](https://travis-ci.com/specialtactics/laravel-api-boilerplate.svg?branch=master)](https://travis-ci.com/specialtactics/l5-api)
-[![StyleCI](https://github.styleci.io/repos/131504554/shield?branch=master)](https://github.styleci.io/repos/131504554)
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+<p align="center">
+<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-## About Laravel API Boilerplate
-This is a boilerplate for writing RESTful API projects using Laravel. The aim of this boilerplate is to provide developers with scaffolding and common functionality which will make writing APIs exceedingly quick, efficient and convenient.
+## About Laravel
 
-It is intended for this repository to be used when starting a new API project. Therefore, instead of cloning the laravel repository, you should clone this one.
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-The principles of this boilerplate are to;
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
- - Save developers considerable effort by using reasonable conventions
- - Allow for everything the boilerplate provides to be easily extended and entirely customised to suit developer needs, through normal PHP inheritance
-   - As well as allow developers to easily use the boilerplate functionality and mix it in with their own implementation
- - Follow REST standards very closely
- - Use existing Laravel features and existing Laravel add-on packages where possible
- - Add many convenient features useful for writing APIs
- - Maintain a high level of performance
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Documentation
-For setup, usage guidance, and all other docs - please consult the [Project Wiki](https://github.com/specialtactics/l5-api-boilerplate/wiki).
+## Learning Laravel
+
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+
+## Laravel Sponsors
+
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+
+### Premium Partners
+
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Cubet Techno Labs](https://cubettech.com)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[Many](https://www.many.co.uk)**
+- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
+- **[DevSquad](https://devsquad.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[OP.GG](https://op.gg)**
 
 ## Contributing
 
-If you would like to contribute to this project, please feel free to submit a pull request. If you plan to do any major work - it may be worthwhile messaging the author beforehand to explain your plans and get them approved.
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-Please keep in mind, this package is only the template portion of the boilerplate, the main portion is [l5-api](https://github.com/specialtactics/l5-api). 
-Before adding any new functionality, you should consider whether it's possible at all to keep it out of this project and rather put it into l5-api, as that is preferred.
+## Code of Conduct
 
-## Check out the documentation of supporting projects
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-Every great project stands on the shoulders of giants. Check out the documentation of these key supporting packages to learn more;
+## Security Vulnerabilities
 
- - [Laravel](https://laravel.com/docs/)
- - [Dingo API](https://github.com/dingo/api/wiki)
- - [Tymon JWT Auth](https://github.com/tymondesigns/jwt-auth)
- - [League Fractal](https://fractal.thephpleague.com/)
- - [Laravel UUID](https://github.com/webpatser/laravel-uuid/tree/2.1.1)
-
-## Recommended Packages
-
-I have tried to include only the packages thought absolutely necessary, so here is a list of packages I recommend checking out:
-
-#### General 
- - [PHP CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
- - [PHP-VCR](https://github.com/php-vcr/php-vcr)
-
-#### For Debugging 
- - [Bugsnag for Laravel](https://github.com/bugsnag/bugsnag-laravel)
- - [Sentry](https://github.com/getsentry/sentry-laravel)
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
 ## License
- 
-This boilerplate, much like the Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
