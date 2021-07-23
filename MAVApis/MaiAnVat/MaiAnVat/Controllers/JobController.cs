@@ -221,7 +221,7 @@ namespace MaiAnVat.Controllers
         private IQueryable<MyJobDto> GetMyJob(string searchTerm)
         {
             var registedJobs = registrationJobService
-                .Find(x => x.CreatedByUserFk == 2)
+                .Find(x => x.CreatedByUserFk == UserK)
                 .GroupBy(x => x.JobFk, (key, g) => g.OrderByDescending(e => e.CreatedAtUtc).First())
                 .Select(x=>x);
             var allJobs = GetAllJobs(searchTerm);
