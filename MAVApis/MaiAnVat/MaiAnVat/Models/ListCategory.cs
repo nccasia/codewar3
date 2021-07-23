@@ -7,7 +7,6 @@ namespace MaiAnVat.Models
     {
         public ListCategory()
         {
-            Job = new HashSet<Job>();
             JobAttachment = new HashSet<JobAttachment>();
             Schedule = new HashSet<Schedule>();
         }
@@ -25,7 +24,6 @@ namespace MaiAnVat.Models
         public bool? IsDisabled { get; set; }
 
         public Category CategoryFkNavigation { get; set; }
-        public ICollection<Job> Job { get; set; }
         public ICollection<JobAttachment> JobAttachment { get; set; }
         public ICollection<Schedule> Schedule { get; set; }
     }

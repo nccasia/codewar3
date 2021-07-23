@@ -12,5 +12,7 @@ namespace MaiAnVat.Common
         public const string SCHEDULE_TYPE = "Loại lịch trình";
         public const string STATUS_TYPE = "Loại trạng thái";
         public const string ACTION_TYPE = "Loại hành động";
+
+        public const string DEFAULTWORKFLOW = "Awaiting";
     }
 }

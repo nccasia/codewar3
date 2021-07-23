@@ -1,4 +1,5 @@
 ﻿
+using MaiAnVat.Common;
 using MaiAnVat.Models;
 using MaiAnVat.ServiceFramework.JobAndJobType;
 using Microsoft.EntityFrameworkCore;
@@ -104,7 +105,6 @@ namespace MaiAnVat.Services.JobAndJobType
             {
                 Job.Title = entity.Title;
                 Job.JobTypeFk = entity.JobTypeFk;
-                Job.JobStatusFk = entity.JobStatusFk;
                 Job.WorkflowStatusFk = entity.WorkflowStatusFk;
                 Job.Name = entity.Name;
                 Job.Description = entity.Description;
@@ -122,7 +122,6 @@ namespace MaiAnVat.Services.JobAndJobType
             {
                 Job.Title = entity.Title;
                 Job.JobTypeFk = entity.JobTypeFk;
-                Job.JobStatusFk = entity.JobStatusFk;
                 Job.WorkflowStatusFk = entity.WorkflowStatusFk;
                 Job.Name = entity.Name;
                 Job.Description = entity.Description;

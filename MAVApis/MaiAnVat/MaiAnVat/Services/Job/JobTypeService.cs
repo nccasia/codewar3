@@ -19,6 +19,9 @@ namespace MaiAnVat.Services.JobAndJobType
         public JobType Create(JobType model)
         {
             model.JobTypeK = Guid.NewGuid();
+            var jobWFS = db.JobWorkFlowStatus.FirstOrDefault(x => x.JobTypeWorkFlowFk == model.JobTypeK);
+            if(jobWFS != default) 
+                model.DefaultWorkFlowFk = jobWFS.JobTypeWorkFlowFk;
             db.JobType.Add(model);
             db.SaveChanges();
             return model;

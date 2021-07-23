@@ -59,7 +59,7 @@ namespace MaiAnVat.Services
 
         public IQueryable<ListCategory> Find(Expression<Func<ListCategory, bool>> whereExpression = null)
         {
-            IQueryable<ListCategory> qListCategories = db.ListCategory.Include(x => x.Job).Where(i => i.IsDeleted == false);
+            IQueryable<ListCategory> qListCategories = db.ListCategory.Where(i => i.IsDeleted == false);
             if (whereExpression != null)
             {
                 qListCategories = qListCategories.Where(whereExpression);

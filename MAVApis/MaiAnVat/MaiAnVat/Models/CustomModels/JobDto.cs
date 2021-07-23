@@ -15,7 +15,7 @@ namespace MaiAnVat.Models.CustomModels
         public bool IsDeleted { get; set; }
         public DateTime? DeactivatedUtc { get; set; }
         public int? DeactivatedUserFk { get; set; }
-        public Guid WorkflowStatusFk { get; set; }
+        public Guid? WorkflowStatusFk { get; set; }
         public string CustomerOrder { get; set; }
         public string Title { get; set; }
         public string Name { get; set; }

@@ -91,6 +91,7 @@ namespace MaiAnVat.Controllers
             }
             try
             {
+                jobType.ModifiedByUserFk = UserK;
                 await jobTypeService.UpdateAsync(id, jobType);
                 return Ok("Update Success");
             }
@@ -108,7 +109,7 @@ namespace MaiAnVat.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            jobType.CreatedByUserFk = UserK;
             await jobTypeService.CreateAsync(jobType);
 
             return CreatedAtAction("GetJobType", new { id = jobType.JobTypeK }, jobType);

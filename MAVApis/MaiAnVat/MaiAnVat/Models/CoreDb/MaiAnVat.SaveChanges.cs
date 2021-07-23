@@ -23,13 +23,10 @@ namespace MaiAnVat.Models
                             */
                         if (entry.Entity.CreatedAtUtc == default(DateTime))
                             entry.Entity.CreatedAtUtc = saveDate;
-                        if (entry.Entity.CreatedByUserFk == default(int) || entry.Entity.CreatedByUserFk == 0)
-                            entry.Entity.CreatedByUserFk = 1;
                     }
                     if (entry.State != EntityState.Unchanged)
                     {
                         entry.Entity.ModifiedAtUtc = saveDate;
-                        entry.Entity.ModifiedByUserFk = 1;
                     }
 
                 }
@@ -57,13 +54,13 @@ namespace MaiAnVat.Models
                             */
                         if (entry.Entity.CreatedAtUtc == default(DateTime))
                             entry.Entity.CreatedAtUtc = saveDate;
-                        if (entry.Entity.CreatedByUserFk == default(int) || entry.Entity.CreatedByUserFk == 0)
-                            entry.Entity.CreatedByUserFk = 1;
+                        //if (entry.Entity.CreatedByUserFk == default(int) || entry.Entity.CreatedByUserFk == 0)
+                        //    entry.Entity.CreatedByUserFk = 1;
                     }
                     if (entry.State != EntityState.Unchanged)
                     {
                         entry.Entity.ModifiedAtUtc = saveDate;
-                        entry.Entity.ModifiedByUserFk = 1;
+                        //entry.Entity.ModifiedByUserFk = 1;
                     }
 
                 }

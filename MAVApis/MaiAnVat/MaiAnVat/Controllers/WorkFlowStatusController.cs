@@ -22,7 +22,7 @@ namespace MaiAnVat.Controllers
         public IActionResult GetAllWorkFlowStatus()
         {
             var workFlowStatuses = GetAllWorkFlowStatues(null);
-            return Ok(workFlowStatuses.Select(x => new { Name = x.Name, Description = x.Description, StatusCode = x.StatusCode, CreatedAtUtc = x.CreatedAtUtc}).OrderByDescending(x => x.CreatedAtUtc).ToList());
+            return Ok(workFlowStatuses.Select(x => new { WorkFlowStatusK = x.WorkFlowStatusK, Name = x.Name, Description = x.Description, StatusCode = x.StatusCode, CreatedAtUtc = x.CreatedAtUtc}).OrderByDescending(x => x.CreatedAtUtc).ToList());
         }
 
         [HttpGet("workflowstatues")]
