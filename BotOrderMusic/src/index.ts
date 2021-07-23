@@ -88,10 +88,10 @@ const runBot = async () => {
   await driver.reactToMessages(CommandHandler);
   console.log("connected and waiting for messages");
   MODLIST.users = await getModerators(BOT, ROOMS[0]);
-  await driver.sendToRoom(
-    "Hi @all!!",
-    BOT.botLogChannel || ROOMS[0]
-  );
+  // await driver.sendToRoom(
+  //   "Hi @all!!",
+  //   BOT.botLogChannel || ROOMS[0]
+  // );
   BOT.canOrder = false;
   console.log("Greeting message sent.");
 
