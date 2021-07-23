@@ -61,7 +61,7 @@ export const EnglishGame = () => {
         setData(current)
         setTimeout(() => {
             setOpen(true);
-        }, 500);
+        }, 1100);
     }
 
 
