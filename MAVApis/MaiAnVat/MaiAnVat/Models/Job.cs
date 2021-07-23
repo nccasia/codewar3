@@ -11,6 +11,7 @@ namespace MaiAnVat.Models
             JobMessage = new HashSet<JobMessage>();
             JobWorkFlowMove = new HashSet<JobWorkFlowMove>();
             RegistrationJob = new HashSet<RegistrationJob>();
+            ReviewJobHistory = new HashSet<ReviewJobHistory>();
             Schedule = new HashSet<Schedule>();
         }
 
@@ -39,6 +40,7 @@ namespace MaiAnVat.Models
         public ICollection<JobMessage> JobMessage { get; set; }
         public ICollection<JobWorkFlowMove> JobWorkFlowMove { get; set; }
         public ICollection<RegistrationJob> RegistrationJob { get; set; }
+        public ICollection<ReviewJobHistory> ReviewJobHistory { get; set; }
         public ICollection<Schedule> Schedule { get; set; }
     }
 }

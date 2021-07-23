@@ -1,6 +1,8 @@
-﻿using MaiAnVat.Models;
+﻿using MaiAnVat.Common;
+using MaiAnVat.Models;
 using MaiAnVat.Models.CustomModels;
 using MaiAnVat.ServiceFramework;
+using MaiAnVat.ServiceFramework.Framework;
 using MaiAnVat.ServiceFramework.JobAndJobType;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,13 +22,15 @@ namespace MaiAnVat.Controllers
         private readonly IListCategoryService listCategoryService;
         private readonly IWorkFlowStatusService workFlowStatusService;
         private readonly IRegistrationJobService registrationJobService;
-        public JobController(IJobTypeService jobTypeService, IJobService jobService, IListCategoryService listCategoryService, IWorkFlowStatusService workFlowStatusService, IRegistrationJobService registrationJobService)
+        private readonly IReviewJobHistoryService reviewJobHistoryService;
+        public JobController(IJobTypeService jobTypeService, IJobService jobService, IListCategoryService listCategoryService, IWorkFlowStatusService workFlowStatusService, IRegistrationJobService registrationJobService, IReviewJobHistoryService reviewJobHistoryService)
         {
             this.jobTypeService = jobTypeService;
             this.jobService = jobService;
             this.listCategoryService = listCategoryService;
             this.workFlowStatusService = workFlowStatusService;
             this.registrationJobService = registrationJobService;
+            this.reviewJobHistoryService = reviewJobHistoryService;
         }
 
         // GET: api/job
@@ -150,9 +154,86 @@ namespace MaiAnVat.Controllers
                 return BadRequest(ModelState);
             }
             registrationJob.CreatedByUserFk = UserK;
-            registrationJob.CreatedAtUtc = DateTime.Now;
             await registrationJobService.CreateAsync(registrationJob);
 
+            return Ok();
+
+        }
+
+        // POST: api/submitJob
+        [HttpPost("submitJob")]
+        public async Task<IActionResult> SubmitJob([FromBody] Job job)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var qListCategories = listCategoryService.GetListCategoryByCategoryName(Constants.JOB_REVIEW_STATUS);
+            var statusK = qListCategories.FirstOrDefault(x => x.Name == Constants.AWAITING_REVIEW)?.ListCategoryK;
+            var reviewJobHistory = new ReviewJobHistory()
+            {
+                ReviewStatusFk = (Guid)statusK,
+                JobFk = job.JobK,
+                IsDeleted = false,
+                CreatedByUserFk = UserK
+            };
+            job.ModifiedByUserFk = UserK;
+            job.IsSubmitted = true;
+            var rs = await jobService.SubmitAsync(job);
+            if (rs != null) {
+                await reviewJobHistoryService.CreateAsync(reviewJobHistory);
+            }
+            return Ok();
+
+        }
+
+        // POST: api/aprovedJob
+        [HttpPost("aprovedJob")]
+        public async Task<IActionResult> AprovedJob([FromBody] Job job)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var qListCategories = listCategoryService.GetListCategoryByCategoryName(Constants.JOB_REVIEW_STATUS);
+            var statusK = qListCategories.FirstOrDefault(x => x.Name == Constants.APPROVED)?.ListCategoryK;
+            var workFlowStatusK = workFlowStatusService.Find().FirstOrDefault(x => x.Name == Constants.STATUS_COMPLETED)?.WorkFlowStatusK;
+            var reviewJobHistory = new ReviewJobHistory()
+            {
+                ReviewStatusFk = (Guid)statusK,
+                JobFk = job.JobK,
+                IsDeleted = false,
+                CreatedByUserFk = UserK
+            };
+            await reviewJobHistoryService.CreateAsync(reviewJobHistory);
+            job.ModifiedByUserFk = UserK;
+            job.WorkflowStatusFk = workFlowStatusK;
+            await jobService.UpdateAsync(job.JobK, job);
+            return Ok();
+
+        }
+
+        // POST: api/aprovedJob
+        [HttpPost("devlinedJob")]
+        public async Task<IActionResult> DiclinedJob([FromBody] Job job)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var qListCategories = listCategoryService.GetListCategoryByCategoryName(Constants.JOB_REVIEW_STATUS);
+            var statusK = qListCategories.FirstOrDefault(x => x.Name == Constants.DECLINED)?.ListCategoryK;
+            var reviewJobHistory = new ReviewJobHistory()
+            {
+                ReviewStatusFk = (Guid)statusK,
+                JobFk = job.JobK,
+                IsDeleted = false,
+                CreatedByUserFk = UserK
+            };
+            await reviewJobHistoryService.CreateAsync(reviewJobHistory);
+            job.ModifiedByUserFk = UserK;
+            job.IsSubmitted = false;
+            await jobService.UpdateAsync(job.JobK, job);
             return Ok();
 
         }

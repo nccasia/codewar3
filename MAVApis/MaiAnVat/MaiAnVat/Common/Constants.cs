@@ -13,5 +13,10 @@ namespace MaiAnVat.Common
         public const string ACTION_TYPE = "ActionType";
 
         public const string DEFAULTWORKFLOW = "Awaiting";
+        public const string JOB_REVIEW_STATUS = "JobReviewStatus";
+        public const string AWAITING_REVIEW = "Awaiting Review";
+        public const string APPROVED = "Approved";
+        public const string DECLINED = "Declined";
+        public const string STATUS_COMPLETED = "Completed";
     }
 }

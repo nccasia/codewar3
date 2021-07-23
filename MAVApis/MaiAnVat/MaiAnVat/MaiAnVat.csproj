@@ -6,9 +6,17 @@
 
   <ItemGroup>
     <Compile Remove="Models\**" />
+    <Compile Remove="ServiceFramework\**" />
+    <Compile Remove="Services\**" />
     <Content Remove="Models\**" />
+    <Content Remove="ServiceFramework\**" />
+    <Content Remove="Services\**" />
     <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="ServiceFramework\**" />
+    <EmbeddedResource Remove="Services\**" />
     <None Remove="Models\**" />
+    <None Remove="ServiceFramework\**" />
+    <None Remove="Services\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,6 +67,29 @@
     <Compile Include="Models\UserLoginHistory.cs" />
     <Compile Include="Models\UserNotification.cs" />
     <Compile Include="Models\WorkFlowStatus.cs" />
+    <Compile Include="ServiceFramework\Category\ICategoryService.cs" />
+    <Compile Include="ServiceFramework\EntityFrameWork\EntityFrameWorkService.cs" />
+    <Compile Include="ServiceFramework\Framework\IService.cs" />
+    <Compile Include="ServiceFramework\Framework\ServiceBase.cs" />
+    <Compile Include="ServiceFramework\Job\IJobService.cs" />
+    <Compile Include="ServiceFramework\Job\IJobTypeService.cs" />
+    <Compile Include="ServiceFramework\Job\IRegistrationJobService.cs" />
+    <Compile Include="ServiceFramework\ListCategory\IListCategoryService.cs" />
+    <Compile Include="ServiceFramework\ReviewJobHistory\IReviewJobHistoryService.cs" />
+    <Compile Include="ServiceFramework\User\IGroupService.cs" />
+    <Compile Include="ServiceFramework\User\IPermissionService.cs" />
+    <Compile Include="ServiceFramework\User\IUserService.cs" />
+    <Compile Include="ServiceFramework\WorkFlowStatus\IWorkFlowStatusService.cs" />
+    <Compile Include="Services\Category\CategoryService.cs" />
+    <Compile Include="Services\Job\JobService.cs" />
+    <Compile Include="Services\Job\JobTypeService.cs" />
+    <Compile Include="Services\Job\RegistrationJobService.cs" />
+    <Compile Include="Services\ListCategory\ListCategoryService.cs" />
+    <Compile Include="Services\ReviewHistory\ReviewJobHistoryService.cs" />
+    <Compile Include="Services\User\GroupService.cs" />
+    <Compile Include="Services\User\PermissionService.cs" />
+    <Compile Include="Services\User\UserService.cs" />
+    <Compile Include="Services\WorkFlowStatus\WorkFlowStatusService.cs" />
   </ItemGroup>
 
   <ItemGroup>
