@@ -103,7 +103,6 @@ const router = new Router({
       name: 'AcceptJobFinish',
       component: function (resolve) {
         require(['@/components/Job/AcceptJobFinish.vue'], resolve)
-          }
       },
       beforeEnter: guardRoute
     }
