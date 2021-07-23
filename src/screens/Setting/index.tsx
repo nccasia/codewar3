@@ -168,6 +168,7 @@ const styles = StyleSheet.create({
     padding: 25
   },
   listWrap: {
+    // flex: 1,
       flexDirection: 'row',
       justifyContent: 'space-between'
   }
