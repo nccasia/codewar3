@@ -2,7 +2,7 @@
   "name": "insight-client",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "KhanhTQ",
+  "author": "PhiLK",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
