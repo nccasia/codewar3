@@ -14,7 +14,7 @@ export const Modal = ({ gift }) => {
           <div class="col-12 mt-5 d-flex justify-content-center">
             <div class="box">
               <div class="box-body">
-                <div class="img">fuckyou</div>
+                <div class="img">{gift}</div>
                 <div class="box-lid">
 
                   <div class="box-bowtie"></div>
