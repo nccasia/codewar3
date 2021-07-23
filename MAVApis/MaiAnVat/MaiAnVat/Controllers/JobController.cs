@@ -51,7 +51,6 @@ namespace MaiAnVat.Controllers
         }
         // GET: api/job/myJob
         [HttpGet("myJob")]
-        [HttpGet]
         public async Task<IActionResult> GetMyJob([FromQuery] Pagination pagination, [FromQuery] string searchTerm = null)
         {
 

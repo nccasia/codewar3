@@ -51,7 +51,7 @@ namespace MaiAnVat.Controllers
                 return 0;
             }
         }
-         protected List<string> Roles
+        protected List<string> Roles
         {
             get
             {
@@ -96,16 +96,5 @@ namespace MaiAnVat.Controllers
             };
         }
 
-        //protected Users GetUser()
-        //{
-        //    Users user = null;
-        //    using (dbQuanLyVacxinEntities db = new dbQuanLyVacxinEntities())
-        //    {
-        //        if (this.User != null)
-        //            user = db.Users
-        //                .FirstOrDefault(x => x.UserName.Equals(this.User.Identity.Name));
-        //    }
-        //    return user;
-        //}
     }
 }

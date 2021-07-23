@@ -55,7 +55,6 @@ namespace MaiAnVat.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=DESKTOP-3CBIQ5M\\SQLEXPRESS;Database=MaiAnVat;Trusted_Connection=True;");
             }
         }
@@ -267,8 +266,6 @@ namespace MaiAnVat.Models
 
                 entity.Property(e => e.Identity).ValueGeneratedOnAdd();
 
-                entity.Property(e => e.JobStatusFk).HasColumnName("JobStatusFK");
-
                 entity.Property(e => e.JobTypeFk).HasColumnName("JobTypeFK");
 
                 entity.Property(e => e.ModifiedAtUtc).HasColumnType("datetime");
@@ -282,12 +279,6 @@ namespace MaiAnVat.Models
                 entity.Property(e => e.Title).HasMaxLength(64);
 
                 entity.Property(e => e.WorkflowStatusFk).HasColumnName("WorkflowStatusFK");
-
-                entity.HasOne(d => d.JobStatusFkNavigation)
-                    .WithMany(p => p.Job)
-                    .HasForeignKey(d => d.JobStatusFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("jobs.Job_JobStatusFK_dbo.ListCategory_ListCategoryK");
 
                 entity.HasOne(d => d.JobTypeFkNavigation)
                     .WithMany(p => p.Job)

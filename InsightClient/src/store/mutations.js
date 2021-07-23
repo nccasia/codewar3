@@ -14,11 +14,6 @@ export default {
 
   UPDATE_USER (state, user) {
     state.user = user
-    if (state.user.User.LoaiTaiKhoanId === 1) {
-      state.user.HoGiaDinh = true
-    } else {
-      state.user.QuanTriVien = true
-    }
   },
   UPDATE_USER_PHOTO (state, photo) {
     state.user.photo = photo
@@ -56,8 +51,5 @@ export default {
     state.user.isAdmin = false
     state.user.isManager = false
     state.user.isUser = false
-    state.user.QuanTriVien = false
-    state.user.HoGiaDinh = false
-    state.user.Phong = false
   }
 }

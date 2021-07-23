@@ -19,7 +19,8 @@ const router = new Router({
       name: 'dashboard',
       component: function (resolve) {
         require(['@/components/Dashboard/Dashboard.vue'], resolve)
-      }
+      },
+      beforeEnter: guardRoute
     },
     {
       path: '/error-page',
@@ -47,7 +48,8 @@ const router = new Router({
       name: 'verifyEmail',
       component: function (resolve) {
         require(['@/components/register/verifyEmail.vue'], resolve)
-      }
+      },
+      beforeEnter: guardRoute
     },
     // user
     {
@@ -55,28 +57,32 @@ const router = new Router({
       name: 'Job',
       component: function (resolve) {
         require(['@/components/Job/Job.vue'], resolve)
-      }
+      },
+      beforeEnter: guardRoute
     },
     {
       path: '/cong-viec-cua-toi',
       name: 'MyJob',
       component: function (resolve) {
         require(['@/components/Job/MyJob.vue'], resolve)
-      }
+      },
+      beforeEnter: guardRoute
     },
     {
       path: '/ds-cong-viec',
       name: 'SearchJob',
       component: function (resolve) {
         require(['@/components/Job/SearchJob.vue'], resolve)
-      }
+      },
+      beforeEnter: guardRoute
     },
     {
       path: '/chi-tiet-cong-viec/:JobK',
       name: 'JobDetail',
       component: function (resolve) {
         require(['@/components/Job/JobDetail.vue'], resolve)
-      }
+      },
+      beforeEnter: guardRoute
     },
     {
       path: '/loai-cong-viec',
@@ -97,8 +103,10 @@ const router = new Router({
       name: 'AcceptJobFinish',
       component: function (resolve) {
         require(['@/components/Job/AcceptJobFinish.vue'], resolve)
-      }
-    },
+          }
+      },
+      beforeEnter: guardRoute
+    }
   ]
 })
 
@@ -113,20 +121,24 @@ function guardRoute (to, from, next) {
       }
     })
   } else {
-    next()
-    // HTTP.get('auth/validatetoken')
-    // .then(response => {
-    //   next()
-    // })
-    // .catch(e => {
-    //   Auth.logout()
-    //   next({
-    //     path: '/login',
-    //     query: {
-    //       redirect: to.fullPath
-    //     }
-    //   })
-    // })
+    const headers = { "Authorization": "Bearer " + auth.accessToken };
+    HTTP.get('auth/validate-token', { headers })
+    .then(response => {
+      next()
+    })
+    .catch(e => {
+      this.$notify({
+        text: 'Phiên đăng nhập đã hết hạn',
+        color: 'error'
+      })
+      Auth.logout()
+      next({
+        path: '/login',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    })
   }
 }
 

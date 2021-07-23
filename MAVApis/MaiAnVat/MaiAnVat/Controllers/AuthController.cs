@@ -1,6 +1,9 @@
 ﻿using MaiAnVat.Common;
 using MaiAnVat.Models;
+using MaiAnVat.Models.CustomModels;
 using MaiVanVat.Security;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -83,13 +86,29 @@ namespace MaiAnVat.Controllers
                 return Ok("Login failed!");
             }
         }
-        //[AuthorizeUser]
-        //[HttpGet]
-        //[Route("validate-token")]
-        //public IActionResult ValidateToken()
-        //{
-        //    TokenIdentity tokenIdentity = ClaimsPrincipal.Current.Identity as TokenIdentity;
-        //    return Ok();
-        //}
+        [Authorize]
+        [HttpGet("validate-token")]
+        public IActionResult ValidateToken()
+        {
+            var access_token = HttpContext.GetTokenAsync("access_token");
+            using (MaiAnVatContext db = new MaiAnVatContext())
+            {
+                var userName = db.User.FirstOrDefault(x => x.Id.Equals(UserK))?.UserName;
+                var accessToKen = db.AccessTokens.FirstOrDefault(x => x.Token.Equals(access_token.Result) && x.UserName.Equals(userName));
+                if (accessToKen != null)
+                {
+                    var expriedTime =  accessToKen.EffectiveTime.AddSeconds(accessToKen.ExpiresIn);
+                    if (expriedTime < DateTime.Now)
+                    {
+                        return BadRequest("Access token is expried");
+                    }
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Access token is expried");
+                }
+            }
+        }
     }
 }

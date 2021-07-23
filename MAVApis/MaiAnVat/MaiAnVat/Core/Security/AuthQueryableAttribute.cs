@@ -1,8 +1,10 @@
-﻿//using System.Linq;
+﻿
+//using MaiVanVat.Security;
 //using Microsoft.AspNetCore.Authorization;
 //using Microsoft.AspNetCore.Http;
+//using System.Linq;
 
-//namespace MaiVanVat.Security
+//namespace MaiVanVat.Security1
 //{
 //    public class AuthorizeUserAttribute : AuthorizeAttribute
 //    {
@@ -14,7 +16,7 @@
 //            AccessLevel = "";
 //        }
 
-//        public override void OnAuthorization(HttpActionContext context)
+//        public override void OnAuthorization(System.Web.Http.Controllers.HttpActionContext context)
 //        {
 //            try
 //            {

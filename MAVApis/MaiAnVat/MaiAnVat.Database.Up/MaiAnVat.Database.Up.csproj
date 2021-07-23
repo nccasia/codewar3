@@ -90,5 +90,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\Script00001.Ref.ID.User.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\Script00003.UserPermission.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
