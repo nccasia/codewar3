@@ -11,6 +11,9 @@ export const trackLists: CommandInt = {
     modCommand: false,
     command: async (message, room, BOT) => {
         // TODO: Cần call đến api để biết bài nào đang được phát
+        BOT.listOrders = BOT.listOrders.sort(function(a, b) {
+            return b.totalReact - a.totalReact;
+        });
         const list = BOT.listOrders.map(
             (track) => `${track.isPlaying?":cd:":"__"} \`${track.userName}\`: ${track.title} , Vote: \`${track.totalReact}\``
         );
