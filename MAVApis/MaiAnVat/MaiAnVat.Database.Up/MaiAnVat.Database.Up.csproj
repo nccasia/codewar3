@@ -94,5 +94,8 @@
     <EmbeddedResource Include="Scripts\Script00006.WorkFlowStatus.sql" />
     <EmbeddedResource Include="Scripts\Script00005.ReviewJobHistory.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\Script00003.UserPermission.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
