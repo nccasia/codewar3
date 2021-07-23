@@ -1,9 +1,12 @@
 <?php
 
-use App\Models\Employees;
+namespace Database\Seeders;
+
+
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
-class EmployeesSeeder extends Seeder
+class OpentalkSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,32 +15,32 @@ class EmployeesSeeder extends Seeder
      */
     public function run()
     {
-        // $datas = [
-        //     [
-        //         'fullName' => 'Nhan',
-        //         'image' => 'koco',
-        //         'funnyImage' => 'koco',
-        //         'phone' => 'koco'
-        //     ],
-        //     [
-        //         'fullName' => 'Oanh',
-        //         'image' => 'koco',
-        //         'funnyImage' => 'koco',
-        //         'phone' => 'koco'
-        //     ],
-        //     [
-        //         'fullName' => 'Manh',
-        //         'image' => 'koco',
-        //         'funnyImage' => 'koco',
-        //         'phone' => 'koco'
-        //     ]
-        // ];
+        $datas = [
+            [
+                'id'=>1,
+                'fullName' => 'Nhan',
+                'image' => 'koco',
+                'funnyImage' => 'koco',
+                'phone' => 'koco'
+            ],
+            [
+                'id'=>2,
+                'fullName' => 'Oanh',
+                'image' => 'koco',
+                'funnyImage' => 'koco',
+                'phone' => 'koco'
+            ],
+            [
+                'id'=>3,
+                'fullName' => 'Manh',
+                'image' => 'koco',
+                'funnyImage' => 'koco',
+                'phone' => 'koco'
+            ]
+        ];
 
-        // try {
-        //     foreach ($datas as $data) {
-        //         Employees::create($data);
-        //     }
-        // } catch (\Throwable $th) {
-        // }
+        foreach ($datas as $data) {
+            DB::table('employees')->insert($data);
+        }
     }
 }

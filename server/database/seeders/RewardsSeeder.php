@@ -1,7 +1,8 @@
 <?php
 
-use App\Models\Rewards;
+namespace Database\Seeders;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class RewardsSeeder extends Seeder
 {
@@ -12,23 +13,26 @@ class RewardsSeeder extends Seeder
      */
     public function run()
     {
-        // $datas = [
-        //     [
-        //         'name' => 'Tà tữa'
-        //     ],
-        //     [
-        //         'name' => 'Gà'
-        //     ],
-        //     [
-        //         'name' => 'Vịt'
-        //     ]
-        // ];
+        $datas = [
+            [   'id' => 1,
+                'name' => 'Tà tữa',
+                'image' => ''
+            ],
+            [
+                'id' => 2,
+                'name' => 'Gà',
+                'image' => ''
+            ],
+            [
+                'id' => 3,
+                'name' => 'Vịt',
+                'image' => ''
+            ]
+        ];
 
-        // try {
-        //     foreach ($datas as $data) {
-        //         Rewards::create($data);
-        //     }
-        // } catch (\Throwable $th) {
-        // }
+        foreach ($datas as $data) {
+            DB::table('rewards')->insert($data);
+        }
+
     }
 }
