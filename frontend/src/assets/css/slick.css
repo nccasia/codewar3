@@ -1,11 +1,15 @@
-.slick-center div div img{
+.slick-center div img{
   /* color: #e67e22;
   opacity: 1; */
   transform: scale(1.5);
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s;
   /* border: 1px solid white; */
 }
 
-.slick-slide div div img{
-  transition: all 0.5s;
+.slick-slide div img{
+  transition: all 0.5s ease;
+}
+
+.slick-slider{
+  width: 50%;
 }
