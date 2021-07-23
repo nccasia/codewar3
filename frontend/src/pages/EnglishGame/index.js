@@ -5,6 +5,7 @@ import '../../assets/css/slick.css'
 import { Header } from '../../components/header';
 import '../style.css'
 import { ModalEnglishGame } from './modal'
+import {useEffect} from "react";
 
 let listGame = [
     {
@@ -64,7 +65,14 @@ export const EnglishGame = () => {
         }, 1100);
     }
 
-
+useEffect(() => {
+        let fetchUrl = 'http://127.0.0.1:8000/api/employees'
+         fetch(fetchUrl)
+        .then(result => result.json())
+        .then(curentData => setCurrent(
+            (curentData.data)
+        ))
+    }, []);
     return (
         <Div>
             <Header />
