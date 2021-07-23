@@ -16,7 +16,7 @@ export const Header = () => {
             <Linkk to='/opentalk'>opentalk</Linkk>
           </Li>
           <Li>
-            <Linkk to='/eng'>english game</Linkk>
+            <Linkk to='/english-reward-home'>english game</Linkk>
           </Li>
           <Li>
             <Linkk to="/lib">library</Linkk>

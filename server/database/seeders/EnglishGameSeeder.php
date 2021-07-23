@@ -1,6 +1,7 @@
 <?php
 
-use App\Models\Employees;
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
 class EnglishGameSeeder extends Seeder
@@ -12,5 +13,6 @@ class EnglishGameSeeder extends Seeder
      */
     public function run()
     {
+        //
     }
 }
