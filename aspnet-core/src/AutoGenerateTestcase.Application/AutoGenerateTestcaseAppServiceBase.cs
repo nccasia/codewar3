@@ -6,6 +6,8 @@ using Abp.IdentityFramework;
 using Abp.Runtime.Session;
 using AutoGenerateTestcase.Authorization.Users;
 using AutoGenerateTestcase.MultiTenancy;
+using NccCore.IoC;
+using Abp.Dependency;
 
 namespace AutoGenerateTestcase
 {
@@ -18,9 +20,12 @@ namespace AutoGenerateTestcase
 
         public UserManager UserManager { get; set; }
 
+        protected IWorkScope WorkScope { get; set; }
+
         protected AutoGenerateTestcaseAppServiceBase()
         {
             LocalizationSourceName = AutoGenerateTestcaseConsts.LocalizationSourceName;
+            WorkScope = IocManager.Instance.Resolve<IWorkScope>();
         }
 
         protected virtual async Task<User> GetCurrentUserAsync()

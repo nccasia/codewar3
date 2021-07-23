@@ -11,6 +11,9 @@
     <RootNamespace>AutoGenerateTestcase</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.95.4" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\AutoGenerateTestcase.Core\AutoGenerateTestcase.Core.csproj" />
   </ItemGroup>
 </Project>

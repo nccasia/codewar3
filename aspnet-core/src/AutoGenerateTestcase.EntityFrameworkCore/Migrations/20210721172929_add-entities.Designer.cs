@@ -4,14 +4,16 @@ using AutoGenerateTestcase.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AutoGenerateTestcase.Migrations
 {
     [DbContext(typeof(AutoGenerateTestcaseDbContext))]
-    partial class AutoGenerateTestcaseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210721172929_add-entities")]
+    partial class addentities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1590,7 +1592,7 @@ namespace AutoGenerateTestcase.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("DependPageFieldId")
+                    b.Property<long>("DependPageFieldId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Description")
@@ -1663,7 +1665,12 @@ namespace AutoGenerateTestcase.Migrations
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Requests");
                 });
@@ -1987,11 +1994,22 @@ namespace AutoGenerateTestcase.Migrations
                 {
                     b.HasOne("AutoGenerateTestcase.Entities.PageField", "DependPageField")
                         .WithMany()
-                        .HasForeignKey("DependPageFieldId");
+                        .HasForeignKey("DependPageFieldId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("AutoGenerateTestcase.Entities.PageField", "PageField")
                         .WithMany()
                         .HasForeignKey("PageFieldId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AutoGenerateTestcase.Entities.Request", b =>
+                {
+                    b.HasOne("AutoGenerateTestcase.Authorization.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
