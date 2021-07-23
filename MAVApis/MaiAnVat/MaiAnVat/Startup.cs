@@ -80,6 +80,7 @@ namespace MaiAnVat
             services.Add(new ServiceDescriptor(typeof(IJobTypeService), typeof(JobTypeService), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(ICategoryService), typeof(CategoryService), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IRegistrationJobService), typeof(RegistrationJobService), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IUserService), typeof(UserService), ServiceLifetime.Transient));
         }
     }
 }

@@ -5,9 +5,58 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Core\BaseApiController.cs" />
-    <Compile Remove="Core\Utilities\ImageHelper.cs" />
-    <Compile Remove="Core\Utilities\UtilityFunctions.cs" />
+    <Compile Remove="Models\**" />
+    <Content Remove="Models\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Models\AccessTokens.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CategoryClassification.cs" />
+    <Compile Include="Models\Claim.cs" />
+    <Compile Include="Models\CoreDb\MaiAnVat.SaveChanges.cs" />
+    <Compile Include="Models\CustomModels\JobCandicateDto.cs" />
+    <Compile Include="Models\CustomModels\JobDto.cs" />
+    <Compile Include="Models\CustomModels\JobTypeDto.cs" />
+    <Compile Include="Models\CustomModels\MyJobDto.cs" />
+    <Compile Include="Models\FileStorage.cs" />
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\GroupPermission.cs" />
+    <Compile Include="Models\Job.cs" />
+    <Compile Include="Models\JobAssignedUser.cs" />
+    <Compile Include="Models\JobAssignmentList.cs" />
+    <Compile Include="Models\JobAssignmentListStatus.cs" />
+    <Compile Include="Models\JobAttachment.cs" />
+    <Compile Include="Models\JobMessage.cs" />
+    <Compile Include="Models\JobType.cs" />
+    <Compile Include="Models\JobTypeWorkFlow.cs" />
+    <Compile Include="Models\JobWorkFlowMove.cs" />
+    <Compile Include="Models\JobWorkFlowStatus.cs" />
+    <Compile Include="Models\ListCategory.cs" />
+    <Compile Include="Models\MaiAnVatContext.cs" />
+    <Compile Include="Models\MavMenu.cs" />
+    <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\Partial\Job.Partial.cs" />
+    <Compile Include="Models\Partial\JobType.Partial.cs" />
+    <Compile Include="Models\Partial\ListCategory.Partial.cs" />
+    <Compile Include="Models\Partial\WorkFlowStatus.Partial.cs" />
+    <Compile Include="Models\Permission.cs" />
+    <Compile Include="Models\PermissionType.cs" />
+    <Compile Include="Models\RefreshToken.cs" />
+    <Compile Include="Models\RegistrationJob.cs" />
+    <Compile Include="Models\RejectedReason.cs" />
+    <Compile Include="Models\ReviewJobHistory.cs" />
+    <Compile Include="Models\Schedule.cs" />
+    <Compile Include="Models\ScheduleHistory.cs" />
+    <Compile Include="Models\SchemaVersions.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserGroup.cs" />
+    <Compile Include="Models\UserLogin.cs" />
+    <Compile Include="Models\UserLoginHistory.cs" />
+    <Compile Include="Models\UserNotification.cs" />
+    <Compile Include="Models\WorkFlowStatus.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,10 +65,6 @@
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Core\Utilities\" />
   </ItemGroup>
 
 

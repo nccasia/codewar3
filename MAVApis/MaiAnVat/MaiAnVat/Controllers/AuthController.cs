@@ -38,7 +38,6 @@ namespace MaiAnVat.Controllers
                 Groups = new List<int>();
             }
         }
-
         [HttpPost]
         public IActionResult Login([FromBody] LoginForm login)
         {
@@ -69,6 +68,7 @@ namespace MaiAnVat.Controllers
                             UserAgent = token.UserAgent,
                             UserName = token.Name
                         });
+                        user.LastLoginDateUtc = DateTime.Now;
                         db.SaveChanges();
                         return Ok(
                             new

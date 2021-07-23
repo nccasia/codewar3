@@ -31,6 +31,7 @@ namespace MaiAnVat.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime? RegistrationDeadline { get; set; }
+        public bool? IsSubmitted { get; set; }
 
         public JobType JobTypeFkNavigation { get; set; }
         public WorkFlowStatus WorkflowStatusFkNavigation { get; set; }

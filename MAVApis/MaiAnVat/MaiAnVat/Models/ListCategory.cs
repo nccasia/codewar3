@@ -8,6 +8,8 @@ namespace MaiAnVat.Models
         public ListCategory()
         {
             JobAttachment = new HashSet<JobAttachment>();
+            RejectedReason = new HashSet<RejectedReason>();
+            ReviewJobHistory = new HashSet<ReviewJobHistory>();
             Schedule = new HashSet<Schedule>();
         }
 
@@ -25,6 +27,8 @@ namespace MaiAnVat.Models
 
         public Category CategoryFkNavigation { get; set; }
         public ICollection<JobAttachment> JobAttachment { get; set; }
+        public ICollection<RejectedReason> RejectedReason { get; set; }
+        public ICollection<ReviewJobHistory> ReviewJobHistory { get; set; }
         public ICollection<Schedule> Schedule { get; set; }
     }
 }

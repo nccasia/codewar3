@@ -1,6 +1,6 @@
 <template>
   <!-- main header color="blue darken-2"-->
-      <v-toolbar style="background: #cd5c5c;"  dark app :clipped-left="$vuetify.breakpoint.lgAndUp" fixed >
+      <v-toolbar style="background: #cd5c5c;" dark app :clipped-left="$vuetify.breakpoint.lgAndUp" fixed >
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
         <v-toolbar-side-icon @click.stop="toogleLeftSidebar"></v-toolbar-side-icon>
         <a @click="goToMVCNet()" class="px-2">
@@ -8,7 +8,7 @@
             <img style="min-width:62px;max-width:62px" src="/static/images/logo_1.png"/>
           </v-avatar>
         </a>
-        <span class="hidden-sm-and-down">Mai An Vat</span>
+        <span class="hidden-sm-and-down">Mai Ăn Vặt</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
  
@@ -21,6 +21,13 @@
         <v-icon x-large v-else>account_circle</v-icon>
       </v-btn>
         <v-list>
+          <v-list-tile>
+            <a href="">
+             <v-list-tile-title>
+                {{user.User.Username}}
+              </v-list-tile-title>
+            </a>
+          </v-list-tile>
           <v-list-tile @click="logout">
             <a href="/login">
               <v-list-tile-title>

@@ -1,6 +1,6 @@
 <template>
   <!-- main sidebar -->
-    <v-navigation-drawer  fixed  :clipped="$vuetify.breakpoint.lgAndUp" app :value="showLeftSideBar" @input="toggleSidebar" width="250">
+    <v-navigation-drawer fixed :clipped="$vuetify.breakpoint.lgAndUp" app :value="showLeftSideBar" @input="toggleSidebar" width="250">
       <v-list>
           <v-list-group
             v-for="item in menus"
@@ -54,16 +54,25 @@
               { title: 'Quản lý công việc', link: 'ql-cong-viec', show: this.user && this.user.User.UserId == 1 },
               { title: 'Danh sách công việc', link: 'ds-cong-viec', show: this.user && this.user.User.UserId == 2 },
               { title: 'Công việc của tôi', link: 'cong-viec-cua-toi', show: this.user && this.user.User.UserId == 2 },
-              { title: 'Phê duyệt công việc', link: 'phe-duyet-cong-viec', show: this.user && this.user.User.UserId == 1 },
-              { title: 'Phê duyệt hoàn thành công việc', link: 'nghiem-thu-cong-viec', show: this.user && this.user.User.UserId == 1 }
+              { title: 'Phê duyệt đăng ký', link: 'phe-duyet-dang-ky', show: this.user && this.user.User.UserId == 1 },
+              { title: 'Phê duyệt công việc', link: 'nghiem-thu-cong-viec', show: this.user && this.user.User.UserId == 1 }
             ]
           },
           {
-            action: 'settings',
-            title: 'Thông tin chung',
+            action: 'view_list',
+            title: 'Danh mục',
             show: this.user && this.user.User.UserId == 1,
             items: [
               { title: 'Danh mục loại công việc', link: 'loai-cong-viec', show: this.user && this.user.User.UserId == 1 },
+            ]
+          },
+           {
+            action: 'manage_accounts',
+            title: 'Hệ thống',
+            show: this.user && this.user.User.UserId == 1,
+            items: [
+              { title: 'Quản lý người dùng', link: 'ql-nguoi-dung', show: this.user && this.user.User.UserId == 1 },
+              { title: 'Quản lý phân quyền', link: 'ql-phan-quyen', show: this.user && this.user.User.UserId == 1 },
             ]
           }
         ]

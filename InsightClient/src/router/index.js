@@ -48,8 +48,7 @@ const router = new Router({
       name: 'verifyEmail',
       component: function (resolve) {
         require(['@/components/register/verifyEmail.vue'], resolve)
-      },
-      beforeEnter: guardRoute
+      }
     },
     // user
     {
@@ -89,14 +88,32 @@ const router = new Router({
       name: 'JobType',
       component: function (resolve) {
         require(['@/components/JobType/JobType.vue'], resolve)
-      }
+      },
+      beforeEnter: guardRoute
     },
     {
-      path: '/phe-duyet-cong-viec',
+      path: '/ql-nguoi-dung',
+      name: 'User',
+      component: function (resolve) {
+        require(['@/components/User/User.vue'], resolve)
+      },
+      beforeEnter: guardRoute
+    },
+    {
+      path: '/ql-phan-quyen',
+      name: 'UserAuthorization',
+      component: function (resolve) {
+        require(['@/components/UserAuthorization/UserAuthorization.vue'], resolve)
+      },
+      beforeEnter: guardRoute
+    },
+    {
+      path: '/phe-duyet-dang-ky',
       name: 'ApproveJob',
       component: function (resolve) {
         require(['@/components/Job/ApproveJob.vue'], resolve)
-      }
+      },
+      beforeEnter: guardRoute
     },
     {
       path: '/nghiem-thu-cong-viec',

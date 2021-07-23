@@ -1,4 +1,5 @@
 ﻿using MaiAnVat.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +36,6 @@ namespace MaiAnVat.Controllers
         public Pagination Pagination { get; set; }
         public List<T> Data { get; set; }
     }
-
     public class BaseApiController : ControllerBase
     {
         protected int UserK

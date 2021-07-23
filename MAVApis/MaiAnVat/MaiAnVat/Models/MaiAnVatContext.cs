@@ -1,8 +1,6 @@
 ﻿using System;
-using MaiAnVat.Common;
-using MaiAnVat.Common.Auditing;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MaiAnVat.Models
 {
@@ -41,6 +39,8 @@ namespace MaiAnVat.Models
         public virtual DbSet<PermissionType> PermissionType { get; set; }
         public virtual DbSet<RefreshToken> RefreshToken { get; set; }
         public virtual DbSet<RegistrationJob> RegistrationJob { get; set; }
+        public virtual DbSet<RejectedReason> RejectedReason { get; set; }
+        public virtual DbSet<ReviewJobHistory> ReviewJobHistory { get; set; }
         public virtual DbSet<Schedule> Schedule { get; set; }
         public virtual DbSet<ScheduleHistory> ScheduleHistory { get; set; }
         public virtual DbSet<SchemaVersions> SchemaVersions { get; set; }
@@ -55,6 +55,7 @@ namespace MaiAnVat.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=DESKTOP-3CBIQ5M\\SQLEXPRESS;Database=MaiAnVat;Trusted_Connection=True;");
             }
         }
@@ -289,7 +290,6 @@ namespace MaiAnVat.Models
                 entity.HasOne(d => d.WorkflowStatusFkNavigation)
                     .WithMany(p => p.Job)
                     .HasForeignKey(d => d.WorkflowStatusFk)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("jobs.Job_WorkflowStatusFK_dbo.WorkFlowStatus_WorkFlowStatusK");
             });
 
@@ -825,6 +825,68 @@ namespace MaiAnVat.Models
                     .HasConstraintName("registrationjobs.RegistrationJob_JobFK_dbo.Job_JobK");
             });
 
+            modelBuilder.Entity<RejectedReason>(entity =>
+            {
+                entity.HasKey(e => e.RejectedReasonK)
+                    .ForSqlServerIsClustered(false);
+
+                entity.Property(e => e.RejectedReasonK).HasDefaultValueSql("(newsequentialid())");
+
+                entity.Property(e => e.CreatedAtUtc).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedByUserFk).HasColumnName("CreatedByUserFK");
+
+                entity.Property(e => e.Identity).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.ModifiedAtUtc).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedByUserFk).HasColumnName("ModifiedByUserFK");
+
+                entity.Property(e => e.ReasonFk).HasColumnName("ReasonFK");
+
+                entity.Property(e => e.ReviewJobHistoryFk).HasColumnName("ReviewJobHistoryFK");
+
+                entity.HasOne(d => d.ReasonFkNavigation)
+                    .WithMany(p => p.RejectedReason)
+                    .HasForeignKey(d => d.ReasonFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("jobs.RejectedReason_ReasonFK.ListCategory_ListCategoryK");
+
+                entity.HasOne(d => d.ReviewJobHistoryFkNavigation)
+                    .WithMany(p => p.RejectedReason)
+                    .HasForeignKey(d => d.ReviewJobHistoryFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("jobs.RejectedReason_ReviewJobHistoryFK.ReviewJobHistory_ReviewJobHistoryK");
+            });
+
+            modelBuilder.Entity<ReviewJobHistory>(entity =>
+            {
+                entity.HasKey(e => e.ReviewJobHistoryK)
+                    .ForSqlServerIsClustered(false);
+
+                entity.Property(e => e.ReviewJobHistoryK).HasDefaultValueSql("(newsequentialid())");
+
+                entity.Property(e => e.CreatedAtUtc).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedByUserFk).HasColumnName("CreatedByUserFK");
+
+                entity.Property(e => e.Identity).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.ModifiedAtUtc).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedByUserFk).HasColumnName("ModifiedByUserFK");
+
+                entity.Property(e => e.ReviewStatusFk).HasColumnName("ReviewStatusFK");
+
+                entity.Property(e => e.ReviewTimeStamp).HasColumnType("datetime");
+
+                entity.HasOne(d => d.ReviewStatusFkNavigation)
+                    .WithMany(p => p.ReviewJobHistory)
+                    .HasForeignKey(d => d.ReviewStatusFk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("jobs.ReviewJobHistory_ReviewStatusFK.ListCategory_ListCategoryK");
+            });
+
             modelBuilder.Entity<Schedule>(entity =>
             {
                 entity.HasKey(e => e.ScheduleK)
@@ -1086,9 +1148,7 @@ namespace MaiAnVat.Models
 
                 entity.Property(e => e.CreatedByUserFk).HasColumnName("CreatedByUserFK");
 
-                entity.Property(e => e.Description)
-                    .HasMaxLength(512)
-                    .IsUnicode(false);
+                entity.Property(e => e.Description).HasMaxLength(512);
 
                 entity.Property(e => e.Identity).ValueGeneratedOnAdd();
 
