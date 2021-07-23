@@ -21,16 +21,18 @@
             <v-container grid-list-md pa-0>
                <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field
-                    label="Loại công việc"
+                  <v-select
                     v-model="data.Name"
+                    :items="jobTypeNames"
+                    item-text="Description"
+                    item-value="Description"
+                    :loading="loadingName"
+                    required
                     data-vv-name="Loại công việc"
                     data-vv-scope="formEdit"
-                    v-validate="{required: true}"
                     :error-messages="errors.collect('Loại công việc')"
-                    required
-                  >
-                  </v-text-field>
+                    label="Loại công việc">
+                  </v-select>
                 </v-flex>
               </v-layout>
 
@@ -105,10 +107,12 @@ export default {
     return {
       saving: false,
       dialog: false,
+      jobTypeNames: [],
       data: {},
       isUpdate: false,
       loadingModal: false,
       loadingJobType: false,
+      loadingName: false,
       listCategoryJobTypes: []
     }
   },
@@ -117,6 +121,19 @@ export default {
   methods: {
     hide () {
       this.dialog = false
+    },
+    getJTNames(){
+      this.loadingName = true
+      ListCategoryApi.getAllJobTypes().then(res => {
+        this.jobTypeNames = res
+        this.loadingName = false
+      }).catch(res => {
+        this.loadingName = false
+        this.$notify({
+          text: 'Lấy dữ liệu thất bại',
+          color: 'error'
+        })
+      })
     },
     getData (JobTypeK) {
       this.loadingModal = true
@@ -145,6 +162,7 @@ export default {
     },
     show (JobTypeK, isUpdate) {
       Object.assign(this.$data, (this.$options).data.apply(this))
+      this.getJTNames()
       if (isUpdate) {
         this.getData(JobTypeK)
       } else {

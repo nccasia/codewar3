@@ -83,6 +83,7 @@ import Vue from 'vue'
     },
     data () {
       return {
+        jobTypeNames: [],
         jobTypes: [],
         tableHeader: [
           { text: 'Loại công việc', align: 'center', value: 'Name', sortable: false },
@@ -93,6 +94,7 @@ import Vue from 'vue'
         ],
         searchParamsJobType: { includeEntities: true, rowsPerPage: 10 },
         loadingTable: false,
+        
         selected: 0,
         dialogConfirmDelete: false
       }
@@ -114,6 +116,7 @@ import Vue from 'vue'
           })
         })
       },
+
       showModalInsertOrUpdateJobType (JobTypeK, isUpdate) {
         (this.$refs.modalInsertOrUpdateJobType).show(JobTypeK, isUpdate)
       },
