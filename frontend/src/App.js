@@ -20,7 +20,7 @@ function App() {
           <Route path="/lib">
             <Library />
           </Route>
-          <Route path="/lucky">
+          <Route path="/opentalk">
             <LuckyDraw />
           </Route>
         </Switch>

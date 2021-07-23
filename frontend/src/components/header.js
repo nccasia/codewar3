@@ -1,18 +1,19 @@
 import styled from 'styled-components';
 import React from 'react'
 import { Link } from 'react-router-dom';
+import logo from '../assets/images/logo.png'
 
 export const Header = () => {
 
   return (
     <WrapperHeader>
-      <WrapperLogo>
-
+      <WrapperLogo href='/'>
+        <Logo src={logo}></Logo>
       </WrapperLogo>
       <WrapperContent>
         <Ul>
           <Li>
-            <Linkk to='/'>opentalk</Linkk>
+            <Linkk to='/opentalk'>opentalk</Linkk>
           </Li>
           <Li>
             <Linkk to='/'>lucky draw</Linkk>
@@ -36,11 +37,17 @@ const WrapperHeader = styled.div`
   z-index: 999;
   flex-direction: row;
   justify-content: space-between;
+  z-index: 9999;
 `
 
-const WrapperLogo = styled.img`
-
+const WrapperLogo = styled.a`
+  cursor: pointer;
+  height: 100%;
 `;
+
+const Logo = styled.img`
+height: 100%;
+`
 
 const WrapperContent = styled.div`
 

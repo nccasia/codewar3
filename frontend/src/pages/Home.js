@@ -33,8 +33,8 @@ export const Home = () => {
     <Div>
       <Wrapper>
         <Box direction="row" container>
-          <Card to='/' label="Opentalk" />
-          <Card to='/lucky' label="Lucky draw" />
+          <Card to='/opentalk' label="Opentalk" />
+          <Card to='/' label="Lucky draw" />
           <Card to='/lib' label="English" />
         </Box>
         <NewFeed>
@@ -108,6 +108,7 @@ const Wrapper = styled.div`
 
 const Box = styled(Grid)`
       height: 30%;
+      margin-top: 50px;
       padding: 20px 200px;
       align-items: center;
       display: flex;

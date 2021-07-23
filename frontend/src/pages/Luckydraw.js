@@ -32,22 +32,27 @@ export const LuckyDraw = () => {
       <Header />
       <DivModal open={open}>
         <Close onClick={() => openModal(false)}>X</Close>
-        <Modal gift={gift} />
+        <Modal gift={gift} handleClose={() => openModal(false)} />
       </DivModal>
       <WrapperLucky>
-        <Title>LET'S PARTY!</Title>
         <Div>
-          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
-          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
-          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
-          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
-          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
-          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
-          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
-          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+          <div style={{ height: '90px', width: '100vw' }}></div>
+          <Title>LET'S PARTY!</Title>
+          <Child>
+            <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+            <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+            <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+            <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+          </Child>
+          <Child>
+            <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+            <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+            <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+            <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+          </Child>
+          <Title>Pick your favorite!</Title>
         </Div>
       </WrapperLucky>
-      <SubTitle>Pick your favorite!</SubTitle>
       <div className="area" >
         <ul className="circles">
           <li></li>
@@ -62,7 +67,7 @@ export const LuckyDraw = () => {
           <li></li>
         </ul>
       </div >
-    </Wrapper>
+    </Wrapper >
   )
 };
 
@@ -93,14 +98,20 @@ const WrapperLucky = styled.div`
 `
 const Div = styled.div`
   display: flex;
-    height: 100vh;
-    width: 40% !important;
+    height: 100%;
+    width: 100% !important;
     align-items: center;
     position: absolute;
+    flex-direction: column;
     justify-content: center;
-    flex-direction: row;
-    align-content: center;
-    flex-wrap: wrap;
+    bottom: 0;
+    z-index: 999;
+    /* top: 50px; */
+    /* overflow: hidden; */
+`
+
+const Child = styled.div`
+
 `
 const shake = keyframes`
   0% { transform: translate(1px, 1px) rotate(0deg) };
@@ -117,8 +128,8 @@ const shake = keyframes`
 `
 
 const LuckyBox = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 15%;
+  height: auto;
   margin: 10px;
   z-index: 999;
   cursor: pointer;
@@ -129,24 +140,15 @@ const LuckyBox = styled.img`
 `
 
 const Title = styled.div`
-  margin-top: 180px;
   font-size: 28px;
   font-weight: bold;
   color: white
 `;
 
-const SubTitle = styled.div`
-  margin-top: 600px;
-  font-size: 28px;
-  font-weight: bold;
-  color: white;
-  position: absolute;
-    width: 100%;
-`
-
 const DivModal = styled.div`
 height: 100vh;
 top: 0;
+cursor: pointer;
 width: 100vw;
   display: ${props => props.open ? 'flex' : 'none'};
   transition: display 0.5s;
