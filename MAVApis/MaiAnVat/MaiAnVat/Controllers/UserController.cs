@@ -1,5 +1,7 @@
 ﻿using MaiAnVat.Models;
+using MaiAnVat.Models.CustomModels;
 using MaiAnVat.ServiceFramework;
+using MaiVanVat.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -87,7 +89,7 @@ namespace MaiAnVat.Controllers
 
         // PUT: api/user/1
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] User user)
+        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] UserDto user)
         {
             if (!ModelState.IsValid)
             {
@@ -100,6 +102,11 @@ namespace MaiAnVat.Controllers
             }
             try
             {
+                if (!string.IsNullOrEmpty(user.Password))
+                {
+                    user.PasswordSalt = AuthenticationHelper.RamdomString(5);
+                    user.PasswordHash = AuthenticationHelper.GetMd5Hash(user.PasswordSalt + user.Password);
+                }
                 user.ModifiedByUserFk = UserK;
                 await userService.UpdateAsync(id, user);
                 return Ok("Update Success");
@@ -112,12 +119,22 @@ namespace MaiAnVat.Controllers
 
         // POST: api/user
         [HttpPost]
-        public async Task<IActionResult> PostJobType([FromBody] User user)
+        public async Task<IActionResult> Post([FromBody] UserDTO model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            var user = new User();
+            user.PasswordSalt = AuthenticationHelper.RamdomString(5);
+            user.PasswordHash = AuthenticationHelper.GetMd5Hash(user.PasswordSalt + model.Password);
+            user.CreatedByUserFk = UserK;
+            user.DateOfBirth = model.DateOfBirth;
+            user.Email = model.Email;
+            user.EmailConfirmed = true;
+            user.UserName = model.UserName;
+            user.Status = model.Status;
+            user.PhoneNumber = model.PhoneNumber;
             user.CreatedByUserFk = UserK;
             await userService.CreateAsync(user);
 

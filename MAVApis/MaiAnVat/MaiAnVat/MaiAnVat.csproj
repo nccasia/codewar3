@@ -21,6 +21,7 @@
     <Compile Include="Models\CustomModels\JobDto.cs" />
     <Compile Include="Models\CustomModels\JobTypeDto.cs" />
     <Compile Include="Models\CustomModels\MyJobDto.cs" />
+    <Compile Include="Models\CustomModels\UserDto.cs" />
     <Compile Include="Models\FileStorage.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\GroupPermission.cs" />
@@ -41,6 +42,7 @@
     <Compile Include="Models\Partial\Job.Partial.cs" />
     <Compile Include="Models\Partial\JobType.Partial.cs" />
     <Compile Include="Models\Partial\ListCategory.Partial.cs" />
+    <Compile Include="Models\Partial\User.Partial.cs" />
     <Compile Include="Models\Partial\WorkFlowStatus.Partial.cs" />
     <Compile Include="Models\Permission.cs" />
     <Compile Include="Models\PermissionType.cs" />

@@ -18,6 +18,11 @@ namespace MaiAnVat.Services
         }
         public User Create(User model)
         {
+            model.ChangePasswordFailedCount = 0;
+            model.LastName = model.UserName;
+            model.FirstName = model.UserName;
+            model.LockoutEnabled = false;
+            model.EmailConfirmed = true;
             db.User.Add(model);
             db.SaveChanges();
             return model;
@@ -30,6 +35,11 @@ namespace MaiAnVat.Services
 
         public async Task<User> CreateAsync(User model)
         {
+            model.ChangePasswordFailedCount = 0;
+            model.LastName = model.UserName;
+            model.FirstName = model.UserName;
+            model.LockoutEnabled = false;
+            model.EmailConfirmed = true;
             db.User.Add(model);
             await db.SaveChangesAsync();
             return model;
@@ -108,6 +118,9 @@ namespace MaiAnVat.Services
                 user.MobileNumber = entity.MobileNumber;
                 user.Status = entity.Status;
                 user.DateOfBirth = entity.DateOfBirth;
+                user.ModifiedByUserFk = entity.ModifiedByUserFk;
+                user.PasswordHash = entity.PasswordHash;
+                user.PasswordSalt = entity.PasswordSalt;
                 db.SaveChanges();
             }
         }
@@ -125,6 +138,9 @@ namespace MaiAnVat.Services
                 user.MobileNumber = entity.MobileNumber;
                 user.Status = entity.Status;
                 user.DateOfBirth = entity.DateOfBirth;
+                user.CreatedByUserFk = entity.CreatedByUserFk;
+                user.PasswordHash = entity.PasswordHash;
+                user.PasswordSalt = entity.PasswordSalt;
                 await db.SaveChangesAsync();
             }
         }

@@ -27,7 +27,7 @@
                                 class="table-border table">
                           <template slot="items" slot-scope="props" style="sox-height:100px;">
                             <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
-                              {{ props.item.FirstName + " " + props.item.LastName}}
+                              {{ props.item.UserName}}
                             </td>
                             <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
                               {{ props.item.Email }}
@@ -36,13 +36,16 @@
                               {{ props.item.PhoneNumber }}
                             </td>
                             <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
+                              {{ props.item.DateOfBirth | moment('DD/MM/YYYY, HH:mm') }}
+                            </td>
+                            <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
                               {{ props.item.LastLoginDateUtc | moment('DD/MM/YYYY, HH:mm') }}
                             </td>
                             <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
-                               <span xs12 v-if="props.item.Status === 1" style="color: #00a300">
+                               <span xs12 v-if="props.item.Status" style="color: #00a300">
                                  Kích hoạt
                                </span>
-                               <span xs12 v-if="props.item.Status !== 1" style="color: #ff1f1f">
+                               <span xs12 v-if="!props.item.Status" style="color: #ff1f1f">
                                  Chưa kích hoạt
                                </span>
                             </td>
@@ -95,6 +98,7 @@ import Vue from 'vue'
           { text: 'Tên người dùng', align: 'center', value: 'UserName', sortable: false },
           { text: 'Email', align: 'center', value: 'Email', sortable: false },
           { text: 'Số diện thoại', align: 'center', value: 'PhoneNumber', sortable: false },
+          { text: 'Ngày sinh', align: 'center', value: 'DateOfBirth', sortable: false },
           { text: 'Lần đăng nhập cuối cùng', align: 'center', value: 'LastLoginDateUtc', sortable: false },
           { text: 'Trạng thái', align: 'center', value: 'Status', sortable: false },
           { text: 'Thao tác', align: 'center', value: '', sortable: false }
@@ -169,6 +173,7 @@ import Vue from 'vue'
               (this.$refs.modalInsertOrUpdateUser).saving = false
             })
         } else {
+          console.log(item);
           UserApi.insert(item)
             .then(res => {
               this.getDataFromApi(this.searchParamsUser)

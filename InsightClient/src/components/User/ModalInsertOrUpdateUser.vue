@@ -22,57 +22,100 @@
                <v-layout wrap>
                 <v-flex xs12>
                   <v-text-field
-                    label="Loại công việc"
-                    v-model="data.Name"
-                    data-vv-name="Loại công việc"
+                    label="Tên người dùng"
+                    v-model="data.UserName"
+                    data-vv-name="Tên người dùng"
                     data-vv-scope="formEdit"
                     v-validate="{required: true}"
-                    :error-messages="errors.collect('Loại công việc')"
+                    :error-messages="errors.collect('Tên người dùng')"
                     required
                   >
                   </v-text-field>
                 </v-flex>
               </v-layout>
-
-               <v-layout wrap>
+              <v-layout wrap>
+                <v-flex xs12>
+                  <v-text-field
+                    label="Email"
+                    v-model="data.Email"
+                    data-vv-name="Email"
+                    data-vv-scope="formEdit"
+                    v-validate="{required: true}"
+                    :error-messages="errors.collect('Email')"
+                    required
+                  >
+                  </v-text-field>
+                </v-flex>
+              </v-layout>
+              <v-layout wrap>
+                <v-flex xs12>
+                  <v-text-field
+                  type="password"
+                  label="Mật khẩu"
+                  v-model="data.Password"
+                  data-vv-name="Mật khẩu"
+                  data-vv-scope="formEdit"
+                  >
+                  </v-text-field>
+                </v-flex>
+              </v-layout>
+              <v-layout wrap>
                 <v-flex xs12>
                   <v-text-field
                   type="number"
-                  label="Thời gian mặc định(giờ)"
-                  v-model="data.DefaultTimeInHours"
-                  data-vv-name="Thời gian mặc định"
+                  label="Số điện thoại"
+                  v-model="data.PhoneNumber"
+                  data-vv-name="Số điện thoại"
                   data-vv-scope="formEdit"
                   v-validate="{required: true}"
-                  :error-messages="errors.collect('Thời gian mặc định')"
+                  :error-messages="errors.collect('Số điện thoại')"
                   required
                   >
                   </v-text-field>
                 </v-flex>
               </v-layout>
-              <v-layout>
-                <v-flex xs12>
-                  <v-text-field
-                    readonly
-                    v-model="data.ColorCode"
-                    label="Mã màu"
-                    auto-grow
-                    rows="4"
-                    hide-details
+                <v-flex xs12 sm6>
+                  <v-menu
+                    ref="menu1"
+                    :close-on-content-click="false"
+                    v-model="menu1"
+                    :nudge-right="40"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
                   >
-                  </v-text-field>
-                  <input type="color" id="head" name="head"
-                    v-model="data.ColorCode"
-                    value="#fff">
+                    <v-text-field
+                      slot="activator"
+                      v-model="data.DateOfBirth"
+                      label="Ngày sinh"
+                      data-vv-name="Ngày sinh"
+                      append-icon="event"
+                      :error-messages="errors.collect('Ngày sinh')"
+                      readonly
+                    ></v-text-field>
+                    <v-date-picker
+                      ref="picker"
+                      locale="vi-VN"
+                      v-validate="{required: true}"
+                      v-model="data.DateOfBirth"
+                      data-vv-scope="formEdit"
+                      :max="new Date().toISOString().substr(0, 10)"
+                      min="1900-01-01"
+                    ></v-date-picker>
+                  </v-menu>
                 </v-flex>
               </v-layout>
-              <v-layout>
+               <v-layout>
                 <v-flex xs12>
-                  <v-text-field
-                    v-model="data.Description"
-                    label="Mô tả"
-                    hide-details
+                  <v-checkbox
+                    v-model="data.Status"
+                    label="Kích hoạt"
+                    auto-grow
+                    rows="4"
                   >
-                  </v-text-field>
+                  </v-checkbox>
                 </v-flex>
               </v-layout>
               <v-layout>
@@ -102,6 +145,7 @@ export default {
   name: 'ModalInsertOrUpdateUser',
   data () {
     return {
+      menu1: false,
       saving: false,
       dialog: false,
       data: {},
@@ -121,6 +165,7 @@ export default {
       UserApi.detail(id)
         .then(res => {
           this.data = res
+          console.log(this.data);
           this.loadingModal = false
         })
         .catch(res => {

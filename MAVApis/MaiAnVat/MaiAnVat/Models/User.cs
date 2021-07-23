@@ -36,7 +36,7 @@ namespace MaiAnVat.Models
         public bool IsDeleted { get; set; }
         public DateTime? LastLoginDateUtc { get; set; }
         public DateTime? PasswordExpirationDateUtc { get; set; }
-        public int? Status { get; set; }
+        public bool? Status { get; set; }
         public int ChangePasswordFailedCount { get; set; }
         public int? LoginOption { get; set; }
         public DateTime? DateOfBirth { get; set; }
