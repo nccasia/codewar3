@@ -1,31 +1,53 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components'
 import box from '../assets/images/box.svg'
+import { Header } from '../components/header';
 import { Modal } from '../components/modelOpen';
 import './style.css'
 
+const listGift = [
+  '1 ly trà sửa 35k',
+  '1 chuyến du lịch cầu Rồng 100k',
+  '1 ly nước mía 10k full topping',
+  'còn cái nịt',
+  '200k luôn nè',
+  '250k mời trà sửa cả công ty',
+  '80k hiuhiu'
+]
+
 export const LuckyDraw = () => {
   const [open, setOpen] = useState(false);
-  const openModal = () => {
-    setOpen(true);
+  const [gift, setGift] = useState('');
+
+  const RandomGift = () => {
+    const g = listGift[Math.floor(Math.random() * listGift.length)];
+    setGift(g);
+  }
+
+  const openModal = (stt) => {
+    setOpen(stt);
   }
   return (
     <Wrapper>
+      <Header />
       <DivModal open={open}>
-        <Modal />
+        <Close onClick={() => openModal(false)}>X</Close>
+        <Modal gift={gift} />
       </DivModal>
       <WrapperLucky>
+        <Title>LET'S PARTY!</Title>
         <Div>
-          <LuckyBox onClick={() => openModal()} src={box}></LuckyBox>
-          <LuckyBox src={box}></LuckyBox>
-          <LuckyBox src={box}></LuckyBox>
-          <LuckyBox src={box}></LuckyBox>
-          <LuckyBox src={box}></LuckyBox>
-          <LuckyBox src={box}></LuckyBox>
-          <LuckyBox src={box}></LuckyBox>
-          <LuckyBox src={box}></LuckyBox>
+          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
+          <LuckyBox onClick={() => { openModal(true); RandomGift() }} src={box}></LuckyBox>
         </Div>
       </WrapperLucky>
+      <SubTitle>Pick your favorite!</SubTitle>
       <div className="area" >
         <ul className="circles">
           <li></li>
@@ -48,6 +70,19 @@ const Wrapper = styled.div`
   height: 100vh;
 `
 
+const Close = styled.div`
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  font-size: 24px;
+  cursor: pointer;
+  background-color: whitesmoke;
+  color: blue;
+  top: 40px;
+    right: 60px;
+    position: absolute;
+`
+
 const WrapperLucky = styled.div`
       width: 50%;
     height: 0;
@@ -59,7 +94,7 @@ const WrapperLucky = styled.div`
 const Div = styled.div`
   display: flex;
     height: 100vh;
-    width: 30% !important;
+    width: 40% !important;
     align-items: center;
     position: absolute;
     justify-content: center;
@@ -82,8 +117,8 @@ const shake = keyframes`
 `
 
 const LuckyBox = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   margin: 10px;
   z-index: 999;
   cursor: pointer;
@@ -91,6 +126,22 @@ const LuckyBox = styled.img`
     animation: ${shake} 1s ease-out;
     animation-iteration-count: infinite;
   }
+`
+
+const Title = styled.div`
+  margin-top: 180px;
+  font-size: 28px;
+  font-weight: bold;
+  color: white
+`;
+
+const SubTitle = styled.div`
+  margin-top: 600px;
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  position: absolute;
+    width: 100%;
 `
 
 const DivModal = styled.div`

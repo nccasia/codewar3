@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import React from 'react'
 import './modal.css'
 
-export const Modal = () => {
-
+export const Modal = ({ gift }) => {
+  // alert(gift)
   return (
     <Wrapper>
       <div class="container">
@@ -14,7 +14,7 @@ export const Modal = () => {
           <div class="col-12 mt-5 d-flex justify-content-center">
             <div class="box">
               <div class="box-body">
-                <img class="img" src="https://via.placeholder.com/150"></img>
+                <div class="img">fuckyou</div>
                 <div class="box-lid">
 
                   <div class="box-bowtie"></div>
