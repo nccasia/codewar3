@@ -20,7 +20,9 @@ namespace MaiAnVat.Models
         public bool IsDeleted { get; set; }
         public int ReviewBy { get; set; }
         public DateTime? ReviewTimeStamp { get; set; }
+        public Guid JobFk { get; set; }
 
+        public Job JobFkNavigation { get; set; }
         public ListCategory ReviewStatusFkNavigation { get; set; }
         public ICollection<RejectedReason> RejectedReason { get; set; }
     }

@@ -98,6 +98,18 @@ namespace MaiAnVat.Services.JobAndJobType
             return await db.Job.FindAsync(id);
         }
 
+        public async Task<Job> SubmitAsync(Job entity)
+        {
+            var job = Read(entity.JobK);
+            if (job != null)
+            {
+                job.IsSubmitted = entity.IsSubmitted;
+                job.ModifiedByUserFk = entity.ModifiedByUserFk;
+                await db.SaveChangesAsync();
+            }
+            return job;
+        }
+
         public void Update(Guid id, Job entity)
         {
             var Job = Read(id);
