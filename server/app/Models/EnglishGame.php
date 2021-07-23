@@ -2,15 +2,20 @@
 
 namespace App\Models;
 
-class EnglishGame extends BaseModel
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class EnglishGame extends Model
 {
+    use HasFactory;
+
     protected $table = 'english_game';
     protected $fillable = ['userID', 'name', 'voted', 'status'];
-    public $primaryKey= 'id';
+    public $primaryKey = 'id';
     public $timestamps = true;
 
     public function employees()
     {
-        return $this->hasMany(Employees::class, 'userID');
+        return $this->belongsTo(Employees::class, 'userID');
     }
 }

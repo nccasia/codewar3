@@ -1,7 +1,7 @@
 <?php
 
-use Dingo\Api\Routing\Router;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +13,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-/*
- * Welcome route - link to any public API documentation here
- */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
-class OpenTalk extends BaseModel
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Opentalk extends Model
 {
+    use HasFactory;
+
     protected $table = 'opentalk';
-    protected $fillable = ['topicName', 'rewardId', 'userID'];
-    public $primaryKey= 'id';
+    protected $fillable = ['topicName', 'rewardID', 'userID'];
+    public $primaryKey = 'id';
     public $timestamps = true;
 
     public function employees()
@@ -16,6 +21,6 @@ class OpenTalk extends BaseModel
 
     public function rewards()
     {
-        return $this->belongsTo(Rewards::class, 'rewardId');
+        return $this->belongsTo(Rewards::class, 'rewardID');
     }
 }
