@@ -1,5 +1,4 @@
 import { HTTP } from '../http-services'
-
 class ListCategoryApi {
   getAllJobStatuses () {
     return new Promise((resolve, reject) => {
