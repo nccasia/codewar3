@@ -14,31 +14,9 @@ const InputForm = ({ setFiles, state, setState }) => {
 
   const onFileChange = async event => {
     if (refFile.current?.files?.length) {
-      console.log('refFile.current?.files', refFile.current?.files);
+      console.log('refFile.current?.files', refFile.current);
       setFiles(Array.from(refFile.current.files));
-      // const arrFiles = await Promise.all(
-      //   Array.from(refFile.current.files).map(async e => {
-      //     const id = uuidv4();
-      //     return {
-      //       fileId: id,
-      //       file: e,
-      //       name: e.name.slice(0, e.name.lastIndexOf('.')),
-      //       description: '',
-      //       type: '',
-      //       magicBytes: acceptedFormats.csv.includes(e.type)
-      //         ? ''
-      //         : await getMagicBytesOfFile(e, event),
-      //       thumbnail: await getThumbnailOfPdf(e, id, event)
-      //     };
-      //   })
-      // );
-      // props.onChangeFile(
-      //   props.multiple ? [...props.files, ...arrFiles] : arrFiles
-      // );
-      // const target = event.currentTarget;
-      // if (target) {
-      //   target.value = '';
-      // }
+      event.target.value = null;
     }
   };
 
@@ -77,7 +55,7 @@ const InputForm = ({ setFiles, state, setState }) => {
         />
       </Form.Group>
 
-      <Form.Group className="mb-3">
+      <Form.Group>
         <input
           ref={refFile}
           type="file"
@@ -101,21 +79,23 @@ export default InputForm;
 const Select = ({
   width = 'auto',
   label = 'Select',
-  variant = 'outline-primary',
+  variant = 'primary',
   options = [],
   value,
   onChange,
   disabled = false
 }) => {
+  console.log(disabled);
   return (
-    <Dropdown disabled={disabled}>
-      <Dropdown.Toggle style={{ width }} variant={variant} id="dropdown-basic">
+    <Dropdown>
+      <Dropdown.Toggle style={{ width }} variant={variant} disabled={disabled}>
         {value || label}
       </Dropdown.Toggle>
 
       <Dropdown.Menu style={{ width }}>
-        {options.map(item => (
+        {options.map((item, key) => (
           <Dropdown.Item
+            key={key}
             active={item === value}
             onClick={() => {
               onChange(item);
