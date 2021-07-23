@@ -35,7 +35,7 @@ const CustomDrawerContent: React.FC<DrawerContentComponentProps<DrawerContentOpt
                     fontWeight: "bold",
                     fontSize: 50,
                     color: "#fb5b5a",
-                }}>viEdu</Text>
+                }}>FRESH</Text>
             </View>
             <DrawerContentScrollView {...props} style={{
             }}>
