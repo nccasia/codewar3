@@ -43,6 +43,7 @@ const WrapperHeader = styled.div`
 const WrapperLogo = styled.a`
   cursor: pointer;
   height: 100%;
+  margin-left: 50px;
 `;
 
 const Logo = styled.img`

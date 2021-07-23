@@ -1,9 +1,9 @@
+.slick-center div{
+  width: 100%;
+}
 .slick-center div img{
-  /* color: #e67e22;
-  opacity: 1; */
   transform: scale(1.5);
   transition: transform 0.5s;
-  /* border: 1px solid white; */
 }
 
 .slick-slide div img{
@@ -12,4 +12,17 @@
 
 .slick-slider{
   width: 50%;
+  height:250px;
+}
+
+.slick-slider .slick-list {
+  height: 100%;
+}
+
+.slick-slider .slick-list .slick-track{
+  height: 100%;
+}
+
+.slick-initialized .slick-slide {
+  padding-top: 25px;
 }

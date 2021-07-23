@@ -36,7 +36,7 @@ export const EnglishGame = () => {
         centerMode: true,
         arrows: false,
         centerPadding: "40px",
-        autoplay: true,
+        autoplay: false,
         speed: 10,
         autoplaySpeed: 0,
     })
@@ -46,26 +46,25 @@ export const EnglishGame = () => {
 
 
     const ClickPlay = () => {
-        let time = Math.floor(Math.random() * (6000 - 4000) + 4000);
-        let sp = settings.speed;
-        setInterval(() => {
-            console.log(time, sp);
-            if (time < 1000) {
-                slider?.slickPause();
-                return
-            }
-            time = time * 0.8;
-            sp = sp + 100;
-            setSetting({ ...settings, speed: sp })
-        }, time * 0.8);
+        slider.slickPlay()
+    }
+    const ClickPause = () => {
+        slider.slickPause()
     }
 
 
     return (
         <Div>
             <Header />
+            <WrapperPeople>
+                <Imagepeople src="https://kenh14cdn.com/thumb_w/660/2020/4/9/photo-1-15864365280411955650737.jpg" />
+                <Imagepeople src="https://i.pinimg.com/originals/7e/da/a4/7edaa44235f5c717d6d7c65c14727ee4.png" />
+                <Imagepeople src="https://vcdn-giaitri.vnecdn.net/2021/02/24/j-4353-1614154422.jpg" />
+                <Imagepeople src="https://static2.yan.vn/YanNews/2167221/201908/iu-la-ai-tinh-yeu-su-nghiep-bai-hat-cua-iu-4bb930f2.jpg" />
+                <Imagepeople src="https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/7/9/photo-1-16257989599561090737937.jpeg" />
+            </WrapperPeople>
             <WrapperSlider>
-                <h2 style={{ marginBottom: '30px' }}>Let't find a lucky member!</h2>
+                <Title style={{ marginBottom: '30px', }}>Let't find a lucky member!</Title>
                 <Slider ref={c => (slider = c)} {...settings}>
                     <Image src="https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/7/9/photo-1-16257989599561090737937.jpeg" />
                     <Image src="https://kenh14cdn.com/thumb_w/660/2020/4/9/photo-1-15864365280411955650737.jpg" />
@@ -73,7 +72,10 @@ export const EnglishGame = () => {
                     <Image src="https://vcdn-giaitri.vnecdn.net/2021/02/24/j-4353-1614154422.jpg" />
                     <Image src="https://static2.yan.vn/YanNews/2167221/201908/iu-la-ai-tinh-yeu-su-nghiep-bai-hat-cua-iu-4bb930f2.jpg" />
                 </Slider>
-                <Button onClick={ClickPlay}>play</Button>
+                <WrapperButton>
+                    <Button onClick={ClickPlay}>play</Button>
+                    <Button onClick={ClickPause}>stop</Button>
+                </WrapperButton>
             </WrapperSlider>
             <div className="area" >
                 <ul className="circles">
@@ -99,6 +101,13 @@ const Div = styled.div`
     height: 100vh;
 `;
 
+const Title = styled.div`
+  font-size: 28px;
+  font-weight: bold;
+  color: white
+`;
+
+
 const Card = styled.div`
     height: 100px;
     width: 200px;
@@ -114,6 +123,7 @@ const WrapperSlider = styled.div`
     height: 100vh;
     flex-direction: column;
     justify-content: center;
+    z-index: 999;
 `
 
 const Image = styled.img`
@@ -135,4 +145,28 @@ const Button = styled.div`
     margin-top: 30px;
     cursor: pointer;
     z-index: 999;
+    margin: 30px 10px;
+    &:hover{
+        transform: scale(1.1);
+        transition: all 0.2s;
+    }
 `;
+
+const WrapperPeople = styled.div`
+display: flex;
+    position: absolute;
+    flex-direction: column;
+    top: 25%;
+    left: 70px;
+`
+
+const Imagepeople = styled.img`
+    width: 70px;
+    height: 70px;
+    margin: 10px 0;
+    border-radius: 10px;
+`
+
+const WrapperButton = styled.div`
+    display: flex;
+`
