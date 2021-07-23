@@ -16,9 +16,9 @@ export const close: CommandInt = {
   modCommand: true,
   command: async (message, room, BOT): Promise<void> => {
     try {
-      if (!BOT.listOrders || BOT.listOrders.length < 1) {
-        return;
-      }
+      // if (!BOT.listOrders || BOT.listOrders.length < 1) {
+      //   return;
+      // }
       if (!message.u) {
         return;
       }

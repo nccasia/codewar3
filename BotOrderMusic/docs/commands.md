@@ -9,6 +9,8 @@ Bot chỉ thực hiện các lệnh sau. Lưu ý các lệnh phải có tiền t
 - tracklists: hiển thị danh sách các bài đã order
  
 ## Private Commands
+- open: bắt đầu order nhạc
+- play: kết thúc việc order và chơi nhạc
 - close: kết thúc việc stream.
  
 ## Optional:
