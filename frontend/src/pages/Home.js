@@ -6,6 +6,7 @@ import CardNew from '../components/cardNewfeed';
 import Flickity from 'react-flickity-component';
 import './style.css'
 import './flickity.css'
+import { Header } from '../components/header';
 
 export const Home = () => {
   let flkty;
