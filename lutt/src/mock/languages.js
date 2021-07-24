@@ -1,9 +1,5 @@
 const languages = {
   Frontend: ['ReactJS', 'VueJS', 'Angular'],
-  Backend: ['.Net', 'Java', 'PHP'],
-  Mobile: [],
-  Tester: [],
-  Devops: [],
-  Fullstack: []
+  Backend: ['.Net', 'Java', 'PHP']
 };
 export default languages;

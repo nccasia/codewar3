@@ -21,6 +21,7 @@ const ListPass = ({ data }) => {
                 <th>Phone</th>
                 <th>Experiences</th>
                 <th>File name</th>
+                <th>Email</th>
                 <th>Matching (%)</th>
               </tr>
             </thead>
@@ -32,6 +33,7 @@ const ListPass = ({ data }) => {
                   <td>{item.phone || '-'}</td>
                   <td>{item.experiences || '-'}</td>
                   <td>{item.file || '-'}</td>
+                  <td>{item.mail || '-'}</td>
                   <td>{item.matching}</td>
                 </tr>
               ))}

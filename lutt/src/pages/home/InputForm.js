@@ -14,7 +14,6 @@ const InputForm = ({ setFiles, state, setState }) => {
 
   const onFileChange = async event => {
     if (refFile.current?.files?.length) {
-      console.log('refFile.current?.files', refFile.current);
       setFiles(Array.from(refFile.current.files));
       event.target.value = null;
     }
@@ -41,7 +40,7 @@ const InputForm = ({ setFiles, state, setState }) => {
           onChange={language => setState({ ...state, language })}
           label="Language"
           width={width}
-          disabled={!state.position}
+          disabled={!state.position || !languages[state.position]}
         />
       </Form.Group>
 
@@ -85,7 +84,6 @@ const Select = ({
   onChange,
   disabled = false
 }) => {
-  console.log(disabled);
   return (
     <Dropdown>
       <Dropdown.Toggle style={{ width }} variant={variant} disabled={disabled}>
