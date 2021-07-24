@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import '../../assets/css/slick.css'
 import { Header } from '../../components/header';
 import '../style.css'
+import { ModalEnglishGame } from './modal'
 
 let listGame = [
     {
@@ -29,6 +30,9 @@ let listGame = [
 ]
 
 export const EnglishGame = () => {
+    const [current, setCurrent] = React.useState();
+    const [open, setOpen] = React.useState(false);
+    const [data, setData] = React.useState();
     const [settings, setSetting] = React.useState({
         dots: false,
         infinite: true,
@@ -39,23 +43,35 @@ export const EnglishGame = () => {
         autoplay: false,
         speed: 10,
         autoplaySpeed: 0,
+        beforeChange: (current, next) => setCurrent(next),
+        afterChange: current => setCurrent(current)
     })
 
     let slider;
 
-
+    const openModal = (stt) => {
+        setOpen(stt);
+    }
 
     const ClickPlay = () => {
         slider.slickPlay()
     }
     const ClickPause = () => {
-        slider.slickPause()
+        slider.slickPause();
+        setData(current)
+        setTimeout(() => {
+            setOpen(true);
+        }, 500);
     }
 
 
     return (
         <Div>
             <Header />
+            <DivModal open={open}>
+                <Close onClick={() => openModal(false)}>X</Close>
+                <ModalEnglishGame data={data} handleClose={() => openModal(false)} />
+            </DivModal>
             <WrapperPeople>
                 <Imagepeople src="https://kenh14cdn.com/thumb_w/660/2020/4/9/photo-1-15864365280411955650737.jpg" />
                 <Imagepeople src="https://i.pinimg.com/originals/7e/da/a4/7edaa44235f5c717d6d7c65c14727ee4.png" />
@@ -169,4 +185,34 @@ const Imagepeople = styled.img`
 
 const WrapperButton = styled.div`
     display: flex;
+`
+
+const DivModal = styled.div`
+    height: 100vh;
+    top: 0;
+    cursor: pointer;
+    width: 100vw;
+    opacity: 1;
+    display: ${props => props.open ? 'flex' : 'none'};
+    transition: display 0.5s;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    box-shadow: inset 0 0 0 2000px #000000ab;
+    transition: opacity 0.8s;
+    transition-delay: 1.5s;
+`;
+
+const Close = styled.div`
+    width: 30px;
+    height: 30px;
+    font-weight: bold;
+    font-size: 24px;
+    cursor: pointer;
+    background-color: whitesmoke;
+    color: blue;
+    top: 40px;
+    right: 60px;
+    position: absolute;
 `
