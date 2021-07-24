@@ -252,6 +252,10 @@ export default {
         .then(res => {
           this.listJobStatuses = res
           this.jobStatusLoading = false
+            this.$notify({
+              text: 'Phê duyệt công việc thành công',
+              color: 'success'
+            });
         })
         .catch(res => {
           this.jobStatusLoading = false

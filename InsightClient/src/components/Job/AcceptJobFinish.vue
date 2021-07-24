@@ -198,21 +198,21 @@ export default {
         var Job = this.selected.Job;
         var reasonK = this.rejectData.ReasonFK
         if(!reasonK) {
-          this.$notify({
-            text: 'Lấy dữ liệu thất bại',
-            color: 'error'
-          })
           this.declining = false
           return;
         };
         JobApi.declineFinishJob(Job, reasonK).then(res => {
             this.declining = false
             this.dialog = false
+            this.$notify({
+              text: 'Từ chối thành công',
+              color: 'success'
+            })
             window.location.reload()
           }).catch(res => {
             this.declining = false
             this.$notify({
-              text: 'Lấy dữ liệu thất bại',
+              text: 'Thất bại',
               color: 'error'
             })
           })
@@ -289,7 +289,6 @@ export default {
       JobApi.getAllJobFinished(searchParamsJob)
         .then(res => {
           this.jobs = res.Data
-          console.log(this.jobs)
           this.loadingTable = false
         })
         .catch(res => {
