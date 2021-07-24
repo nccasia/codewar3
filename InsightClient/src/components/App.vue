@@ -12,13 +12,16 @@
              </v-flex>
           </v-layout>
         </v-container>
+        <notifications ref="notifications" />
       </v-content>
     </v-app>
    
     <nprogress-container></nprogress-container>
+    <notifications style="z-index:99999" group="notifications" />
   </div>
 </template>
 <script>
+import Notifications from './Commons/Notifications.vue'
 import HeaderMenu from './layouts/HeaderMenu'
 import LeftSidebar from './layouts/LeftSidebar'
 import RightSidebar from './layouts/RightSidebar'
@@ -31,7 +34,8 @@ export default {
     HeaderMenu,
     LeftSidebar,
     RightSidebar,
-    NprogressContainer
+    NprogressContainer,
+    Notifications
   },
   data () {
     return {
@@ -69,9 +73,9 @@ export default {
       if (typeof params === 'string') {
         params = { title: '', text: params }
       }
-      // if (typeof params === 'object') {
-      //   this.$refs.notifications.show(params)
-      // }
+      if (typeof params === 'object') {
+        this.$refs.notifications.show(params)
+      }
     }
   },
   created() {
