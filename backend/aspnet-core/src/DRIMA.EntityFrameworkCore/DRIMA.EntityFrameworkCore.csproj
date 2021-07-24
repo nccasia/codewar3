@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <RootNamespace>DRIMA</RootNamespace>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20180726102624_Upgrade_ABP_380.cs" />
+    <Compile Remove="Migrations\20180927062408_test.cs" />
+    <Compile Remove="Migrations\20190111071724_Upgraded_To_Abp_v4_1_0.cs" />
+    <Compile Remove="Migrations\20210712150616_InitDbPhase1.cs" />
+    <Compile Remove="Migrations\20210712150616_InitDbPhase1.Designer.cs" />
+    <Compile Remove="Migrations\20210712153314_InitDbPhase1.cs" />
+    <Compile Remove="Migrations\20210712153314_InitDbPhase1.Designer.cs" />
+    <Compile Remove="Migrations\20210712153855_InitDbPhase1.cs" />
+    <Compile Remove="Migrations\20210712153855_InitDbPhase1.Designer.cs" />
+    <Compile Remove="Migrations\20210712155017_InitDbPhase1.cs" />
+    <Compile Remove="Migrations\20210712155017_InitDbPhase1.Designer.cs" />
+    <Compile Remove="Migrations\20210713145631_InitDbPhase1.cs" />
+    <Compile Remove="Migrations\20210713145631_InitDbPhase1.Designer.cs" />
+    <Compile Remove="Migrations\20210714163907_Update_Device.cs" />
+    <Compile Remove="Migrations\20210714163907_Update_Device.Designer.cs" />
+    <Compile Remove="Migrations\20210714164455_Update_Device.cs" />
+    <Compile Remove="Migrations\20210714164455_Update_Device.Designer.cs" />
+    <Compile Remove="Migrations\20210714165545_Update_Device.cs" />
+    <Compile Remove="Migrations\20210714165545_Update_Device.Designer.cs" />
+    <Compile Remove="Migrations\20210717101355_Init_Pharse1.cs" />
+    <Compile Remove="Migrations\20210717101355_Init_Pharse1.Designer.cs" />
+    <Compile Remove="Migrations\20210721094649_Update_Request.cs" />
+    <Compile Remove="Migrations\20210721094649_Update_Request.Designer.cs" />
+    <Compile Remove="Migrations\20210721094739_Update_Request.cs" />
+    <Compile Remove="Migrations\20210721094739_Update_Request.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DRIMA.Core\DRIMA.Core.csproj" />
+  </ItemGroup>
+</Project>
