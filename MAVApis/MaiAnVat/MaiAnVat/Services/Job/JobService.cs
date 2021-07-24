@@ -124,6 +124,7 @@ namespace MaiAnVat.Services.JobAndJobType
                 Job.RegistrationJob = entity.RegistrationJob;
                 Job.CustomerOrder = entity.CustomerOrder;
                 Job.ModifiedByUserFk = entity.ModifiedByUserFk;
+                Job.IsSubmitted = entity.IsSubmitted;
                 db.SaveChanges();
             }
         }
@@ -142,6 +143,7 @@ namespace MaiAnVat.Services.JobAndJobType
                 Job.RegistrationJob = entity.RegistrationJob;
                 Job.CustomerOrder = entity.CustomerOrder;
                 Job.ModifiedByUserFk = entity.ModifiedByUserFk;
+                Job.IsSubmitted = entity.IsSubmitted;
                 await db.SaveChangesAsync();
             }
         }
