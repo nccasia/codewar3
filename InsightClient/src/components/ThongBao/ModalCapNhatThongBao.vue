@@ -161,7 +161,6 @@ export default {
         formData.append('image', file)
         HTTP.post('api/img', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
           .then(res => {
-            // console.log(res)
             let url = this.APIS.BASE_API + 'fileupload/download?key=' + res.data
             Editor.insertEmbed(cursorLocation, 'image', url)
           })

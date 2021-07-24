@@ -45,7 +45,6 @@ export default {
     },
     connect () {
       this.connection.on('newUserConnected', data => {
-        console.log(data)
         this.usersOnline.push(data)
       })
       this.connection.start()

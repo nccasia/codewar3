@@ -174,7 +174,6 @@ export default {
       this.loadingTable = true
       JobApi.getAllJobCandicate(searchParamsJob)
         .then(res => {
-          console.log(res)
           this.jobs = res.Data
           this.loadingTable = false
         })

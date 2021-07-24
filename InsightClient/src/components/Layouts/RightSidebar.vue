@@ -142,7 +142,6 @@ export default {
         }
       })
       this.connection.on('newMessage', data => {
-        console.log(data)
         var ok = true
         for (var i = 0; i < this.chatbox.length; i++) {
           if (this.chatbox[i].username === data.sender) {
@@ -167,7 +166,6 @@ export default {
       })
       this.connection.start()
       .then(() => this.connectAPI())
-      console.log(1)
     },
     connectAPI () {
       HTTP.get('/Messages/connect', {

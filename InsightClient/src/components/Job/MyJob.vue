@@ -24,7 +24,12 @@
                                 class="table-border table">
                           <template slot="items" slot-scope="props" style="sox-height:100px;">
                             <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
-                              <router-link :to="'/chi-tiet-cong-viec/'+props.item.JobK">{{props.item.Name}}</router-link>
+                              <span v-if="props.item.IsAccepted">
+                                <router-link :to="'/chi-tiet-cong-viec/'+props.item.JobK">{{props.item.Name}}</router-link>
+                              </span>
+                               <span v-else>
+                                  {{props.item.Name}}
+                              </span>
                             </td>
                              <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
                               {{ props.item.Title}}
@@ -89,7 +94,6 @@ export default {
         this.loadingTable = false
       }).catch(res => {
         this.loadingTable = false
-        console.log(res)
         this.$notify({
           text: 'Lấy dữ liệu thất bại',
           color: 'error'

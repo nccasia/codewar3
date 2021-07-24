@@ -28,9 +28,9 @@
                 <v-card> 
                   <v-card-title primary-title>
                     <div>
-                      <h3 class="headline">{{job.Title}}</h3>
+                      <h3 :style="{color: job.JobTypeColor}" class="headline">{{job.Title}}</h3>
                       <div class="mt-3"><strong>Tên công việc: </strong> {{job.Name}}</div>
-                      <div class="mt-2"><strong>Loại công việc: </strong> {{job.JobTypeName}}</div>
+                      <div class="mt-2"><strong>Loại công việc: </strong><span :style="{color: job.JobTypeColor}">{{job.JobTypeName}}</span></div>
                       <div class="mt-2"><strong>Mô tả: </strong> {{ job.Description }} </div>
                       <div class="mt-2"><strong>Ngày hết hạn: </strong> {{ job.RegistrationDeadline | moment('DD-MM-YYYY') }} </div>
                     </div>
@@ -142,7 +142,6 @@ export default {
         this.isLoading = false
       }).catch(res => {
         this.registering = false
-        console.log(res)
         this.$notify({
           text: 'Đăng ký thất bại',
           color: 'error'
@@ -160,11 +159,11 @@ export default {
       this.isLoading = true
       JobApi.getUnregistedJob(searchParamsJob).then(res => {
         this.jobs = res.Data
+        console.log(res.Data);
         this.rows = res.Pagination.totalItems
         this.isLoading = false
       }).catch(res => {
         this.isLoading = false
-        console.log(res)
         this.$notify({
           text: 'Lấy dữ liệu thất bại',
           color: 'error'

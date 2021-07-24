@@ -110,7 +110,7 @@
       </v-card-text>
       <v-card-actions v-if="!loadingModal">
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" :loading="saving" :disabled="saving" @click="update" flat >Lưu</v-btn>
+        <v-btn v-if="data.WorkflowStatusFk !== '06cb4c50-2cea-eb11-ba93-b42e99af4c48'" color="blue darken-1" :loading="saving" :disabled="saving" @click="update" flat >Lưu</v-btn>
         <v-btn color="blue darken-1" v-if="data.WorkflowStatusFk == '06cb4c50-2cea-eb11-ba93-b42e99af4c47' && data.IsSubmitted !== true" :loading="saving" :disabled="saving" @click="submit" flat >Gửi</v-btn>
       </v-card-actions>
     </v-card>
@@ -208,12 +208,10 @@ export default {
       this.isLoading = true
       JobApi.detail(this.JobK).then(res => {
         this.data = res
-        console.log(this.data);
         this.data.RegistrationDeadline = moment(this.data.RegistrationDeadline).format('DD-MM-YYYY')
         this.isLoading = false
       }).catch(res => {
         this.isLoading = false
-        console.log(res)
         this.$notify({
           text: 'Lấy dữ liệu thất bại',
           color: 'error'
