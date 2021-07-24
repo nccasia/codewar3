@@ -110,7 +110,8 @@
       </v-card-text>
       <v-card-actions v-if="!loadingModal">
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" :loading="saving" :disabled="saving" @click="submitUpdateWF" flat >Lưu</v-btn>
+        <v-btn color="blue darken-1" :loading="saving" :disabled="saving" @click="update" flat >Lưu</v-btn>
+        <v-btn color="blue darken-1" v-if="data.WorkflowStatusFk == '06cb4c50-2cea-eb11-ba93-b42e99af4c47'" :loading="saving" :disabled="saving" @click="submit" flat >Gửi</v-btn>
       </v-card-actions>
     </v-card>
     <job-subscriber v-if="currentUser && currentUser.UserId == 1"></job-subscriber>
@@ -165,12 +166,30 @@ export default {
   watch: {
   },
   methods: {
-    submitUpdateWF(){
+    update(){
       if(!this.newWorkflowStatusFk) return
       var data = {...this.data};
       data.WorkflowStatusFk = this.newWorkflowStatusFk
       data.RegistrationDeadline = moment(data.RegistrationDeadline, 'DD-MM-YYYY').format('YYYY-MM-DD')
       JobApi.update(data.JobK,data)
+        .then(res => {
+          window.location.reload()
+          this.$notify({
+            text: 'Cập nhật công việc thành công',
+            color: 'success'
+          });
+        })
+        .catch(res => {
+          this.$notify({
+            text: 'Cập nhật công việc thất bại',
+            color: 'error'
+          });
+        })
+    },
+    submit(){
+      var data = {...this.data};
+      data.RegistrationDeadline = moment(data.RegistrationDeadline, 'DD-MM-YYYY').format('YYYY-MM-DD')
+      JobApi.submit(data)
         .then(res => {
           window.location.reload()
           this.$notify({

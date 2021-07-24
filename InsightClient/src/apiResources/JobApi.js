@@ -122,6 +122,17 @@ class JobApi {
       })
     })
   }
+  submit (Job){
+    return new Promise((resolve, reject) => {
+      HTTP.post('job/submitJob',
+        Job
+      ).then((response) => {
+        resolve(response.data)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
   insert (Job){
     return new Promise((resolve, reject) => {
       HTTP.post('job',
@@ -137,6 +148,31 @@ class JobApi {
     return new Promise((resolve, reject) => {
       HTTP.post('job/registerJob',
       registerJob
+      ).then((response) => {
+        resolve(response.data)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
+  approveFinishJob (Job){
+    return new Promise((resolve, reject) => {
+      HTTP.post('job/aprovedJob',
+      Job
+      ).then((response) => {
+        resolve(response.data)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
+  declineFinishJob (Job, ReasonK){
+    var prarams = {ReasonK}
+    return new Promise((resolve, reject) => {
+      HTTP.post('job/declinedJob',
+      Job,{
+        params: prarams
+      }
       ).then((response) => {
         resolve(response.data)
       }).catch((error) => {

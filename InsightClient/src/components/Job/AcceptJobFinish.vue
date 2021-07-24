@@ -58,11 +58,25 @@
                             {{ props.item.UserName}}
                           </td>
                           <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
-                            Hoàn thành
+                            <span xs12 v-if="props.item.ReviewStatus === 'Declined'" style="color: #00a300">
+                                Từ chối
+                              </span>
+                            <span xs12 v-if="props.item.ReviewStatus === 'Approved'" style="color: #ff1f1f">
+                                Chấp nhận
+                            </span>
+                            <span xs12 v-if="props.item.ReviewStatus === 'Awaiting Review'" style="color: #ff1f1f">
+                                Đang đợi phê duyệt
+                            </span>
                           </td>
                           <td  class="justify-center px-0 text-md-center" style="width: 8%;white-space: nowrap;">
                           <v-tooltip bottom>
-                            <v-btn slot="activator" small icon class="mx-0 my-0" @click.stop="showModalApprove(props.item)">
+                            <v-btn slot="activator" small icon class="mx-0 my-0" @click.stop="showModalDecline(props.item)">
+                              <v-icon color="teal" small>thumb_down_off_alt</v-icon>
+                            </v-btn>
+                            <span>Từ chối</span>
+                          </v-tooltip>
+                          <v-tooltip bottom>
+                            <v-btn slot="activator" small icon class="mx-0 my-0" @click.stop="showModalAccept(props.item)">
                               <v-icon color="teal" small>how_to_reg</v-icon>
                             </v-btn>
                             <span>Phê duyệt</span>
@@ -79,7 +93,7 @@
 
             </v-card-text>
         </v-card>
-        <v-dialog v-model="dialog" v-if="selected" max-width="350">
+        <v-dialog v-model="dialog" v-if="selected" max-width="500">
           <v-card>
             <v-card-title class="primary white--text">
               <span class="title">Từ chối</span>
@@ -102,15 +116,6 @@
                   :error-messages="errors.collect('Lý do')"
                   label="Lý do">
                 </v-select>
-                  <v-text-field
-                  label="Ghi chú"
-                  v-model="rejectData.reason"
-                  data-vv-name="Ghi chú"
-                  data-vv-scope="formReject"
-                  v-validate="{required: true}"
-                  :error-messages="errors.collect('Ghi chú')"
-                  required
-                  ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
 
@@ -124,7 +129,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-dialog v-model="dialogAccept" v-if="selected" max-width="350">
+        <v-dialog v-model="dialogAccept" v-if="selected" max-width="500">
           <v-card>
             <v-card-title class="primary white--text">
               <span class="title">Xác nhận</span>
@@ -135,7 +140,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn flat @click.native="hide">Hủy</v-btn>
-              <v-btn color="blue darken-1" :loading="declining" :disabled="declining" flat @click.native="approve">Lưu</v-btn>
+              <v-btn color="blue darken-1" :loading="approving" :disabled="approving" flat @click.native="approve">Lưu</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -165,6 +170,7 @@ export default {
       declining: false,
       dialogAccept: false,
       dialog: false,
+      approving: false,
       selected: null,
       jobTypes: [],
       jobs: [],
@@ -189,6 +195,27 @@ export default {
       this.declining = true
       this.$validator.validateAll('formReject').then((res) => {
         if (res) {
+        var Job = this.selected.Job;
+        var reasonK = this.rejectData.ReasonFK
+        if(!reasonK) {
+          this.$notify({
+            text: 'Lấy dữ liệu thất bại',
+            color: 'error'
+          })
+          this.declining = false
+          return;
+        };
+        JobApi.declineFinishJob(Job, reasonK).then(res => {
+            this.declining = false
+            this.dialog = false
+            window.location.reload()
+          }).catch(res => {
+            this.declining = false
+            this.$notify({
+              text: 'Lấy dữ liệu thất bại',
+              color: 'error'
+            })
+          })
         } else {
           this.declining = false
           this.$notify({
@@ -200,7 +227,24 @@ export default {
 
     },
     approve(){
-      console.log('TODO')
+      this.approving = true
+      var Job = this.selected.Job;
+      JobApi.approveFinishJob(Job).then(res => {
+        this.approving = false
+        this.dialogAccept = false
+        this.$notify({
+          text: 'Phê duyệt thành công',
+          color: 'success'
+        })
+        window.location.reload()
+      }).catch(res => {
+        this.dialogAccept = false
+        this.approving = false
+        this.$notify({
+          text: 'Lấy dữ liệu thất bại',
+          color: 'error'
+        })
+      })
     },
     showModalDecline(item){
       this.selected = item
@@ -245,6 +289,7 @@ export default {
       JobApi.getAllJobFinished(searchParamsJob)
         .then(res => {
           this.jobs = res.Data
+          console.log(this.jobs)
           this.loadingTable = false
         })
         .catch(res => {

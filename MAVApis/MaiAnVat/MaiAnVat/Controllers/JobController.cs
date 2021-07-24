@@ -281,7 +281,7 @@ namespace MaiAnVat.Controllers
                 IsDeleted = false,
                 CreatedByUserFk = UserK
             };
-            await reviewJobHistoryService.CreateAsync(reviewJobHistory);
+            var reView = await reviewJobHistoryService.CreateAsync(reviewJobHistory);
             job.ModifiedByUserFk = UserK;
             job.WorkflowStatusFk = workFlowStatusK;
             await jobService.UpdateAsync(job.JobK, job);
@@ -292,7 +292,7 @@ namespace MaiAnVat.Controllers
         [Authorize(Roles = "Administrator, Admin")]
         // POST: api/declinedJob
         [HttpPost("declinedJob")]
-        public async Task<IActionResult> DiclinedJob([FromBody] Job job)
+        public async Task<IActionResult> DiclinedJob([FromBody] Job job, [FromQuery] Guid ReasonK)
         {
             if (!ModelState.IsValid)
             {
@@ -307,9 +307,10 @@ namespace MaiAnVat.Controllers
                 IsDeleted = false,
                 CreatedByUserFk = UserK
             };
-            await reviewJobHistoryService.CreateAsync(reviewJobHistory);
+            var review = await reviewJobHistoryService.CreateAsync(reviewJobHistory);
             job.ModifiedByUserFk = UserK;
             job.IsSubmitted = false;
+            SaveRejectReason(ReasonK, review.ReviewJobHistoryK);
             await jobService.UpdateAsync(job.JobK, job);
             return Ok();
 
@@ -499,13 +500,16 @@ namespace MaiAnVat.Controllers
                 var jobs = GetAllJobs(searchTerm).Where(x => x.WorkflowStatusFk == finishedWF.WorkFlowStatusK);
                 List<User> users = db.User.ToList();
 
-                var candicates = from j in jobs
+                var candicates = (from j in jobs
                                  join rJ in userRegistedJobs on j.JobK equals rJ.JobFk
                                  join u in users on rJ.CreatedByUserFk equals u.Id
                                  join jT in db.JobType on j.JobTypeFk equals jT.JobTypeK
+                                 join rv in db.ReviewJobHistory on j.JobK equals rv.JobFk
+                                 join ls in db.ListCategory on rv.ReviewStatusFk equals ls.ListCategoryK
                                  where (!string.IsNullOrEmpty(jobTypeK) ? jT.JobTypeK == new Guid(jobTypeK) : true)
                                  select new JobCandicateDto
                                  {
+                                     Job = j,
                                      RegistrationJob = rJ,
                                      RegistrationJobK = rJ.RegistrationJobK,
                                      JobName = j.Name,
@@ -516,13 +520,32 @@ namespace MaiAnVat.Controllers
                                      Email = u.Email,
                                      IsAccepted = rJ.IsAccepted,
                                      UserName = u.UserName,
-                                     CreateTime = rJ.CreatedAtUtc
-                                 };
-                return candicates;
+                                     CreateTime = rJ.CreatedAtUtc,
+                                     ReviewTimeStamp = rv.CreatedAtUtc,
+                                     ReviewStatus = ls.Name
+                                 }).GroupBy(s => new { s.JobK }).Select(s => new { WorkApprovals = s.OrderByDescending(i => i.ReviewTimeStamp).FirstOrDefault() });
+
+                return candicates.Select(x => x.WorkApprovals);
 
             }
         }
-
+        private int SaveRejectReason(Guid reasonFk, Guid reviewJobHistoryFk)
+        {
+            using (MaiAnVatContext db = new MaiAnVatContext())
+            {
+                var reason = new RejectedReason()
+                {
+                    CreatedByUserFk = UserK,
+                    IsDeleted = false,
+                    ReasonFk = reasonFk,
+                    ReviewJobHistoryFk = reviewJobHistoryFk,
+                    RejectedReasonK = new Guid()
+                };
+                db.RejectedReason.Add(reason);
+                var result = db.SaveChanges();
+                return result;
+            }
+        }
         #endregion
     }
 }
