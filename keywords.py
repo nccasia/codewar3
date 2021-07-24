@@ -28,21 +28,36 @@ keys = {
             "Styled": 6
         },
         "VueJS":{
-
+            "Component": 6,
+            "Rest API": 4,
+            "Javascript": 3,
+            "Event": 4,
         },
         "Angular":{
-
+            "Component": 6,
+            "Rest API": 4,
+            "Javascript": 3,
+            "Event": 4,
         }
     },
     "Backend":{
         ".Net":{
-
+            "Component": 6,
+            "Rest API": 4,
+            "API": 3,
+            "serverless": 4,
         },
         "Java":{
-
+            "Component": 6,
+            "Rest API": 4,
+            "API": 3,
+            "serverless": 4,
         },
         "PHP":{
-
+            "Lavarel": 6,
+            "WordPress": 4,
+            "API": 3,
+            "serverless": 4,
         }
     },
     "Mobile":{

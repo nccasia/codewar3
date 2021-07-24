@@ -1,6 +1,6 @@
 from calendar import month
 from re import M
-from flask import g,Flask,request,render_template,redirect,url_for, session,escape,jsonify
+from flask import g,Flask,request,render_template,redirect,url_for, session,escape,jsonify, Response
 import json
 from utils import *
 from keywords import keys
@@ -13,16 +13,15 @@ CORS(app, support_credentials=True)
 def index():
     if request.method == 'GET':
         results = []
-        
         return jsonify(results)
     
     if request.method == "POST":
-        # uploaded_files = request.files.getlist("file[]")
-        # myFile
         requirements =  json.loads(request.form.to_dict(flat=False).get('info')[0])
         position = requirements.get("position")
         language = requirements.get("language")
         level_pass = requirements.get("level")
+        if position != "Tester" and language == None:
+            return "Please choose language", 400
         multifiles = request.files
         print(requirements)
         files = ImmutableMultiDict(multifiles)

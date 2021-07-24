@@ -56,9 +56,6 @@ def export_name(text):
             return entity.text
     return None
 
-def export_exp_project(text):
-    list_exp = text.split('experience')
-    print("\n\n====EXP====",list_exp[-1])
 
 def compare_keywords(position=None, language=None, level_pass=None, text=None):
     print(position, language)
