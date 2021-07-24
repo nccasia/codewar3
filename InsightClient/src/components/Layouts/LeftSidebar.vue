@@ -52,8 +52,8 @@
             show: this.user,
             items: [
               { title: 'Quản lý công việc', link: 'ql-cong-viec', show: this.user && this.user.User.UserId == 1 },
-              { title: 'Danh sách công việc', link: 'ds-cong-viec', show: this.user && this.user.User.UserId == 2 },
-              { title: 'Công việc của tôi', link: 'cong-viec-cua-toi', show: this.user && this.user.User.UserId == 2 },
+              { title: 'Danh sách công việc', link: 'ds-cong-viec', show: this.user && this.user.User.UserId != 1 },
+              { title: 'Công việc của tôi', link: 'cong-viec-cua-toi', show: this.user && this.user.User.UserId != 1 },
               { title: 'Phê duyệt đăng ký', link: 'phe-duyet-dang-ky', show: this.user && this.user.User.UserId == 1 },
               { title: 'Phê duyệt công việc', link: 'nghiem-thu-cong-viec', show: this.user && this.user.User.UserId == 1 }
             ]

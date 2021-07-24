@@ -15,7 +15,7 @@
                     <v-text-field
                     v-model="searchParamsJob.searchTerm"
                     append-icon="search"
-                    label="Tên công việc"
+                    label="Tên người đăng ký"
                     single-line
                     clearable
                     ></v-text-field>
@@ -119,7 +119,7 @@ export default {
       jobs: [],
       jobTypeLoading: false,
       jobTypeK: null,
-      searchParamsJob: { includeEntities: true, rowsPerPage: 10 },
+      searchParamsJob: { includeEntities: true, rowsPerPage: 10, jobTypeK: '' },
       loadingTable: false,
       tableHeader: [
         { text: 'Tên công việc', align: 'center', value: 'JobName', sortable: false },
@@ -140,17 +140,22 @@ export default {
       this.selected = null
     },
     approve(){
-      this.loadingTable = true
-      var model = {JobK: this.selected.JobK, UserK: this.selected.CandiCateId};
-      JobApi.approve(model)
-        .then(res => {
-          this.jobTypes = res
-          this.loadingTable = false
+      this.approving = true
+      var RegistrationJob = this.selected.RegistrationJob;
+      JobApi.aprovedRegistrationJob(RegistrationJob).then(res => {
+        this.approving = false
+        this.dialog = false
+        this.$notify({
+          text: 'Phê duyệt thành công',
+          color: 'success'
         })
-        .catch(res => {
-          this.loadingTable = false
-          this.$notify({ text: 'Lấy dữ liệu thất bại', color: 'error' })
+      }).catch(res => {
+        this.approving = false
+        this.$notify({
+          text: 'Lấy dữ liệu thất bại',
+          color: 'error'
         })
+      })
     },
     getJobTypes () {
       this.jobTypeLoading = true

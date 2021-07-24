@@ -89,14 +89,18 @@
                 ></v-select>
               </v-flex>
             </v-layout>
-            <v-layout wrap>
+            <v-layout wrap v-if="currentUser && currentUser.UserId != 1 && checkCandicate">
               <v-flex xs12>
                 <v-select
                 :items="listJobWFStatuses"
                 label="Cập nhật luồng công việc"
                 item-text="Description"
                 item-value="WorkFlowStatusK"
+                data-vv-name="Cập nhật luồng công việc"
                 v-model="newWorkflowStatusFk"
+                data-vv-scope="formEdit"
+                required
+                :error-messages="errors.collect('Cập nhật luồng công việc')"
                 ></v-select>
               </v-flex>
             </v-layout>
@@ -106,7 +110,7 @@
       </v-card-text>
       <v-card-actions v-if="!loadingModal">
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" :loading="saving" :disabled="saving" flat >Lưu</v-btn>
+        <v-btn color="blue darken-1" :loading="saving" :disabled="saving" @click="submitUpdateWF" flat >Lưu</v-btn>
       </v-card-actions>
     </v-card>
     <job-subscriber v-if="currentUser && currentUser.UserId == 1"></job-subscriber>
@@ -131,6 +135,7 @@ export default {
   },
   data () {
     return {
+      checkCandicate: false,
       currentUser: null,
       loadingModal: false,
       newWorkflowStatusFk: null,
@@ -153,10 +158,33 @@ export default {
     this.getStatuses()
     this.getWFStatuses()
     this.getCurrentUser()
+    if(this.currentUser && this.currentUser.UserId != 1){
+      this.checkCandicateFunction()
+    }
   },
   watch: {
   },
   methods: {
+    submitUpdateWF(){
+      if(!this.newWorkflowStatusFk) return
+      var data = {...this.data};
+      data.WorkflowStatusFk = this.newWorkflowStatusFk
+      data.RegistrationDeadline = moment(data.RegistrationDeadline, 'DD-MM-YYYY').format('YYYY-MM-DD')
+      JobApi.update(data.JobK,data)
+        .then(res => {
+          window.location.reload()
+          this.$notify({
+            text: 'Cập nhật công việc thành công',
+            color: 'success'
+          });
+        })
+        .catch(res => {
+          this.$notify({
+            text: 'Cập nhật công việc thất bại',
+            color: 'error'
+          });
+        })
+    },
     getJob () {
       this.isLoading = true
       JobApi.detail(this.JobK).then(res => {
@@ -223,6 +251,19 @@ export default {
         })
         .catch(res => {
           this.jobWFStatusLoading = false
+          this.$notify({
+            text: 'Lấy dữ liệu thất bại thất bại',
+            color: 'error'
+          })
+        })
+    },
+    checkCandicateFunction () {
+      var JobK = this.JobK;
+      JobApi.checkCandicate(JobK)
+        .then(res => {
+          this.checkCandicate = res
+        })
+        .catch(res => {
           this.$notify({
             text: 'Lấy dữ liệu thất bại thất bại',
             color: 'error'

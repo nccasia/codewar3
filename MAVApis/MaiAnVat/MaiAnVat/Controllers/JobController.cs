@@ -53,6 +53,7 @@ namespace MaiAnVat.Controllers
 
             return Ok(await GetPaginatedResponse(jobs.OrderByDescending(x => x.CreatedAtUtc), pagination));
         }
+
         // GET: api/job/myJob
         [HttpGet("myJob")]
         public async Task<IActionResult> GetMyJob([FromQuery] Pagination pagination, [FromQuery] string searchTerm = null)
@@ -64,6 +65,7 @@ namespace MaiAnVat.Controllers
 
             return Ok(await GetPaginatedResponse(jobs.OrderByDescending(x => x.CreatedAtUtc), pagination));
         }
+
         // GET: api/job/candicate
         [HttpGet("candicate")]
         public async Task<IActionResult> GetCandicate([FromQuery] Guid JobK, [FromQuery] Pagination pagination, [FromQuery] string searchTerm = null)
@@ -74,13 +76,14 @@ namespace MaiAnVat.Controllers
                 pagination = new Pagination();
 
             return Ok(await GetPaginatedResponse(jobs.OrderByDescending(x => x.CreateTime), pagination));
-        }          
-        
+        }
+
+        // GET: api/job/all-candicate
         [HttpGet("all-candicate")]
-        public async Task<IActionResult> GetAllCandicate([FromQuery] Pagination pagination, [FromQuery] string searchTerm = null)
+        public async Task<IActionResult> GetAllCandicate([FromQuery] Pagination pagination, [FromQuery] string searchTerm = null, [FromQuery] string JobTypeK = null)
         {
 
-            var jobs = GetAllJobCandiCate(searchTerm);
+            var jobs = GetAllJobCandiCate(searchTerm, JobTypeK);
             if (pagination == null)
                 pagination = new Pagination();
 
@@ -90,11 +93,38 @@ namespace MaiAnVat.Controllers
         [HttpGet("jobs")]
         public async Task<IActionResult> GetJobs([FromQuery] Pagination pagination, [FromQuery] string searchTerm = null)
         {
-            var jobs = GetAllJobs(searchTerm);
-            if (pagination == null)
-                pagination = new Pagination();
+            try
+            {
+                var jobs = GetAllJobs(searchTerm);
+                if (pagination == null)
+                    pagination = new Pagination();
 
-            return Ok(await GetPaginatedResponse(jobs.OrderByDescending(x => x.CreatedAtUtc), pagination));
+                return Ok(await GetPaginatedResponse(jobs.OrderByDescending(x => x.CreatedAtUtc), pagination));
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
+
+
+        }
+
+        [HttpGet("finishedJobs")]
+        public async Task<IActionResult> GetFinishedJobs([FromQuery] Pagination pagination, [FromQuery] string searchTerm = null, [FromQuery] string jobTypeK = null)
+        {
+            try
+            {
+                var jobs = GetAllFinishedJob(searchTerm, jobTypeK);
+                if (pagination == null)
+                    pagination = new Pagination();
+
+                return Ok(await GetPaginatedResponse(jobs.OrderByDescending(x => x.CreateTime), pagination));
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
 
         }
 
@@ -197,10 +227,8 @@ namespace MaiAnVat.Controllers
             return Ok();
 
         }
-
         [Authorize(Roles = "Administrator, Admin")]
 
-        // POST: api/aprovedregistrationJob
         [HttpPost("aprovedregistrationJob")]
         public async Task<IActionResult> AprovedRegistrationJob([FromBody] RegistrationJob registrationJob)
         {
@@ -212,7 +240,7 @@ namespace MaiAnVat.Controllers
             {
                 registrationJob.ModifiedByUserFk = UserK;
                 registrationJob.ConfirmedUserFk = UserK;
-                await registrationJobService.UpdateAsync(registrationJob.RegistrationJobK, registrationJob);
+                await registrationJobService.ApprovedRegistrationAsync(registrationJob.RegistrationJobK, registrationJob);
                 var job = await jobService.ReadAsync(registrationJob.JobFk);
                 var workFlowStatusK = workFlowStatusService.Find().FirstOrDefault(x => x.Name == Constants.STATUS_APPROVED_REGISTRATION)?.WorkFlowStatusK;
                 job.ModifiedByUserFk = UserK;
@@ -223,9 +251,19 @@ namespace MaiAnVat.Controllers
             return BadRequest("Phê duyệt đăng ký công việc thất bại");
         }
 
-        [Authorize(Roles = "Administrator, Admin")]
+        [HttpGet("checkCandicate")]
+        public async Task<IActionResult> CheckCandicate([FromQuery] Guid JobK)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var check = CheckJobCandicate(JobK);
+            return Ok(check);
+        }
 
         // POST: api/aprovedJob
+        [Authorize(Roles = "Administrator, Admin")]
         [HttpPost("aprovedJob")]
         public async Task<IActionResult> AprovedJob([FromBody] Job job)
         {
@@ -382,6 +420,8 @@ namespace MaiAnVat.Controllers
                                  join u in users on rJ.CreatedByUserFk equals u.Id
                                  select new JobCandicateDto
                                  {
+                                     RegistrationJob = rJ,
+                                     RegistrationJobK = rJ.RegistrationJobK,
                                      CandiCateId = u.Id,
                                      Email = u.Email,
                                      IsAccepted = rJ.IsAccepted,
@@ -393,13 +433,14 @@ namespace MaiAnVat.Controllers
             }
         }
 
-        private IQueryable<JobCandicateDto> GetAllJobCandiCate(string searchTerm)
+        private IQueryable<JobCandicateDto> GetAllJobCandiCate(string searchTerm, string jobTypeK)
         {
 
             using (MaiAnVatContext db = new MaiAnVatContext())
             {
+                var acceptedJobs = registrationJobService.Find(x => x.IsAccepted).Select(x => x.JobFk).Distinct();
                 var registedJobs = registrationJobService
-                .Find()
+                .Find(x=> !acceptedJobs.Contains(x.JobFk) || x.IsAccepted)
                 .GroupBy(x => new { x.JobFk, x.CreatedByUserFk }, (key, g) => g.OrderByDescending(e => e.CreatedAtUtc).First())
                 .Select(x => x);
                 List<User> users = db.User.ToList();
@@ -409,8 +450,11 @@ namespace MaiAnVat.Controllers
                                  join u in users on rJ.CreatedByUserFk equals u.Id
                                  join j in db.Job on rJ.JobFk equals j.JobK
                                  join jT in db.JobType on j.JobTypeFk equals jT.JobTypeK
+                                 where (!string.IsNullOrEmpty(jobTypeK) ? jT.JobTypeK == new Guid(jobTypeK) : true)
                                  select new JobCandicateDto
                                  {
+                                     RegistrationJob = rJ,
+                                     RegistrationJobK = rJ.RegistrationJobK,
                                      JobName = j.Name,
                                      JobK = j.JobK,
                                      JobType = jT.Description,
@@ -425,6 +469,60 @@ namespace MaiAnVat.Controllers
 
             }
         }
+
+        private bool CheckJobCandicate(Guid jobK)
+        {
+
+            using (MaiAnVatContext db = new MaiAnVatContext())
+            {
+                var acceptedJobs = registrationJobService
+                    .Find(x => x.IsAccepted && x.JobFk == jobK)
+                    .OrderByDescending(x => x.ConfirmedUtc)
+                    .FirstOrDefault();
+                if(acceptedJobs.CreatedByUserFk == UserK)
+                {
+                    return true;
+                }
+                return false;
+
+            }
+        }
+
+        private IQueryable<JobCandicateDto> GetAllFinishedJob(string searchTerm, string jobTypeK)
+        {
+
+            using (MaiAnVatContext db = new MaiAnVatContext())
+            {
+                var userRegistedJobs = db.RegistrationJob.Where(x => x.IsAccepted)
+                    .GroupBy(x => x.JobFk, (key, g) => g.OrderByDescending(e => e.ConfirmedUtc).First());
+                var finishedWF = db.WorkFlowStatus.FirstOrDefault(x => x.Name == "Done");
+                var jobs = GetAllJobs(searchTerm).Where(x => x.WorkflowStatusFk == finishedWF.WorkFlowStatusK);
+                List<User> users = db.User.ToList();
+
+                var candicates = from j in jobs
+                                 join rJ in userRegistedJobs on j.JobK equals rJ.JobFk
+                                 join u in users on rJ.CreatedByUserFk equals u.Id
+                                 join jT in db.JobType on j.JobTypeFk equals jT.JobTypeK
+                                 where (!string.IsNullOrEmpty(jobTypeK) ? jT.JobTypeK == new Guid(jobTypeK) : true)
+                                 select new JobCandicateDto
+                                 {
+                                     RegistrationJob = rJ,
+                                     RegistrationJobK = rJ.RegistrationJobK,
+                                     JobName = j.Name,
+                                     JobK = j.JobK,
+                                     JobType = jT.Description,
+                                     JobTypeK = jT.JobTypeK,
+                                     CandiCateId = u.Id,
+                                     Email = u.Email,
+                                     IsAccepted = rJ.IsAccepted,
+                                     UserName = u.UserName,
+                                     CreateTime = rJ.CreatedAtUtc
+                                 };
+                return candicates;
+
+            }
+        }
+
         #endregion
     }
 }

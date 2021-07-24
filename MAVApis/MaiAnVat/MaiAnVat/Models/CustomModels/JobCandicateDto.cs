@@ -7,6 +7,8 @@ namespace MaiAnVat.Models.CustomModels
 {
     public class JobCandicateDto
     {
+        public RegistrationJob RegistrationJob { get; set; }
+        public Guid RegistrationJobK { get; set; }
         public string JobName { get; set; }
         public string JobType { get; set; }
         public Guid JobK { get; set; }

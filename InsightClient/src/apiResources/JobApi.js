@@ -10,7 +10,6 @@ class JobApi {
       })
     })
   }
-
   getJobs(searchParams) {
     return new Promise((resolve, reject) => {
       HTTP.get('job/jobs', {
@@ -45,11 +44,23 @@ class JobApi {
       })
     })
   }
-    
-  approve (model) {
+  checkCandicate(JobK) {
     return new Promise((resolve, reject) => {
-      HTTP.post('job/approveJob',
-        model
+      var params = {JobK}
+      HTTP.get('job/checkCandicate', {
+        params: params
+      }).then((response) => {
+        resolve(response.data)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
+    
+  aprovedRegistrationJob (RegistrationJob) {
+    return new Promise((resolve, reject) => {
+      HTTP.post('job/aprovedregistrationJob',
+      RegistrationJob
       ).then((response) => {
         resolve(response.data)
       }).catch((error) => {
@@ -71,6 +82,17 @@ class JobApi {
   getAllJobCandicate(searchParams) {
     return new Promise((resolve, reject) => {
       HTTP.get('job/all-candicate', {
+        params: searchParams
+      }).then((response) => {
+        resolve(response.data)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
+  getAllJobFinished(searchParams) {
+    return new Promise((resolve, reject) => {
+      HTTP.get('job/finishedJobs', {
         params: searchParams
       }).then((response) => {
         resolve(response.data)
