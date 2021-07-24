@@ -1,0 +1,9 @@
+flask
+nltk
+requests
+scikit-learn
+vadersentiment
+pyvi
+pandas
+numpy
+matplotlib

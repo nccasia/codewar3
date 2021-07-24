@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>{{ title }} Sentiment Analysis</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <h1>Sentiment analysis</h1>
+        <form method="POST">
+            <textarea name="text1" placeholder="Say Something: ...." rows="10" cols="109"></textarea><br><br>
+
+            <input class="example_a" type="submit">
+        </form>
+        <div>
+            <h3>Text: {{ text1 }}</h3> <h3 style="color:red">{{final}}</h3> <h3>{{percent}}</h3>
+        </div>
+    </body>
+</html>
