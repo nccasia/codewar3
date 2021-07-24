@@ -17,7 +17,7 @@ class CreateEnglishGamesTable extends Migration
             $table->uuid('id')->primary();
             $table->string('name')->nullable(false);
             $table->float('voted')->nullable(false);
-            $table->string('status');
+            $table->boolean('status');
             $table->uuid('userID');
             $table->foreign('userID')->references('id')->on('employees');
             $table->timestamps();
