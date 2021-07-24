@@ -85,6 +85,7 @@ namespace MaiAnVat
             services.Add(new ServiceDescriptor(typeof(IGroupService), typeof(GroupService), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IPermissionService), typeof(PermissionService), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IReviewJobHistoryService), typeof(ReviewJobHistoryService), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IUserGroupService), typeof(UserGroupService), ServiceLifetime.Transient));
         }
     }
 }

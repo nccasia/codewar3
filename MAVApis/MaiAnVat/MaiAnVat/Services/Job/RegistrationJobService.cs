@@ -112,7 +112,19 @@ namespace MaiAnVat.Services.JobAndJobType
             {
                 registrationJob.ConfirmedUserFk = entity.ConfirmedUserFk;
                 registrationJob.IsAccepted = entity.IsAccepted;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
+            }
+        }
+
+        public async Task ApprovedRegistrationAsync(Guid id, RegistrationJob entity)
+        {
+            var registrationJob = await ReadAsync(id);
+            if (registrationJob != null)
+            {
+                registrationJob.IsAccepted = true;
+                registrationJob.ConfirmedUserFk = entity.ConfirmedUserFk;
+                registrationJob.ConfirmedUtc = DateTime.Now;
+                registrationJob.ModifiedByUserFk = entity.ModifiedByUserFk;
                 await db.SaveChangesAsync();
             }
         }

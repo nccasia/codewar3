@@ -18,10 +18,7 @@ namespace MaiVanVat.Security
         public TokenIdentity GenerateToken(User user, string userAgent, string ip, string guid, long effectiveTime)
         {
             TokenIdentity tokenIdentity = new TokenIdentity(null, user.Id, user.UserName, userAgent, ip, effectiveTime, _expirationSeconds);
-            var claims = new List<System.Security.Claims.Claim>();
-            claims.Add(new System.Security.Claims.Claim(ClaimTypes.Role, "Administrator"));
-            claims.Add(new System.Security.Claims.Claim(ClaimTypes.Role, "Admin"));
-            claims.Add(new System.Security.Claims.Claim(MAVClaimTypes.kMAVClaimTypesUserFK, user.Id.ToString()));
+            var claims = GetClaims(user.Id);
             var SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(MAVClaimTypes.kMAVSecretKey));
             var signingCredentials = new SigningCredentials(SymmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
             var tokenCustom = new JwtSecurityToken(MAVClaimTypes.kMAVIssuer, MAVClaimTypes.kMAVAudience, claims, expires: DateTime.Now.AddSeconds(_expirationSeconds), signingCredentials: signingCredentials);
@@ -30,6 +27,25 @@ namespace MaiVanVat.Security
             return tokenIdentity;
         }
 
+        private List<System.Security.Claims.Claim> GetClaims(int userId)
+        {
+            using (MaiAnVatContext db = new MaiAnVatContext())
+            {
+                var claims = new List<System.Security.Claims.Claim>();
+                var userGroups = db.UserGroup.Where(x => x.UserFk == userId).Select(x => x.GroupFk).ToList();
+                var groups = db.Group.Where(x => userGroups.Contains(x.GroupK));
+                if (groups != null)
+                {
+                    foreach (var gr in groups)
+                    {
+                        claims.Add(new System.Security.Claims.Claim(ClaimTypes.Role, gr.Name));
+                    }
+                }
+                claims.Add(new System.Security.Claims.Claim(MAVClaimTypes.kMAVClaimTypesUserFK, userId.ToString()));
+                return claims;
+            }
+
+        }
         public bool ValidateToken(ref TokenIdentity tokenIdentity)
         {
             bool result = false;

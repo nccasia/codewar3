@@ -19,5 +19,6 @@ namespace MaiAnVat.Common
         public const string APPROVED = "Approved";
         public const string DECLINED = "Declined";
         public const string STATUS_COMPLETED = "Completed";
+        public const string STATUS_APPROVED_REGISTRATION = "Approved Registration";
     }
 }

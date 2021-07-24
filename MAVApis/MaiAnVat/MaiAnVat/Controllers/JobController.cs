@@ -169,7 +169,7 @@ namespace MaiAnVat.Controllers
 
             return Ok();
 
-        }        
+        }
 
         // POST: api/submitJob
         [HttpPost("submitJob")]
@@ -198,6 +198,33 @@ namespace MaiAnVat.Controllers
 
         }
 
+        [Authorize(Roles = "Administrator, Admin")]
+
+        // POST: api/aprovedregistrationJob
+        [HttpPost("aprovedregistrationJob")]
+        public async Task<IActionResult> AprovedRegistrationJob([FromBody] RegistrationJob registrationJob)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (registrationJob != null)
+            {
+                registrationJob.ModifiedByUserFk = UserK;
+                registrationJob.ConfirmedUserFk = UserK;
+                await registrationJobService.UpdateAsync(registrationJob.RegistrationJobK, registrationJob);
+                var job = await jobService.ReadAsync(registrationJob.JobFk);
+                var workFlowStatusK = workFlowStatusService.Find().FirstOrDefault(x => x.Name == Constants.STATUS_APPROVED_REGISTRATION)?.WorkFlowStatusK;
+                job.ModifiedByUserFk = UserK;
+                job.WorkflowStatusFk = workFlowStatusK;
+                await jobService.UpdateAsync(job.JobK, job);
+                return Ok();
+            }
+            return BadRequest("Phê duyệt đăng ký công việc thất bại");
+        }
+
+        [Authorize(Roles = "Administrator, Admin")]
+
         // POST: api/aprovedJob
         [HttpPost("aprovedJob")]
         public async Task<IActionResult> AprovedJob([FromBody] Job job)
@@ -224,6 +251,7 @@ namespace MaiAnVat.Controllers
 
         }
 
+        [Authorize(Roles = "Administrator, Admin")]
         // POST: api/aprovedJob
         [HttpPost("devlinedJob")]
         public async Task<IActionResult> DiclinedJob([FromBody] Job job)
