@@ -135,7 +135,7 @@ export default {
       this.isLoading = true
       JobApi.registerJob(model).then(res => {
         this.$notify({
-          text: 'Đăng ký thành công',
+          text: 'Đăng ký công việc thành công',
           color: 'success'
         })
         window.location.reload();
