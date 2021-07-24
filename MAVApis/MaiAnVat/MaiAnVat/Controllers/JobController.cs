@@ -496,8 +496,7 @@ namespace MaiAnVat.Controllers
             {
                 var userRegistedJobs = db.RegistrationJob.Where(x => x.IsAccepted)
                     .GroupBy(x => x.JobFk, (key, g) => g.OrderByDescending(e => e.ConfirmedUtc).First());
-                var finishedWF = db.WorkFlowStatus.FirstOrDefault(x => x.Name == "Done");
-                var jobs = GetAllJobs(searchTerm).Where(x => x.WorkflowStatusFk == finishedWF.WorkFlowStatusK);
+                var jobs = GetAllJobs(searchTerm);
                 List<User> users = db.User.ToList();
 
                 var candicates = (from j in jobs

@@ -58,13 +58,13 @@
                             {{ props.item.UserName}}
                           </td>
                           <td style="width text-overflow: ellipsis; overflow: hidden;" class="text-xs-center">
-                            <span xs12 v-if="props.item.ReviewStatus === 'Declined'" style="color: #00a300">
+                            <span xs12 v-if="props.item.ReviewStatus === 'Declined'" style="color: #ff1f1f">
                                 Từ chối
                               </span>
-                            <span xs12 v-if="props.item.ReviewStatus === 'Approved'" style="color: #ff1f1f">
+                            <span xs12 v-if="props.item.ReviewStatus === 'Approved'" style="color: #00a300">
                                 Chấp nhận
                             </span>
-                            <span xs12 v-if="props.item.ReviewStatus === 'Awaiting Review'" style="color: #ff1f1f">
+                            <span xs12 v-if="props.item.ReviewStatus === 'Awaiting Review'" style="color: black">
                                 Đang đợi phê duyệt
                             </span>
                           </td>
