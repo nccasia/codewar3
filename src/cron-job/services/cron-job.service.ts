@@ -14,7 +14,7 @@ import { DailyDTO, NoDailyDTO } from 'src/daily/dtos';
 import moment from 'moment';
 import xl from 'excel4node';
 import { InspectorService } from 'src/inspector/services';
-import { GGDriveService, S3Service } from 'src/gg-drive/services';
+import { GGDriveService } from 'src/gg-drive/services';
 import { EnvService } from 'src/environment';
 import path from 'path';
 import fs from 'fs';
@@ -30,7 +30,6 @@ export class CronJobService {
     private readonly inspectorService: InspectorService,
     private readonly ggDriveService: GGDriveService,
     private readonly config: EnvService,
-    private readonly s3Service: S3Service,
   ) {}
 
   private async checkDaily(
@@ -295,22 +294,6 @@ export class CronJobService {
       const fileName = this.getNameFile();
       await wb.write(`${fileName}.xlsx`);
       const finalPath = `D:\\NCC\\ncc-bot\\${fileName}.xlsx`;
-      // if (!fs.existsSync(finalPath)) {
-      //   throw new Error('File not found!');
-      // }
-      const uploaded: string = await this.s3Service.uploadFile(
-        fs.readFileSync('D:\\NCC\\ncc-bot\\Daily_Summary_5-6-2021.xlsx'),
-        'Daily_Summary_5-6-2021.xlsx',
-      );
-      if (uploaded) {
-        const inspectors = await this.inspectorService.findAll();
-        for (const inspector of inspectors) {
-          await this.rocketchatService.sendLinkFile(
-            inspector.username,
-            uploaded,
-          );
-        }
-      }
       return;
     } catch (error) {
       throw error;
