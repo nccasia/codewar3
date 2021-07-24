@@ -149,6 +149,7 @@ export default {
           text: 'Phê duyệt thành công',
           color: 'success'
         })
+        window.location.reload()
       }).catch(res => {
         this.approving = false
         this.$notify({
