@@ -2,6 +2,7 @@ import { Viewer } from '@react-pdf-viewer/core';
 import axios from 'axios';
 import { useState } from 'react';
 import { Button, Col, Modal, Row, Spinner } from 'react-bootstrap';
+import languages from '../../mock/languages';
 import InputForm from './InputForm';
 import ListCV from './ListCV';
 import ListPass from './ListPass';
@@ -27,11 +28,9 @@ const Home = () => {
         formData.append(`file${index}`, file);
       });
       // Details of the uploaded file
-      console.log(formData);
       const res = await axios.post('http://192.168.10.35:5001/', formData);
       setCvPass(res.data.filter(({ pass }) => pass));
     } catch (error) {
-      console.log('----', error);
       setError(error.message);
     } finally {
       setLoading(false);
@@ -40,6 +39,16 @@ const Home = () => {
 
   const handleClose = () => {
     setError(undefined);
+  };
+  const isNotValidateForm = () => {
+    if (languages[state.position]) {
+      return (
+        Object.values(state).filter(item => !!item).length < 3 || !files.length
+      );
+    }
+    return (
+      Object.values(state).filter(item => !!item).length < 2 || !files.length
+    );
   };
 
   return (
@@ -63,7 +72,6 @@ const Home = () => {
               data={files}
               setUrl={setUrl}
               removeCV={index => {
-                console.log(index);
                 if (files[index]) {
                   setFiles(files.filter((cv, i) => i !== index));
                 }
@@ -98,9 +106,7 @@ const Home = () => {
                 e.preventDefault();
                 onSubmit();
               }}
-              disabled={
-                Object.keys(state).length < 3 || !files.length || loading
-              }
+              disabled={isNotValidateForm() || loading}
             >
               {loading && (
                 <Spinner
