@@ -38,5 +38,3 @@ lerna-debug.log*
 logs/
 
 gg-drive.json
-
-*.xlsx
