@@ -252,8 +252,8 @@ namespace MaiAnVat.Controllers
         }
 
         [Authorize(Roles = "Administrator, Admin")]
-        // POST: api/aprovedJob
-        [HttpPost("devlinedJob")]
+        // POST: api/declinedJob
+        [HttpPost("declinedJob")]
         public async Task<IActionResult> DiclinedJob([FromBody] Job job)
         {
             if (!ModelState.IsValid)
