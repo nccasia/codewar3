@@ -51,28 +51,28 @@
             title: 'Công việc',
             show: this.user,
             items: [
-              { title: 'Quản lý công việc', link: 'ql-cong-viec', show: this.user && this.user.User.UserId == 1 },
-              { title: 'Danh sách công việc', link: 'ds-cong-viec', show: this.user && this.user.User.UserId != 1 },
-              { title: 'Công việc của tôi', link: 'cong-viec-cua-toi', show: this.user && this.user.User.UserId != 1 },
-              { title: 'Phê duyệt đăng ký', link: 'phe-duyet-dang-ky', show: this.user && this.user.User.UserId == 1 },
-              { title: 'Phê duyệt công việc', link: 'nghiem-thu-cong-viec', show: this.user && this.user.User.UserId == 1 }
+              { title: 'Quản lý công việc', link: 'ql-cong-viec', show: this.user && this.user.User.IsAdmin === true },
+              { title: 'Danh sách công việc', link: 'ds-cong-viec', show: this.user && this.user.User.IsAdmin !== true },
+              { title: 'Công việc của tôi', link: 'cong-viec-cua-toi', show: this.user && this.user.User.IsAdmin !== true },
+              { title: 'Phê duyệt đăng ký', link: 'phe-duyet-dang-ky', show: this.user && this.user.User.IsAdmin === true },
+              { title: 'Phê duyệt công việc', link: 'nghiem-thu-cong-viec', show: this.user && this.user.User.IsAdmin === true }
             ]
           },
           {
             action: 'view_list',
             title: 'Danh mục',
-            show: this.user && this.user.User.UserId == 1,
+            show: this.user && this.user.User.IsAdmin === true,
             items: [
-              { title: 'Danh mục loại công việc', link: 'loai-cong-viec', show: this.user && this.user.User.UserId == 1 },
+              { title: 'Danh mục loại công việc', link: 'loai-cong-viec', show: this.user && this.user.User.IsAdmin === true },
             ]
           },
            {
             action: 'manage_accounts',
             title: 'Hệ thống',
-            show: this.user && this.user.User.UserId == 1,
+            show: this.user && this.user.User.IsAdmin === true,
             items: [
-              { title: 'Quản lý người dùng', link: 'ql-nguoi-dung', show: this.user && this.user.User.UserId == 1 },
-              { title: 'Quản lý phân quyền', link: 'ql-phan-quyen', show: this.user && this.user.User.UserId == 1 },
+              { title: 'Quản lý người dùng', link: 'ql-nguoi-dung', show: this.user && this.user.User.IsAdmin === true },
+              { title: 'Quản lý phân quyền', link: 'ql-phan-quyen', show: this.user && this.user.User.IsAdmin === true },
             ]
           }
         ]

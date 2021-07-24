@@ -69,6 +69,8 @@ namespace MaiAnVat.Controllers
                             UserName = token.Name
                         });
                         user.LastLoginDateUtc = DateTime.Now;
+                        var userGroupKs = db.UserGroup.Where(x => x.UserFk == user.Id).Select(x => x.GroupFk).ToList();
+                        var groups = db.Group.Where(x => userGroupKs.Contains(x.GroupK)).Select(x => x.Name);
                         db.SaveChanges();
                         return Ok(
                             new
@@ -79,6 +81,7 @@ namespace MaiAnVat.Controllers
                                     UserId = user.Id,
                                     Username = user.UserName,
                                     Email = user.Email,
+                                    IsAdmin = groups.Any(x => x == "Admin") ? true : false
                                 }
                             });
                     }
