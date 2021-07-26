@@ -1,0 +1,1 @@
+export const youtubeUrlRegex = RegExp("^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$");
