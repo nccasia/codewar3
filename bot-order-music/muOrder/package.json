@@ -1,0 +1,16 @@
+{
+  "name": "muorder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tum",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "firebase": "^8.7.1",
+    "ytdl-core": "^4.8.3"
+  }
+}
