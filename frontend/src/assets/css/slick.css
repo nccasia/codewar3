@@ -1,0 +1,28 @@
+.slick-center div{
+  width: 100%;
+}
+.slick-center div img{
+  transform: scale(1.5);
+  transition: transform 0.5s;
+}
+
+.slick-slide div img{
+  transition: all 0.5s ease;
+}
+
+.slick-slider{
+  width: 50%;
+  height:250px;
+}
+
+.slick-slider .slick-list {
+  height: 100%;
+}
+
+.slick-slider .slick-list .slick-track{
+  height: 100%;
+}
+
+.slick-initialized .slick-slide {
+  padding-top: 25px;
+}
