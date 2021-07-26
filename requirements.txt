@@ -1,0 +1,4 @@
+flask
+pdfminer
+flask_cors
+flair
