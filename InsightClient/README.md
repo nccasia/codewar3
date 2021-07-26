@@ -1,7 +1,3 @@
-# insight-client
-
-> Nguyen Sieu insight client
-
 ## Build Setup
 
 ``` bash
