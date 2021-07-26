@@ -72,7 +72,9 @@ const styles = StyleSheet.create({
   screen: {
     backgroundColor: "white",
   },
-  container: {},
+  container: {
+    paddingTop:10,
+  },
   shortCutItemCard: {
     paddingHorizontal: 10,
     paddingTop: 10,
