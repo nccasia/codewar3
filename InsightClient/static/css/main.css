@@ -1,0 +1,81 @@
+/* @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {
+    html {
+      transform: rotate(-90deg);
+      transform-origin: left top;
+      width: 100vh;
+      overflow-x: hidden;
+      position: absolute;
+      top: 100%;
+      left: 0;
+    }
+  } */
+.application.theme--light {
+    background: #ececec;
+}
+
+table.table thead th.sortable{
+    color: rgba(0,0,0,.54) !important;
+}
+
+.theme--light .datatable thead th.column.sortable.active{
+    color: #e46c0a !important;
+}
+
+.card {
+    box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
+}
+table.table thead th{
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #fafafa;
+    opacity: 1;
+}
+table.table thead th.sortable {
+    color: #1976d2;
+}
+table.table tbody td:first-child, 
+table.table tbody td:not(:first-child),
+table.table thead td:first-child, 
+table.table thead td:not(:first-child) {
+    font-size: 14px;
+    height: 30px;
+}
+table.table tbody td:first-child, table.table tbody td:not(:first-child), table.table tbody th:first-child, table.table tbody th:not(:first-child), table.table thead td:first-child, table.table thead td:not(:first-child), table.table thead th:first-child, table.table thead th:not(:first-child) {
+    padding: 0 10px;
+}
+table.table tbody td:first-child, 
+table.table tbody td:not(:first-child), 
+table.table tbody th:first-child, 
+table.table tbody th:not(:first-child), 
+table.table thead td:first-child, 
+table.table thead td:not(:first-child), 
+table.table thead th:first-child, 
+table.table thead th:not(:first-child) {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+table.table thead tr {
+    height: 35px;
+}
+.list__group__header .list__group__header__prepend-icon,
+.list__tile__action
+{
+    min-width: 0 !important;
+    padding: 0 5px !important;
+}
+.navigation-drawer>.list .list__tile {
+    padding: 0 5px !important;
+}
+.table-border th, .table-border td {
+    border: 1px solid #ccc;
+}
+.input-group--required label:after {
+    content: "*";
+    color: red;
+}
+.card__title{
+    padding: 5px 16px;
+}
+.card__title.primary{
+    color: white;
+}
